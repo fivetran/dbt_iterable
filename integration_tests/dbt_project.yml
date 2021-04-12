@@ -1,0 +1,23 @@
+config-version: 2
+
+name: 'iterable_integration_tests'
+version: '0.1.0'
+
+require-dbt-version: [">=0.18.0", "<0.20.0"]
+profile: 'integration_tests'
+
+vars:
+  iterable_source:
+    iterable_schema:    iterable_integration_tests
+    event:              "{{ ref('event_data') }}"
+    event_extension:    "{{ ref('event_extension_data') }}"
+    campaign_history:   "{{ ref('campaign_history_data') }}"
+    campaign_metrics:   "{{ ref('campaign_metrics_data') }}"
+    list:               "{{ ref('list_data') }}"
+    user_history:       "{{ ref('user_history_data') }}"
+    
+seeds:
+  +quote_columns: "{{ true if target.type == 'redshift' else false }}"
+  iterable_integration_tests:
+    +column_types:
+      _fivetran_synced: timestamp

@@ -1,0 +1,5 @@
+packages:
+  # - git: https://github.com/fivetran/dbt_iterable_source.git
+  #   revision: joe-working
+  #   warn-unpinned: false
+  - local: ../dbt_iterable_source

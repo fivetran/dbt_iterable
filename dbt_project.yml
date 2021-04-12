@@ -1,0 +1,20 @@
+name: 'iterable'
+version: '0.1.0'
+config-version: 2
+require-dbt-version: [">=0.18.0", "<0.20.0"]
+
+models:
+  iterable:
+    +materialized: table
+    +schema: iterable
+    intermediate:
+        +materialized: table
+
+vars:
+  iterable:
+    event:              "{{ ref('event') }}"
+    event_extension:    "{{ ref('event_extension') }}"
+    campaign_history:   "{{ ref('campaign_history') }}"
+    campaign_metrics:   "{{ ref('campaign_metrics') }}"
+    list:               "{{ ref('list') }}"
+    user_history:       "{{ ref('user_history') }}"

@@ -1,0 +1,7 @@
+email,updated_at,_fivetran_synced,email_list_ids,first_name,last_name,phone_number,phone_number_carrier,phone_number_country_code_iso,phone_number_details,phone_number_line_type,phone_number_updated_at,signup_date,signup_source,user_id
+c81c957dd73a90dfda98d7fc28c4e911,2018-09-18 17:24:11,2021-03-29 17:14:01,[163833],,,,,,,,,2018-09-18 17:22:15,API,3
+a4933afe2257b5a17f53d6e4b9b44f55,2018-09-14 8:29:13,2021-03-29 17:14:01,[162418],,,,,,,,,2018-09-14 8:29:13,Import,2
+5b417b6a8beced14a2881a95eb4f6422,2018-10-06 11:36:18,2021-03-29 17:14:01,[173950],,,,,,,,,2018-10-06 11:36:18,Import,1
+7753af616ffcd692c0be7bbb7bcfd508,2018-09-19 10:06:24,2021-03-29 17:14:01,[164228],,,,,,,,,2018-09-19 10:06:24,Import,1001
+1ed3d400be01109ef607aabbafe59048,2018-10-05 5:37:24,2021-03-29 17:14:01,"[159258,159261,162418]",41ed44e3038dbeee7d2ffaa7f51d8a4b,,,,,,,,2018-09-06 10:18:17,Import,1111
+d580b73482df1342956798f095bd2d7d,2018-10-05 5:46:47,2021-03-29 17:14:01,"[159246,159258,159261,162418,163833,173413]",8b64d2451b7a8f3fd17390f88ea35917,af70a306f71eda7f3ff19c1c5cb064ef,,XXX,99,"{""carrier"":""XXX"",""countryCodeISO"":""+99"",""countryCode"":""XX"",""lineType"":""xxphone""}",Airtel,,2018-09-06 9:11:43,Import,19
