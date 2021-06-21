@@ -6,7 +6,7 @@ with user_list_unnest as (
 ), lists as (
 
     select * 
-    from {{ ref('stg_iterable__list') }}
+    from {{ var('list') }}
 
 ), final as (
     select
@@ -20,11 +20,11 @@ with user_list_unnest as (
         user_list_unnest.list_id,
         lists.list_name,
         lists.list_type,
-        lists.created_at as list_created_at        
-    from user_list_unnest
+        lists.created_at as list_created_at   
 
+    from user_list_unnest
     left join lists
-        using(list_id)
+        on lists.list_id = user_list_unnest.list_id
 )
 
 select *

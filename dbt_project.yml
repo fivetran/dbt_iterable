@@ -9,12 +9,22 @@ models:
     +schema: iterable
     intermediate:
         +materialized: table
+        +schema: int_iterable
 
 vars:
   iterable:
-    event:              "{{ ref('event') }}"
-    event_extension:    "{{ ref('event_extension') }}"
-    campaign_history:   "{{ ref('campaign_history') }}"
-    campaign_metrics:   "{{ ref('campaign_metrics') }}"
-    list:               "{{ ref('list') }}"
-    user_history:       "{{ ref('user_history') }}"
+    campaign_history:                           "{{ ref('stg_iterable__campaign_history') }}"
+    campaign_label_history:                     "{{ ref('stg_iterable__campaign_label_history') }}"
+    campaign_list_history:                      "{{ ref('stg_iterable__campaign_list_history') }}"
+    campaign_metrics:                           "{{ ref('stg_iterable__campaign_metrics') }}"
+    campaign_suppression_list_history:          "{{ ref('stg_iterable__campaign_supression_list_history') }}" #Request to rename ticket has been initiated
+    channel:                                    "{{ ref('stg_iterable__channel') }}"
+    event:                                      "{{ ref('stg_iterable__event') }}"
+    event_extension:                            "{{ ref('stg_iterable__event_extension') }}"    
+    list:                                       "{{ ref('stg_iterable__list') }}"
+    message_type:                               "{{ ref('stg_iterable__message_type') }}"
+    template_history:                           "{{ ref('stg_iterable__template_history') }}"
+    user_history:                               "{{ ref('stg_iterable__user_history') }}"
+    user_device_history:                        "{{ ref('stg_iterable__user_device_history') }}"
+    user_unsubscribed_channel_history:          "{{ ref('stg_iterable__user_unsubscribed_channel_history') }}"
+    user_unsubscribed_message_type_history:     "{{ ref('stg_iterable__user_unsubscribed_message_type_history') }}"

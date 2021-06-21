@@ -9,6 +9,8 @@ with campaign_history as (
     from campaign_history
 )
 
+-- future consideration: create a time-based campaign metrics table that actually makes use of campaign history
+
 select *
 from latest_campaign
 where latest_campaign_index = 1
