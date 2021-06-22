@@ -20,17 +20,16 @@ with latest_user as (
         signup_date,
         signup_source,
         updated_at,
-        case when json_array_length(email_list_ids, true) > 0 then
+        case when email_list_ids != '[]' then
         {% if target.type == 'snowflake' %}
         email_list_id.value
         {% elif target.type == 'redshift' %}
         json_extract_array_element_text(email_list_ids, cast(numbers.generated_number as {{ dbt_utils.type_int() }}), true) 
         {% else %} email_list_id
         {% endif %}
-        else null {{ log('twas null', info=true) }} end 
+        else null end 
         as 
         email_list_id
-        , numbers.generated_number
 
     from latest_user
 
@@ -43,6 +42,11 @@ with latest_user as (
         numbers 
     where numbers.generated_number < json_array_length(email_list_ids, true)
         or (numbers.generated_number + json_array_length(email_list_ids, true) = 0)
+    {% else %}
+    /* postgres */
+        json_array_elements(cast((
+            case when email_list_ids = '[]' then '["is_null"]'  -- we won't need to address this in the select directly
+            else email_list_ids end) as json)) as email_list_id
     {%- endif %}
 
 ), final as (
