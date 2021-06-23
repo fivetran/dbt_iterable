@@ -45,7 +45,7 @@ with latest_user as (
     {% else %}
     /* postgres */
         json_array_elements(cast((
-            case when email_list_ids = '[]' then '["is_null"]'  -- we won't need to address this in the select directly
+            case when email_list_ids = '[]' then '["is_null"]'  -- to not remove empty array-rows
             else email_list_ids end) as json)) as email_list_id
     {%- endif %}
 
@@ -58,8 +58,7 @@ with latest_user as (
         signup_date,
         signup_source,
         updated_at,
-        cast(email_list_id as {{ dbt_utils.type_int() }}) as email_list_id,
-        generated_number
+        cast(email_list_id as {{ dbt_utils.type_int() }}) as list_id
     from unnest_email_array
 )
 

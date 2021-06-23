@@ -1,4 +1,4 @@
-{{ config(enabled=var('iterable__using_user_device_history', True)) }}
+{{ config(enabled=var('iterable__using_user_device_history', false)) }}
 
 with user_device_history as (
   select *
@@ -7,7 +7,7 @@ with user_device_history as (
 ), latest_user_device as (
     select
       *,
-      row_number() over(partition by email, index, updated_at order by updated_at desc) as latest_device_batch_index
+      row_number() over(partition by email, index order by updated_at desc) as latest_device_batch_index
     from user_history
 )
 
