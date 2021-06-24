@@ -1,45 +1,40 @@
 {{
     config(
         materialized='incremental',
-        unique_key='_fivetran_event_id',
-        partition_by={
-            "field": "occurred_on",
-            "data_type": "date"
-        } if target.type == 'bigquery' else none,
+        unique_key='event_id',
         incremental_strategy = 'merge',
-        file_format = 'delta'
+        file_format = 'delta',
+        enabled=false
     )
 }}
 
+-- leave this alone for now....setting enabled to false
 with events as (
 
-    select 
-        *,
-
+    select *
     from {{ var('event') }}
 
+    where lower(event_name) = 'customevent'
     {% if is_incremental() %}
-    -- grab **ALL** events for users who have any events in this new increment
-    where email in (
-
-        select distinct email
-        from {{ var('event') }}
-
-        -- look back an hour in case of delay in events getting sent to the warehouse
-        where _fivetran_synced >= cast(coalesce( 
-            (
-                select {{ dbt_utils.dateadd(datepart = 'hour', 
-                                            interval = -1,
-                                            from_date_or_timestamp = 'max(_fivetran_synced)' ) }}  
-                from {{ this }}
-            ), '2013-01-01') as {{ dbt_utils.type_timestamp() }} ) -- iterable was founded in 2013, so let's default the min date to then
-    )
+        and updated_at > ( select max(updated_at) from {{ this }} )
     {% endif %}
 
-), event_extension as (
+), custom_events as (
 
-    select *
-    from {{ var('event_extension') }}
+    select 
+        events.*,
+        {% if target.type == 'snowflake' %}
+        additional_properties.key as custom_event_name,
+        additional_properties.value as custom_event_metadata
+        {% endif %}
+    from events
 
-), custom_event_names
+    cross join 
+    {% if target.type == 'snowflake' %}
+        table(flatten(additional_properties)) as additional_properties
+    where additional_properties.key != '_id'
+    {% endif %}
+)
 
+select *
+from custom_events
