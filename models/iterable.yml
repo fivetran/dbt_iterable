@@ -2,4 +2,9 @@ version: 2
 
 models:
 
-  - name: iterable__campaign_metrics
+  - name: iterable__campaigns
+  - name: iterable__events
+  - name: iterable__list_user_history
+  - name: iterable__user_campaign_list
+  - name: iterable__user_campaign
+  - name: iterable__campaign_lists
