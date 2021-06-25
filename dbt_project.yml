@@ -17,7 +17,7 @@ vars:
     campaign_label_history:                     "{{ ref('stg_iterable__campaign_label_history') }}"
     campaign_list_history:                      "{{ ref('stg_iterable__campaign_list_history') }}"
     campaign_metrics:                           "{{ ref('stg_iterable__campaign_metrics') }}"
-    campaign_suppression_list_history:          "{{ ref('stg_iterable__campaign_supression_list_history') }}" #Request to rename ticket has been initiated
+    campaign_suppression_list_history:          "{{ ref('stg_iterable__campaign_suppression_list_history') }}" #Request to rename ticket has been initiated
     channel:                                    "{{ ref('stg_iterable__channel') }}"
     event:                                      "{{ ref('stg_iterable__event') }}"
     event_extension:                            "{{ ref('stg_iterable__event_extension') }}"    

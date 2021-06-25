@@ -2,4 +2,4 @@ packages:
   # - git: https://github.com/fivetran/dbt_iterable_source.git
   #   revision: jamie-working
   #   warn-unpinned: false
-  - local: ../../dbt_iterable_source
+  - local: ../dbt_iterable_source
