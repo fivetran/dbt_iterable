@@ -3,23 +3,27 @@ with events as (
     select *
     from {{ ref('iterable__events') }}
 
-), user_list as (
+), pivot_out_events as (
 
-    select *
-    from {{ ref('iterable__list_user_history') }}
+    select 
+        email as user_email,
+        user_full_name,
+        campaign_id,
+        campaign_name,
 
-), campaign_list as (
+        recurring_campaign_id,
+        recurring_campaign_name
 
-    select *
-    from {{ ref('int_iterable__campaign_lists') }}
+        -- count up the number of instances of each metric
+        {% for em in var('iterable__event_metrics') %}
+        , sum(case when lower(event_name) = '{{ em | lower }}' then 1 else 0 end) 
+            as {{ 'count_' ~ em | replace(' ', '_') | replace('(', '') | replace(')', '') | lower }} 
+        {% endfor %}
 
-), pivot_out_evens as (
-    email,
-    campaign_id,
-    campaign_name,
-
-    recurring_campaign_id,
-    recurring_campaign_name
-
+    from events
+    group by 1,2,3,4,5,6
 
 )
+
+select *
+from pivot_out_events
