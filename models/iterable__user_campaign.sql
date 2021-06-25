@@ -15,9 +15,10 @@ with events as (
         recurring_campaign_name
 
         -- count up the number of instances of each metric
+        -- eek might want to do something about the event names not having spaces
         {% for em in var('iterable__event_metrics') %}
         , sum(case when lower(event_name) = '{{ em | lower }}' then 1 else 0 end) 
-            as {{ 'count_' ~ em | replace(' ', '_') | replace('(', '') | replace(')', '') | lower }} 
+            as {{ 'total_' ~ em | replace(' ', '_') | replace('(', '') | replace(')', '') | lower }} 
         {% endfor %}
 
     from events
