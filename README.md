@@ -53,7 +53,7 @@ vars:
 
 When setting up your Iterable connection in Fivetran, it is possible that not every table this package expects will be synced. This can occur because you either don't use that functionality in Iterable or have actively decided to not sync some tables. In order to enable or disable the relevant functionality in the package, you will need to add the relevant variables.
 
-By default, all variables are assumed to be `true` (with exception of `iterable__using_user_device_history`, which is set to `false`). You only need to add variables for the tables you would like to disable or enable respectively:
+By default, all variables are assumed to be `true` (with exception of `iterable__using_user_device_history`, which is set to `false`). You only need to add variables for the tables you would like to enable or disable respectively:
 
 ```yml
 # dbt_project.yml
