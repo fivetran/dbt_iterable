@@ -2,11 +2,12 @@
 
 with user_device_history as (
   select *
-  from {{ ref('stg_iterable__user_device_history') }}
+  from {{ var('user_device_history') }}
 
 ), latest_user_device as (
     select
       *,
+      -- this might not be the right partitioning....
       row_number() over(partition by email, index order by updated_at desc) as latest_device_batch_index
     from user_history
 )

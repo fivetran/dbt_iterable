@@ -1,7 +1,7 @@
-with latest_user as (
+with user_history as (
 
     select * 
-    from {{ ref('int_iterable__latest_user') }}
+    from {{ var('user_history') }} -- this is causing extremely long run-times
 
 {% if target.type == 'redshift' %}
 ), numbers as (
@@ -31,7 +31,7 @@ with latest_user as (
         as 
         email_list_id
 
-    from latest_user
+    from user_history
 
     cross join 
     {% if target.type == 'snowflake' %}

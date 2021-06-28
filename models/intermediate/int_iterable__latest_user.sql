@@ -1,6 +1,6 @@
 with user_history as (
   select *
-  from {{ ref('stg_iterable__user_history') }}
+  from {{ var('user_history') }}
 
 ), latest_user as (
     select
