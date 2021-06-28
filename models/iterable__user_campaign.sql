@@ -12,10 +12,14 @@ with events as (
         campaign_name,
 
         recurring_campaign_id,
-        recurring_campaign_name
+        recurring_campaign_name,
+
+        min(created_at) as first_event_at,
+        max(created_at) as last_event_at
 
         -- count up the number of instances of each metric
-        -- eek might want to do something about the event names not having spaces
+        -- `iterable__event_metrics` is set by default to all events brought in by fivetran+iterable
+        -- https://fivetran.com/docs/applications/iterable#schemanotes
         {% for em in var('iterable__event_metrics') %}
         , sum(case when lower(event_name) = '{{ em | lower }}' then 1 else 0 end) 
             as {{ 'total_' ~ em | replace(' ', '_') | replace('(', '') | replace(')', '') | lower }} 

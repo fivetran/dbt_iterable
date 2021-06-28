@@ -1,17 +1,31 @@
 {{ config(enabled=var('iterable__using_user_device_history', false)) }}
 
 with user_device_history as (
-  select *
-  from {{ var('user_device_history') }}
+    select *
+    from {{ var('user_device_history') }}
 
-), latest_user_device as (
+), order_user_devices as (
     select
       *,
-      -- this might not be the right partitioning....
-      row_number() over(partition by email, index order by updated_at desc) as latest_device_batch_index
-    from user_history
+      rank() over(partition by email order by updated_at desc) as latest_device_batch_index
+    from user_device_history
+
+), latest_user_device as (
+
+    select *
+    from order_user_devices
+    where latest_device_batch_index = 1
+
+), count_devices as (
+
+    select
+      email,
+      count(distinct index) as count_devices
+    
+    from latest_user_device
+
+    group by email
 )
 
 select *
-from latest_user_device
-where latest_device_batch_index = 1
+from count_devices
