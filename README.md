@@ -2,11 +2,11 @@
 
 This package models Iterable data from [Fivetran's connector](https://fivetran.com/docs/applications/iterable). It uses data in the format described by [this ERD](https://fivetran.com/docs/applications/iterable#schemainformation).
 
-This package enables you to better understand the efficacy of your growth marketing and customer engagement campaigns across email, SMS, push notification, and in-app platforms. The package achieves this by:
+This package enables you to understand the efficacy of your growth marketing and customer engagement campaigns across email, SMS, push notification, and in-app platforms. The package achieves this by:
 
-- Enriching the core event table with data regarding associated users, campaigns, and channels.
+- Enriching the core `EVENT` table with data regarding associated users, campaigns, and channels.
 - Creating current-state models of campaigns and users, enriched with aggregated event and interaction metrics.
-- Re-creating the `LIST_USER_HISTORY` table, which can be disabled from connector syncs but is required to connect users and lists they belong to.
+- Re-creating the `LIST_USER_HISTORY` table. The table can be disabled from connector syncs but is required to connect users and lists they belong to.
 
 ## Models
 
@@ -111,8 +111,8 @@ models:
 ## Contributions
 
 Additional contributions to this package are very welcome! Please create issues
-or open PRs against `main`. Check out 
-[this post](https://discourse.getdbt.com/t/contributing-to-a-dbt-package/657) 
+or open PRs against `main`. See the 
+[Discourse post](https://discourse.getdbt.com/t/contributing-to-a-dbt-package/657) 
 on the best workflow for contributing to a package.
 
 ## Database Support
