@@ -22,7 +22,7 @@ This package contains transformation models, designed to work simultaneously wit
 
 ## Installation Instructions
 
-Check [dbt Hub](https://hub.getdbt.com/) for the latest installation instructions, or [read the dbt docs](https://docs.getdbt.com/docs/package-management) for more information on installing packages.
+Add the following to your packages.yml file:
 
 ```yml
 # packages.yml
@@ -30,6 +30,9 @@ packages:
   - package: fivetran/iterable
     version: [">=0.1.0", "<0.2.0"]
 ```
+
+Check [dbt Hub](https://hub.getdbt.com/) for the latest installation instructions, or [read the dbt docs](https://docs.getdbt.com/docs/package-management) for more information on installing packages.
+
 
 ## Configuration
 
