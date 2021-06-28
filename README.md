@@ -2,10 +2,11 @@
 
 This package models Iterable data from [Fivetran's connector](https://fivetran.com/docs/applications/iterable). It uses data in the format described by [this ERD](https://fivetran.com/docs/applications/iterable#schemainformation).
 
-This package enables you to better understand the efficacy of your growth marketing and customer engagement campaigns across email, SMS, push notification, and in-app platforms. It achieves this by:
-- Enriching the core event table with data regarding associated users, campaigns, and channels
-- Creating current-state models of campaigns and users, enriched with aggregated event and interaction metrics
-- Re-creating the `list_user_history` table, which can be disabled from connector syncs but is required to connect users and lists they belong to.
+This package enables you to better understand the efficacy of your growth marketing and customer engagement campaigns across email, SMS, push notification, and in-app platforms. The package achieves this by:
+
+- Enriching the core event table with data regarding associated users, campaigns, and channels.
+- Creating current-state models of campaigns and users, enriched with aggregated event and interaction metrics.
+- Re-creating the `LIST_USER_HISTORY` table, which can be disabled from connector syncs but is required to connect users and lists they belong to.
 
 ## Models
 
@@ -13,11 +14,11 @@ This package contains transformation models, designed to work simultaneously wit
 
 | **model**                | **description**                                                                                                                                |
 | ------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------- |
-| [iterable__events](models/iterable__events.sql)             | Each record represents a unique event in Iterable, enhanced with information regarding attributed campaigns, the triggering user, and the channel and message type associated with the event. Note that commerce events are not currently tracked by the Fivetran connector (see tracked events [here](https://fivetran.com/docs/applications/iterable#schemanotes)). |
+| [iterable__events](models/iterable__events.sql)             | Each record represents a unique event in Iterable, enhanced with information regarding attributed campaigns, the triggering user, and the channel and message type associated with the event. Commerce events are not tracked by the Fivetran connector. See the [tracked events details](https://fivetran.com/docs/applications/iterable#schemanotes). |
 | [iterable__user_campaign](models/iterable__user_campaign.sql)             | Each record represents a unique user-campaign combination, enriched with pivoted-out metrics reflecting instances of the user triggering different types of events in campaigns.
 | [iterable__campaigns](models/iterable__campaigns.sql)             | Each record represents a unique campaign, enriched with gross event and unique user interaction metrics, and information regarding templates, labels, and applied or suppressed lists. |
 | [iterable__users](models/iterable__users.sql)             | Each record represents the most current state of a unique user, enriched with metrics around the campaigns and lists they have been a part of and interacted with, channels and message types they've unsubscribed from, their associated devices, and more. |
-| [iterable__list_user_history](models/iterable__list_user_history.sql)             | Each record represents a unique user-list combination. This is intended to recreate the `list_user_history` source table, which can be disconnected from your syncs, as it can perhaps create excessive MAR. |
+| [iterable__list_user_history](models/iterable__list_user_history.sql)             | Each record represents a unique user-list combination. This is intended to recreate the `LIST_USER_HISTORY` source table, which can be disconnected from your syncs, as it can perhaps create excessive MAR. |
 
 ## Installation Instructions
 
@@ -45,7 +46,7 @@ vars:
   iterable_schema: your_schema_name 
 ```
 
-### Disabling and Enabling Models
+### Disabling and enabling models
 
 When setting up your Iterable connection in Fivetran, it is possible that not every table this package expects will be synced. This can occur because you either don't use that functionality in Iterable or have actively decided to not sync some tables. In order to disable or enable the relevant functionality in the package, you will need to add the relevant variables.
 
@@ -65,11 +66,11 @@ vars:
 
 ### Deprecating Misspelling of `campaign_suppression_list_history`
 
-Originally, this connector schema misspelled `campaign_suppression_list_history` as `campaign_supression_list_history` (note the singular `p`). As of June 2021, the misspelled table will be phased out and replaced with a table with the correct spelling.
+Originally, this connector schema misspelled `CAMPAIGN_SUPPRESSION_LIST_HISTORY` as `CAMPAIGN_SUPRESSION_LIST_HISTORY` (note the singular `p`). As of June 2021, the misspelled table will be phased out and replaced with a table with the correct spelling.
 
-Connectors set up after June 2021 will have the **new correct spelling**, and pre-existing connectors will contain both for a limited time, after which Fivetran will no longer support syncing the old table, `campaign_supression_list_history`.
+Connectors set up after June 2021 will have the **new correct spelling**, and pre-existing connectors will contain both for a limited time, after which Fivetran will no longer support syncing the old table, `CAMPAIGN_SUPRESSION_LIST_HISTORY`.
 
-Thus, by default, this package refers to the **new spelling** (`campaign_suppression_list_history`). To change this so that the package works with the old misspelled source table, add the following configuration to your `dbt_project.yml` file:
+Thus, by default, this package refers to the **new spelling** (`CAMPAIGN_SUPPRESSION_LIST_HISTORY`). To change this so that the package works with the old misspelled source table, add the following configuration to your `dbt_project.yml` file:
 
 ```yml
 # dbt_project.yml
@@ -84,7 +85,13 @@ vars:
 
 ### Changing the Build Schema
 
-By default, this package will build the Iterable final models within a schema titled (`<target_schema>` + `_iterable`), intermediate models in (`<target_schema>` + `_int_iterable`), and staging models within a schema titled (`<target_schema>` + `_stg_iterable`) in your target database. If this is not where you would like your modeled Iterable data to be written to, add the following configuration to your `dbt_project.yml` file:
+By default, this package will build the following Iterable models within the schemas below in your target database:
+
+- Final models within a schema titled (`<target_schema>` + `_iterable`) 
+- Intermediate models in (`<target_schema>` + `_int_iterable`) 
+- Staging models within a schema titled (`<target_schema>` + `_stg_iterable`) 
+ 
+If this is not where you would like your modeled Iterable data to be written to, add the following configuration to your `dbt_project.yml` file:
 
 ```yml
 # dbt_project.yml
@@ -99,7 +106,7 @@ models:
     +schema: my_new_schema_name # leave blank for just the target_schema
 ```
 
-> Note that if your profile does not have permissions to create schemas in your warehouse, you can set each `+schema` to blank. The package will then write all tables to your pre-existing target schema.
+> Note: If your profile does not have permissions to create schemas in your destination, you can set each `+schema` to blank. The package will then write all tables to your pre-existing target schema.
 
 ## Contributions
 
