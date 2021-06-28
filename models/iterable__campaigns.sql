@@ -44,3 +44,5 @@ with campaign_event_metrics as (
 
 select *
 from campaign_join
+
+-- todo: bring in template 
