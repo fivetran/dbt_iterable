@@ -23,6 +23,11 @@ with campaign_event_metrics as (
     select *
     from {{ ref('int_iterable__campaign_labels') }}
 
+), template as (
+
+    select *
+    from {{ ref('int_iterable__latest_template') }}
+
 ), campaign_join as (
 
     select
@@ -30,7 +35,14 @@ with campaign_event_metrics as (
         campaign_list_metrics.count_send_lists,
         campaign_list_metrics.count_suppress_lists,
         {{ dbt_utils.star(from=ref('int_iterable__campaign_event_metrics'), except=['campaign_id'] if target.type != 'snowflake' else ['CAMPAIGN_ID']) }}
-        , campaign_labels.labels
+        , campaign_labels.labels,
+        template.template_name,
+        template.creator_user_id as template_creator_user_id,
+        template.message_medium,
+        template.message_type_name,
+        template.channel_name,
+        template.channel_id,
+        template.channel_type
 
     from campaign
     left join campaign_event_metrics 
@@ -39,10 +51,9 @@ with campaign_event_metrics as (
         on campaign.campaign_id = campaign_list_metrics.campaign_id
     left join campaign_labels 
         on campaign.campaign_id = campaign_labels.campaign_id
+    left join template
+        on campaign.template_id = template.template_id
 )
-
 
 select *
 from campaign_join
-
--- todo: bring in template 
