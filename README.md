@@ -46,9 +46,9 @@ vars:
   iterable_schema: your_schema_name 
 ```
 
-### Disabling and enabling models
+### Enabling and Disabling Models
 
-When setting up your Iterable connection in Fivetran, it is possible that not every table this package expects will be synced. This can occur because you either don't use that functionality in Iterable or have actively decided to not sync some tables. In order to disable or enable the relevant functionality in the package, you will need to add the relevant variables.
+When setting up your Iterable connection in Fivetran, it is possible that not every table this package expects will be synced. This can occur because you either don't use that functionality in Iterable or have actively decided to not sync some tables. In order to enable or disable the relevant functionality in the package, you will need to add the relevant variables.
 
 By default, all variables are assumed to be `true` (with exception of `iterable__using_user_device_history`, which is set to `false`). You only need to add variables for the tables you would like to disable or enable respectively:
 
@@ -64,13 +64,13 @@ vars:
     iterable__using_user_device_history: true                        # default is FALSE
 ```
 
-### Deprecating Misspelling of `campaign_suppression_list_history`
+### Deprecating `CAMPAIGN_SUPPRESSION_LIST_HISTORY`
 
-Originally, this connector schema misspelled `CAMPAIGN_SUPPRESSION_LIST_HISTORY` as `CAMPAIGN_SUPRESSION_LIST_HISTORY` (note the singular `p`). As of June 2021, the misspelled table will be phased out and replaced with a table with the correct spelling.
+Originally, the connector schema misspelled the `CAMPAIGN_SUPPRESSION_LIST_HISTORY` table as `CAMPAIGN_SUPRESSION_LIST_HISTORY` (note the singular `P`). As of June 2021, the misspelled table will be phased out and replaced with a table with the correct spelling.
 
-Connectors set up after June 2021 will have the **new correct spelling**, and pre-existing connectors will contain both for a limited time, after which Fivetran will no longer support syncing the old table, `CAMPAIGN_SUPRESSION_LIST_HISTORY`.
+Connectors set up after June 2021 will have the _new correct spelling_, and pre-existing connectors will contain both for a limited time, after which Fivetran will no longer support syncing the old table, `CAMPAIGN_SUPRESSION_LIST_HISTORY`.
 
-Thus, by default, this package refers to the **new spelling** (`CAMPAIGN_SUPPRESSION_LIST_HISTORY`). To change this so that the package works with the old misspelled source table, add the following configuration to your `dbt_project.yml` file:
+Thus, by default, this package refers to the _new spelling_ (`CAMPAIGN_SUPPRESSION_LIST_HISTORY`). To change this so that the package works with the old misspelled source table, add the following configuration to your `dbt_project.yml` file:
 
 ```yml
 # dbt_project.yml
