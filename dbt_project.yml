@@ -27,7 +27,7 @@ vars:
     user_history:                               "{{ ref('stg_iterable__user_history') }}"
     user_device_history:                        "{{ ref('stg_iterable__user_device_history') }}"
     user_unsubscribed_channel_history:          "{{ ref('stg_iterable__user_unsubscribed_channel_history') }}"
-    user_unsubscribed_message_type_history:     "{{ ref('stg_iterable__user_unsubscribed_message_type_history') }}"
+    user_unsubscribed_message_type_history:     "{{ ref('stg_iterable__user_unsub_message_type_history') }}"
 
     iterable__event_metrics: 
       - "emailClick"
