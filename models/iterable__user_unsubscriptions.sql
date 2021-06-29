@@ -11,6 +11,7 @@ with message_type_channel as (
 
     from {{ var('user_unsubscribed_channel_history') }}
 
+{% if var('iterable__using_user_unsubscribed_message_type_history', True) %}
 ), user_unsubscribed_message_type_history as (
 
     select 
@@ -19,6 +20,7 @@ with message_type_channel as (
 
     from {{ var('user_unsubscribed_message_type_history') }}
 
+{% endif %}
 ), combine_histories as (
 
     select 
@@ -30,6 +32,7 @@ with message_type_channel as (
     from user_unsubscribed_channel_history
     where latest_batch_index = 1
 
+{% if var('iterable__using_user_unsubscribed_message_type_history', True) %}
     union all
 
     select 
@@ -40,6 +43,7 @@ with message_type_channel as (
     
     from user_unsubscribed_message_type_history
     where latest_batch_index = 1
+{% endif %}
 
 ), final as (
 
@@ -53,11 +57,10 @@ with message_type_channel as (
         message_type_channel.channel_type,
         message_type_channel.message_medium,
         combine_histories.updated_at
-        {# case when combine_histories.message_type_id is null then 'all' 
-            else message_type_channel.message_type_name end as message_type_name #}
 
     from combine_histories
 
+    -- unsubscribing from an entire channel unsubscribes a user from all message types in that channel
     join message_type_channel 
         on combine_histories.channel_id = message_type_channel.channel_id
         or combine_histories.message_type_id = message_type_channel.message_type_id
