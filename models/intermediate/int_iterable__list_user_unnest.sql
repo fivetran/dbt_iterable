@@ -1,7 +1,7 @@
 with user_history as (
 
     select * 
-    from {{ ref('int_iterable__latest_user') }} -- this is causing extremely long run-times, so using this for now
+    from {{ ref('int_iterable__list_user_history') }}
 
 {% if target.type == 'redshift' %}
 ), numbers as (
