@@ -69,11 +69,11 @@ vars:
 
 ### Deprecating `CAMPAIGN_SUPRESSION_LIST_HISTORY` table
 
-Originally, the connector schema misspelled the `CAMPAIGN_SUPPRESSION_LIST_HISTORY` table as `CAMPAIGN_SUPRESSION_LIST_HISTORY` (note the singular `P`). As of June 2021, the misspelled table will be phased out and replaced with a table with the correct spelling.
+The Iterable connector schema misspelled the `CAMPAIGN_SUPPRESSION_LIST_HISTORY` table as `CAMPAIGN_SUPRESSION_LIST_HISTORY` (note the singular `P`). Fivetran will deprecate the misspelled table by June 2021 and replace it with a new table with the correct name.
 
-Connectors set up after June 2021 will have the _new correct spelling_, and pre-existing connectors will contain both for a limited time, after which Fivetran will no longer support syncing the old table, `CAMPAIGN_SUPRESSION_LIST_HISTORY`.
+New connectors set up after June 2021 will have only the new table (`CAMPAIGN_SUPPRESSION_LIST_HISTORY`), and pre-existing connectors will contain both tables for a limited time. Fivetran will stop syncing the old `CAMPAIGN_SUPRESSION_LIST_HISTORY` table.
 
-Thus, by default, this package refers to the _new spelling_ (`CAMPAIGN_SUPPRESSION_LIST_HISTORY`). To change this so that the package works with the old misspelled source table, add the following configuration to your `dbt_project.yml` file:
+By default, this package refers to the new table (`CAMPAIGN_SUPPRESSION_LIST_HISTORY`). To change this so that the package works with the old misspelled source table, add the following configuration to your `dbt_project.yml` file:
 
 ```yml
 # dbt_project.yml
