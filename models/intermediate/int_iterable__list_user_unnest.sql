@@ -27,8 +27,10 @@ Records with an empty `email_list_ids` array will just have one row.
         user_id,
         signup_date,
         signup_source,
+        phone_number,
         updated_at,
         is_current,
+        email_list_ids,
         case when email_list_ids != '[]' then
         {% if target.type == 'snowflake' %}
         email_list_id.value
@@ -67,7 +69,9 @@ Records with an empty `email_list_ids` array will just have one row.
         signup_date,
         signup_source,
         updated_at,
+        phone_number,
         is_current,
+        email_list_ids,
         cast(email_list_id as {{ dbt_utils.type_int() }}) as list_id
     from unnest_email_array
 )
