@@ -1,8 +1,16 @@
+{{ config( materialized='table') }}
+-- materializing as a table because the computations here are fairly complex
+
 with user_history as (
 
     select * 
     from {{ ref('int_iterable__list_user_history') }}
 
+/*
+Unfortunately, `email_list_ids` are brought in as a JSON ARRAY, which different destinations handle completely differently. 
+The below code serves to extract and pivot list IDs into individual rows. 
+Records with an empty `email_list_ids` array will just have one row. 
+*/
 {% if target.type == 'redshift' %}
 ), numbers as (
     select 0 as generated_number
@@ -20,6 +28,7 @@ with user_history as (
         signup_date,
         signup_source,
         updated_at,
+        is_current,
         case when email_list_ids != '[]' then
         {% if target.type == 'snowflake' %}
         email_list_id.value
@@ -58,6 +67,7 @@ with user_history as (
         signup_date,
         signup_source,
         updated_at,
+        is_current,
         cast(email_list_id as {{ dbt_utils.type_int() }}) as list_id
     from unnest_email_array
 )

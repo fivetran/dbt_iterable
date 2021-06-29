@@ -7,7 +7,6 @@ with latest_campaign as (
      select
         latest_campaign.campaign_id,
         latest_campaign.campaign_name,
-
         latest_campaign.updated_at,
         latest_campaign.campaign_state,
         latest_campaign.campaign_type,

@@ -1,3 +1,5 @@
+{{ config(enabled=var('iterable__using_campaign_label_history', True)) }}
+
 with campaign_label_history as (
 
     select *
@@ -21,7 +23,7 @@ with campaign_label_history as (
 
     select 
         campaign_id,
-        {{ fivetran_utils.string_agg('label', "', '") }} as labels 
+        {{ fivetran_utils.string_agg('distinct label', "', '") }} as labels 
 
     from latest_labels
     group by campaign_id

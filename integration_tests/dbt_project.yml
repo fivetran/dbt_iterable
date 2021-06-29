@@ -23,23 +23,6 @@ vars:
     user_device_history:                      "{{ ref('user_device_history_data') }}"
     user_unsubscribed_channel_history:        "{{ ref('user_unsubscribed_channel_history_data') }}"
     user_unsubscribed_message_type_history:   "{{ ref('user_unsubscribed_message_type_history_data') }}"
-
-  iterable:
-    campaign_history:                         "{{ ref('campaign_history_data') }}"
-    campaign_label_history:                   "{{ ref('campaign_label_history_data') }}"
-    campaign_list_history:                    "{{ ref('campaign_list_history_data') }}"
-    campaign_metrics:                         "{{ ref('campaign_metrics_data') }}"
-    campaign_suppression_list_history:        "{{ ref('campaign_suppression_list_history_data') }}"
-    channel:                                  "{{ ref('channel_data') }}"
-    event:                                    "{{ ref('event_data') }}"
-    event_extension:                          "{{ ref('event_extension_data') }}"    
-    list:                                     "{{ ref('list_data') }}"
-    message_type:                             "{{ ref('message_type_data') }}"
-    template_history:                         "{{ ref('template_history_data') }}"
-    user_history:                             "{{ ref('user_history_data') }}"
-    user_device_history:                      "{{ ref('user_device_history_data') }}"
-    user_unsubscribed_channel_history:        "{{ ref('user_unsubscribed_channel_history_data') }}"
-    user_unsubscribed_message_type_history:   "{{ ref('user_unsubscribed_message_type_history_data') }}"
     
 seeds:
   iterable_integration_tests:

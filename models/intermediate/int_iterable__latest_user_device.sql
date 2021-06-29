@@ -20,7 +20,7 @@ with user_device_history as (
 
     select
       email,
-      count(distinct index) as count_devices
+      count(distinct platform_endpoint) as count_devices
     
     from latest_user_device
 

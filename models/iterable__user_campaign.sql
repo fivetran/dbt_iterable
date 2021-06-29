@@ -9,7 +9,7 @@ with events as (
         email as user_email,
         user_full_name,
         campaign_id,
-        campaign_name,
+        case when campaign_id is null then 'organic' else campaign_name end as campaign_name,
 
         recurring_campaign_id,
         recurring_campaign_name,
@@ -26,7 +26,7 @@ with events as (
         {% endfor %}
 
     from events
-    group by 1,2,3,4,5,6
+    {{ dbt_utils.group_by(n=6) }}
 
 )
 

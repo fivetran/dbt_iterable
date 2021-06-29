@@ -8,7 +8,7 @@ models:
     +materialized: table
     +schema: iterable
     intermediate:
-        +materialized: table
+        +materialized: view
         +schema: int_iterable
 
 vars:

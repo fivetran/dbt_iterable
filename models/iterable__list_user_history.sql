@@ -18,6 +18,7 @@ with user_list_unnest as (
         user_list_unnest.signup_source as user_signup_source,
         user_list_unnest.updated_at as user_updated_at,
         user_list_unnest.list_id,
+        user_list_unnest.is_current,
         lists.list_name,
         lists.list_type,
         lists.created_at as list_created_at   
