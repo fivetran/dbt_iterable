@@ -18,7 +18,7 @@ This package contains transformation models, designed to work simultaneously wit
 | [iterable__user_campaign](models/iterable__user_campaign.sql)             | Each record represents a unique user-campaign combination, enriched with pivoted-out metrics reflecting instances of the user triggering different types of events in campaigns.
 | [iterable__campaigns](models/iterable__campaigns.sql)             | Each record represents a unique campaign, enriched with gross event and unique user interaction metrics, and information regarding templates, labels, and applied or suppressed lists. |
 | [iterable__users](models/iterable__users.sql)             | Each record represents the most current state of a unique user, enriched with metrics around the campaigns and lists they have been a part of and interacted with, channels and message types they've unsubscribed from, their associated devices, and more. |
-| [iterable__list_user_history](models/iterable__list_user_history.sql)             | Each record represents a unique user-list combination. This is intended to recreate the `LIST_USER_HISTORY` source table, which can be disconnected from your syncs, as it can perhaps create excessive MAR. |
+| [iterable__list_user_history](models/iterable__list_user_history.sql)             | Each record represents a unique user-list combination. This is intended to recreate the `LIST_USER_HISTORY` source table, which can be disconnected from your syncs, as it can lead to excessive MAR usage. |
 
 ## Installation Instructions
 
