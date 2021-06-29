@@ -6,7 +6,7 @@ This package enables you to understand the efficacy of your growth marketing and
 
 - Enriching the core `EVENT` table with data regarding associated users, campaigns, and channels.
 - Creating current-state models of campaigns and users, enriched with aggregated event and interaction metrics.
-- Re-creating the `LIST_USER_HISTORY` table. The table can be disabled from connector syncs but is required to connect users and lists they belong to.
+- Re-creating the `LIST_USER_HISTORY` table. The table can be disabled from connector syncs but is required to connect users and their lists.
 
 ## Models
 
