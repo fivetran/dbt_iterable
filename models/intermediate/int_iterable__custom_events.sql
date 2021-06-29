@@ -22,15 +22,19 @@ with events as (
 ), custom_events as (
 
     select 
-        events.*,
+        events.*
+        {# {{ dbt_utils.split_part(string_text='additional_properties', delimiter_text=' : "{', part_number=1) }} #}
+
         {% if target.type == 'snowflake' %}
+        ,
         additional_properties.key as custom_event_name,
         additional_properties.value as custom_event_metadata
         {% endif %}
     from events
 
-    cross join 
+    
     {% if target.type == 'snowflake' %}
+    cross join 
         table(flatten(additional_properties)) as additional_properties
     where additional_properties.key != '_id'
     {% endif %}
