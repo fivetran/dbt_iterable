@@ -40,6 +40,11 @@ with events as (
     select *
     from {{ ref('int_iterable__message_type_channel') }}
 
+), template as (
+
+    select *
+    from {{ ref('int_iterable__latest_template') }}
+
 ), event_join as (
 
     select 
@@ -61,6 +66,10 @@ with events as (
 
         {% set exclude_fields = ["event_id", "content_id", "_fivetran_synced"] %}
         {{ dbt_utils.star(from=ref('stg_iterable__event_extension'), except= exclude_fields | upper if target.type == 'snowflake' else exclude_fields ) }}
+        ,
+        campaign.template_id,
+        template.template_name,
+        template.creator_user_id as template_creator_user_id
         
     from events 
     left join event_extension 
@@ -71,6 +80,8 @@ with events as (
         on events.email = users.email
     left join message_type_channel
         on events.message_type_id = message_type_channel.message_type_id
+    left join template 
+        on campaign.template_id = template.template_id
 )
 
 select *

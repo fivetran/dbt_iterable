@@ -17,7 +17,8 @@ with user_event_metrics as (
     select *
     from {{ ref('int_iterable__list_user_unnest') }}
 
-    where is_current -- limit to current lists they are a member of. each list-user combo is a unique row, which we will roll up
+    -- limit to current lists they are a member of. each list-user combo is a unique row, which we will roll up
+    where is_current
 
 ), user_with_list_metrics as (
 
@@ -33,7 +34,7 @@ with user_event_metrics as (
         email_list_ids,
         count(distinct list_id) as count_lists
 
-    from user
+    from user_unnested
     -- roll up to the user
     {{ dbt_utils.group_by(n=9) }}
 

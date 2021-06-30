@@ -5,11 +5,17 @@ with events as (
 
 ), pivot_out_events as (
 
+-- this will be at the user-campaign-experiment variation level
+-- if experiment_id is null, the user-campaign interactions happened outside of an experiment
+-- if campaign_id is null, the user interactions are organic
     select 
         email as user_email,
         user_full_name,
         campaign_id,
         case when campaign_id is null then 'organic' else campaign_name end as campaign_name,
+        template_id,
+        template_name,
+        experiment_id,
 
         recurring_campaign_id,
         recurring_campaign_name,
@@ -26,7 +32,7 @@ with events as (
         {% endfor %}
 
     from events
-    {{ dbt_utils.group_by(n=6) }}
+    {{ dbt_utils.group_by(n=9) }}
 
 )
 

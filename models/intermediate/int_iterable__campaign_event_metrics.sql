@@ -9,10 +9,13 @@ with user_campaign as (
 
     select
         campaign_id, 
+        template_id,
+        experiment_id,
         count(distinct user_email) as count_unique_users
         {% for col in user_campaign_columns %}
             {% if col.name|lower not in ['user_email', 'user_full_name', 'campaign_id', 'campaign_name', 'recurring_campaign_id', 
-                                        'recurring_campaign_name', 'first_event_at', 'last_event_at'] %}
+                                        'recurring_campaign_name', 'first_event_at', 'last_event_at', 'template_id', 'template_name',
+                                        'experiment_id'] %}
         , sum( {{ col.name }} ) as {{ col.name }}
         , sum(case when {{ col.name }} > 0 then 1 else 0 end) as {{ 'unique_' ~ col.name }}
 
@@ -20,7 +23,7 @@ with user_campaign as (
         {% endfor -%}
 
     from user_campaign
-    group by campaign_id
+    group by 1,2,3
 
 )
 
