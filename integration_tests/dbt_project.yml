@@ -32,6 +32,20 @@ seeds:
     event_data:
       +column_types:
         transactional_data: "{{ 'varchar(100)'  if target.type in ('redshift', 'postgres') else 'string'}}"
+        created_at: timestamp
     event_extension_data:
       +column_types:
         payload: "{{ 'varchar(100)'  if target.type in ('redshift', 'postgres') else 'string'}}"
+    message_type_data:
+      +column_types:
+        id: "{%- if target.type == 'bigquery' -%} INT64 {%- else -%} bigint {%- endif -%}"
+        channel_id: "{%- if target.type == 'bigquery' -%} INT64 {%- else -%} bigint {%- endif -%}"
+    channel_data:
+      +column_types:
+        id: "{%- if target.type == 'bigquery' -%} INT64 {%- else -%} bigint {%- endif -%}"
+    user_unsubscribed_channel_history_data:
+      +column_types:
+        channel_id: "{%- if target.type == 'bigquery' -%} INT64 {%- else -%} bigint {%- endif -%}"
+    user_unsubscribed_message_type_history_data: 
+      +column_types:
+        message_type_id: "{%- if target.type == 'bigquery' -%} INT64 {%- else -%} bigint {%- endif -%}"
