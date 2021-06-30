@@ -56,7 +56,8 @@ with message_type_channel as (
         message_type_channel.message_type_name,
         message_type_channel.channel_type,
         message_type_channel.message_medium,
-        combine_histories.updated_at
+        combine_histories.updated_at,
+        case when combine_histories.channel_id is not null then true else false end as is_unsubscribed_channel_wide
 
     from combine_histories
 
