@@ -49,6 +49,7 @@ with events as (
         campaign.is_campaign_recurring,
         campaign.recurring_campaign_name,
         campaign.recurring_campaign_id,
+        campaign.template_id,
 
         users.user_id,
         users.first_name || ' ' || users.last_name as user_full_name,
