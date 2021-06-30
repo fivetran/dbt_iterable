@@ -46,7 +46,7 @@ Records with an empty `email_list_ids` array will just have one row.
 
     cross join 
     {% if target.type == 'snowflake' %}
-        table(flatten(cast(email_list_ids as VARIANT))) as email_list_id 
+        table(flatten(email_list_ids)) as email_list_id 
     {% elif target.type == 'bigquery' %}
         unnest(JSON_EXTRACT_STRING_ARRAY(email_list_ids)) as email_list_id
     {% elif target.type == 'redshift' %}
