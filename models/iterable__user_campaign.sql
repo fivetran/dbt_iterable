@@ -12,10 +12,11 @@ with events as (
         email as user_email,
         user_full_name,
         campaign_id,
+        experiment_id,
         case when campaign_id is null then 'organic' else campaign_name end as campaign_name,
         template_id,
         template_name,
-        experiment_id,
+        
 
         recurring_campaign_id,
         recurring_campaign_name,
