@@ -55,7 +55,7 @@ Records with an empty `email_list_ids` array will just have one row.
         or (numbers.generated_number + json_array_length(email_list_ids, true) = 0)
     {% else %}
     /* postgres */
-        json_array_elements(cast((
+        json_array_elements_text(cast((
             case when email_list_ids = '[]' then '["is_null"]'  -- to not remove empty array-rows
             else email_list_ids end) as json)) as email_list_id
     {%- endif %}
