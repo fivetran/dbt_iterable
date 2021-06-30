@@ -6,6 +6,7 @@ This package enables you to understand the efficacy of your growth marketing and
 
 - Enriching the core `EVENT` table with data regarding associated users, campaigns, and channels.
 - Creating current-state models of campaigns and users, enriched with aggregated event and interaction metrics.
+- Creating a current-state model of message types and channels that each user currently unsubscribed from.
 - Re-creating the `LIST_USER_HISTORY` table. The table can be disabled from connector syncs but is required to connect users and their lists.
 
 ## Models
@@ -14,11 +15,12 @@ This package contains transformation models, designed to work simultaneously wit
 
 | **model**                | **description**                                                                                                                                |
 | ------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------- |
-| [iterable__events](models/iterable__events.sql)             | Each record represents a unique event in Iterable, enhanced with information regarding attributed campaigns, the triggering user, and the channel and message type associated with the event. Commerce events are not tracked by the Fivetran connector. See the [tracked events details](https://fivetran.com/docs/applications/iterable#schemanotes). |
-| [iterable__user_campaign](models/iterable__user_campaign.sql)             | Each record represents a unique user-campaign combination, enriched with pivoted-out metrics reflecting instances of the user triggering different types of events in campaigns.
-| [iterable__campaigns](models/iterable__campaigns.sql)             | Each record represents a unique campaign, enriched with gross event and unique user interaction metrics, and information regarding templates, labels, and applied or suppressed lists. |
+| [iterable__events](models/iterable__events.sql)             | Each record represents a unique event in Iterable, enhanced with information regarding attributed campaigns, the triggering user, and the channel, template, and message type associated with the event. Commerce events are not tracked by the Fivetran connector. See the [tracked events details](https://fivetran.com/docs/applications/iterable#schemanotes). |
+| [iterable__user_campaign](models/iterable__user_campaign.sql)             | Each record represents a unique user-campaign-experiment variation combination, enriched with pivoted-out metrics reflecting instances of the user triggering different types of events in campaigns.
+| [iterable__campaigns](models/iterable__campaigns.sql)             | Each record represents a unique campaign-experiment variation, enriched with gross event and unique user interaction metrics, and information regarding templates, labels, and applied or suppressed lists. |
 | [iterable__users](models/iterable__users.sql)             | Each record represents the most current state of a unique user, enriched with metrics around the campaigns and lists they have been a part of and interacted with, channels and message types they've unsubscribed from, their associated devices, and more. |
 | [iterable__list_user_history](models/iterable__list_user_history.sql)             | Each record represents a unique user-list combination. This is intended to recreate the `LIST_USER_HISTORY` source table, which can be disconnected from your syncs, as it can lead to excessive MAR usage. |
+| [iterable__user_unsubscriptions](models/iterable__user_unsubscriptions.sql)             | Each row represents a message type that a user is currently unsubscribed to, including the channel the message type belongs to. If a user is unsubscribed from an entire channel, each of the channel's message types appears as an unsubscription. |
 
 ## Installation Instructions
 
