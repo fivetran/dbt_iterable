@@ -11,4 +11,3 @@ with campaign_history as (
 
 select *
 from latest_campaign
-where latest_campaign_index = 1
