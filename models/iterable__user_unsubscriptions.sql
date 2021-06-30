@@ -23,6 +23,7 @@ with message_type_channel as (
 {% endif %}
 ), combine_histories as (
 
+-- we are combining because channels are effectively parents of message types
     select 
         email,
         channel_id,

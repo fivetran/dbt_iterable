@@ -10,6 +10,8 @@ with user_history as (
 Unfortunately, `email_list_ids` are brought in as a JSON ARRAY, which different destinations handle completely differently. 
 The below code serves to extract and pivot list IDs into individual rows. 
 Records with an empty `email_list_ids` array will just have one row. 
+We are making the assumption that a user will not have more than 1000 lists. If that's wrong please open an issue!
+https://github.com/fivetran/dbt_iterable/issues/new/choose
 */
 {% if target.type == 'redshift' %}
 ), numbers as (
