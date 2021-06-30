@@ -30,7 +30,7 @@ with events as (
     select *
     from {{ var('event_extension') }}
 
-), user as (
+), users as (
 
     select *
     from {{ ref('int_iterable__latest_user') }}
@@ -50,8 +50,8 @@ with events as (
         campaign.recurring_campaign_name,
         campaign.recurring_campaign_id,
 
-        user.user_id,
-        user.first_name || ' ' || user.last_name as user_full_name,
+        users.user_id,
+        users.first_name || ' ' || users.last_name as user_full_name,
 
         message_type_channel.message_type_name,
         message_type_channel.message_medium,
@@ -67,8 +67,8 @@ with events as (
         on events.event_id = event_extension.event_id
     left join campaign 
         on events.campaign_id = campaign.campaign_id
-    left join user 
-        on events.email = user.email
+    left join users
+        on events.email = users.email
     left join message_type_channel
         on events.message_type_id = message_type_channel.message_type_id
 )
