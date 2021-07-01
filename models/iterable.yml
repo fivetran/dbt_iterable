@@ -140,6 +140,16 @@ models:
         description: Name of the template associated with the campaign/experiment
       - name: template_creator_user_id
         description: The creator user id of the template associated with the campaign/experiment
+      - name: message_medium
+        description: The medium which the message was provided
+      - name: message_type_name
+        description: The message type name associated with the campaign/experiment
+      - name: channel_name
+        description: The channel name associated with the campaign/experiment
+      - name: channel_id
+        description: The channel identifier associated with the campaign/experiment
+      - name: channel_type
+        description: The channel type associated with the campaign/experiment
 
   - name: iterable__events
     description: Table that provides a comprehensive view of all events with enriched information such as the campaign, user effected, and template used.
@@ -273,6 +283,8 @@ models:
         description: User defined name of the template
       - name: template_creator_user_id
         description: Reference to the user who created the template
+      - name: created_on
+        description: Timestamp of when the event was created
 
   - name: iterable__list_user_history
     description: > 
