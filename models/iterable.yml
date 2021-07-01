@@ -391,6 +391,7 @@ models:
           combination_of_columns:
             - email
             - message_type_id
+            - is_unsubscribed_channel_wide
     columns:
       - name: email
         description: Unique identifier of the user as well as their email
