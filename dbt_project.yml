@@ -1,0 +1,52 @@
+name: 'iterable'
+version: '0.1.0'
+config-version: 2
+require-dbt-version: [">=0.18.0", "<0.20.0"]
+
+models:
+  iterable:
+    +materialized: table
+    +schema: iterable
+    intermediate:
+        +materialized: view
+        +schema: int_iterable
+
+vars:
+  iterable:
+    campaign_history:                           "{{ ref('stg_iterable__campaign_history') }}"
+    campaign_label_history:                     "{{ ref('stg_iterable__campaign_label_history') }}"
+    campaign_list_history:                      "{{ ref('stg_iterable__campaign_list_history') }}"
+    campaign_metrics:                           "{{ ref('stg_iterable__campaign_metrics') }}"
+    campaign_suppression_list_history:          "{{ ref('stg_iterable__campaign_suppression_list_history') }}"
+    channel:                                    "{{ ref('stg_iterable__channel') }}"
+    event:                                      "{{ ref('stg_iterable__event') }}"
+    event_extension:                            "{{ ref('stg_iterable__event_extension') }}"    
+    list:                                       "{{ ref('stg_iterable__list') }}"
+    message_type:                               "{{ ref('stg_iterable__message_type') }}"
+    template_history:                           "{{ ref('stg_iterable__template_history') }}"
+    user_history:                               "{{ ref('stg_iterable__user_history') }}"
+    user_device_history:                        "{{ ref('stg_iterable__user_device_history') }}"
+    user_unsubscribed_channel_history:          "{{ ref('stg_iterable__user_unsubscribed_channel_history') }}"
+    user_unsubscribed_message_type_history:     "{{ ref('stg_iterable__user_unsub_message_type_history') }}"
+
+    iterable__event_metrics: 
+      - "emailClick"
+      - "emailUnSubscribe"
+      - "emailComplaint"
+      - "customEvent"
+      - "emailSubscribe"
+      - "emailOpen"
+      - "pushSend"
+      - "smsBounce"
+      - "pushBounce"
+      - "inAppSendSkip"
+      - "smsSend"
+      - "inAppSend"
+      - "pushOpen"
+      - "emailSend"
+      - "pushSendSkip"
+      - "inAppOpen"
+      - "emailSendSkip"
+      - "emailBounce"
+      - "inAppClick"
+      - "pushUninstall"

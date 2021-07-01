@@ -1,0 +1,3 @@
+id,updated_at,message_type_id,client_template_id,created_at,creator_user_id,name,template_type,_fivetran_synced
+3253806,2021-05-25 09:04:44.383,15407,,2021-05-24 14:00:39.882,shaquille.oneal@gmail.com,fun_email,Base,2021-05-25 09:17:34.426
+3253806,2021-05-24 14:10:04.095,15407,,2021-05-24 14:00:39.882,shazam.the.genie@yahoo.com,even_more_fun_email,Base,2021-05-24 14:17:53.443

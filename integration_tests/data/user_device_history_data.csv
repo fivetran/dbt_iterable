@@ -1,0 +1,3 @@
+email,updated_at,index,application_name,endpoint_enabled,identifier_for_vendor,localized_model,model,platform,platform_endpoint,system_name,system_version,token,user_interface_idiom,_fivetran_synced
+bingbong@hotmail.co.uk,2020-08-08 04:57:47.000,0,co.dbtpackage,TRUE,,,,NYC,endpoint:1:blahblah,,,cmb-Y6EEY:APA91bFTgMp2kmhosDrBawmLs-e973u8f1a_z0O8abBF6_L_Lq8Be7UC-hAGdSpgdXJE9ISVTO2RoiViLGy7OXABTLBg5FWagKubmL1lpcShGRqy_0Fyb6NP9n,,2020-08-08 04:59:12.158
+dingdong@hotmail.co.uk,2020-08-08 04:57:47.000,1,co.dbtpackage,TRUE,,,,SFO,endpoint:2:blahblah,,,ca3s0bJheI0:APA9jK8YAzSWip7O4hrOzTvjS3SQpHLMdkprjIcQTjEy6e6K2GyyRWA24iQ7a4gKwP0tbYrS2_6hMycvzNwcWVdKuASs76GE-mHxhEkUlci_zBANOugeZQJk7,,2020-08-08 04:59:12.158
