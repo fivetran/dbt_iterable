@@ -1,0 +1,43 @@
+version: 2
+
+models:
+
+  - name: int_iterable__campaign_event_metrics
+    description: Table that generates relevant total and unique campaign/experiment level aggregations.
+  
+  - name: int_iterable__campaign_labels
+    description: Table that provides the distinct string aggregation of labels for each campaign.
+
+  - name: int_iterable__campaign_lists
+    description: Table that identifies the suppressed and send lists associated with a campaign.
+
+  - name: int_iterable__latest_campaign
+    description: Table that filters out historical versions of the campaign, and returns the most recent campaign version.
+
+  - name: int_iterable__latest_template
+    description: Table that provides the most recent version of the template as well as joining relevant message type information. 
+
+  - name: int_iterable__latest_user_device
+    description: Table that filters out historical versions of user device records, and returns only the most recent version.
+
+  - name: int_iterable__latest_user
+    description: Table that filters out historical versions of the user, and returns only the most recent version.
+
+  - name: int_iterable__list_user_history
+    description: Table that provides a history of all lists the user has been associated with.
+
+  - name: int_iterable__list_user_unnest
+    description: >
+      Table that unnests the `email_list_id` field for each user to create a new record for each
+      user and the unique list it was associated with at a unique update. Due to the unnesting functions
+      varying greatly between warehouses, conditional logic is applied throughout the model to appropriately
+      accommodate the model being ran within Redshift, Snowflake, BigQuery, and Postgres.
+
+  - name: int_iterable__message_type_channel
+    description: Table that joins the message type and channel records together into one comprehensive model to be referenced downstream.
+
+  - name: int_iterable__recurring_campaigns
+    description: Table that identifies when a campaign is associated with a recurring campaign and provides additional enriched recurring campaign information.
+    
+  - name: int_iterable__user_event_metrics
+    description: Table that generates user aggregations at the campaign level.

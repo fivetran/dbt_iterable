@@ -1,3 +1,4 @@
+[![Apache License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) ![dbt logo and version](https://img.shields.io/static/v1?logo=dbt&label=dbt-version&message=0.20.x&color=orange)
 # Iterable
 
 This package models Iterable data from [Fivetran's connector](https://fivetran.com/docs/applications/iterable). It uses data in the format described by [this ERD](https://fivetran.com/docs/applications/iterable#schemainformation).
@@ -6,7 +7,7 @@ This package enables you to understand the efficacy of your growth marketing and
 
 - Enriching the core `EVENT` table with data regarding associated users, campaigns, and channels.
 - Creating current-state models of campaigns and users, enriched with aggregated event and interaction metrics.
-- Creating a current-state model of message types and channels that each user currently unsubscribed from.
+- Creating a current-state model of message types and channels that each user is currently unsubscribed from.
 - Re-creating the `LIST_USER_HISTORY` table. The table can be disabled from connector syncs but is required to connect users and their lists.
 
 ## Models
@@ -23,14 +24,16 @@ This package contains transformation models, designed to work simultaneously wit
 | [iterable__user_unsubscriptions](models/iterable__user_unsubscriptions.sql)             | Each row represents a message type that a user is currently unsubscribed to, including the channel the message type belongs to. If a user is unsubscribed from an entire channel, each of the channel's message types appears as an unsubscription. |
 
 ## Installation Instructions
+`dbt_iterable` currently supports `dbt 0.20.x`.
 
-Add the following to your packages.yml file:
+Check [dbt Hub](https://hub.getdbt.com/) for the latest installation instructions, or [read the dbt docs](https://docs.getdbt.com/docs/package-management) for more information on installing packages.
 
-```yml
-# packages.yml
+Include in your `packages.yml`
+
+```yaml
 packages:
   - package: fivetran/iterable
-    version: [">=0.1.0", "<0.2.0"]
+    version: [">=0.2.0", "<0.3.0"]
 ```
 
 Check [dbt Hub](https://hub.getdbt.com/) for the latest installation instructions, or [read the dbt docs](https://docs.getdbt.com/docs/package-management) for more information on installing packages.

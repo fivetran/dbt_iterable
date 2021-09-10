@@ -2,8 +2,501 @@ version: 2
 
 models:
 
-  - name: iterable__campaigns
+  - name: iterable__campaigns 
+    description: Table that provides aggregations for campaigns at the experiment grain.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - campaign_id
+            - experiment_id
+    columns:
+      - name: campaign_id
+        description: Unique identifier of the campaign record
+        tests:
+          - not_null
+      - name: campaign_name
+        description: User defined name of the campaign.
+      - name: updated_at
+        description: Last update timestamp as epoch time in milliseconds
+      - name: campaign_state
+        description: State of the campaign. Can be Draft, Ready, Scheduled, Running, Finished, Starting, Aborted or Recurring
+      - name: campaign_type
+        description: The campaign type. Can be Blast or Triggered
+      - name: send_size
+        description: Size of the campaign. Number of individuals included in the campaign
+      - name: start_at
+        description: Start timestamp as epoch time in milliseconds
+      - name: ended_at
+        description: Ended timestamp as epoch time in milliseconds
+      - name: created_at
+        description: Creation timestamp as epoch time in milliseconds
+      - name: created_by_user_id
+        description: Reference to the user who created the campaign
+      - name: template_id
+        description: Reference to the campaign template
+      - name: recurring_campaign_id
+        description: Unique identifier of the recurring campaign (if applicable)
+      - name: recurring_campaign_name
+        description: Name of the recurring campaign (if applicable)
+      - name: recurring_campaign_state
+        description: State of the recurring campaign (if applicable)
+      - name: recurring_campaign_send_size
+        description: Size of the recurring campaign. Number of individuals included in the recurring campaign (if applicable)
+      - name: recurring_campaign_start_at
+        description: Timestamp of when the recurring campaign started (if applicable)
+      - name: is_campaign_recurring
+        description: Boolean indicating if the campaign is a recurring campaign
+      - name: experiment_id
+        description: Reference to the experiment used if the event is an experiment
+      - name: count_unique_users
+        description: Count of total unique users within the campaign/experiment
+      - name: total_emailclick
+        description: Total email clicks within the campaign/experiment
+      - name: unique_total_emailclick
+        description: Unique email clicks within the campaign/experiment
+      - name: total_emailunsubscribe
+        description: Total email unsubscribe events within the campaign/experiment
+      - name: unique_total_emailunsubscribe
+        description: Unique total email unsubscribe events within the campaign/experiment
+      - name: total_emailcomplaint
+        description: Total email complaints within the campaign/experiment
+      - name: unique_total_emailcomplaint
+        description: Unique total email complaints within the campaign/experiment
+      - name: total_customevent
+        description: Total custom events within the campaign/experiment
+      - name: unique_total_customevent
+        description: Unique total custom events within the campaign/experiment
+      - name: total_emailsubscribe
+        description: Total email subscribe events within the campaign/experiment
+      - name: unique_total_emailsubscribe
+        description: Unique total email subscribe events within the campaign/experiment
+      - name: total_emailopen
+        description: Total email open events within the campaign/experiment
+      - name: unique_total_emailopen
+        description: Unique total email open events within the campaign/experiment
+      - name: total_pushsend
+        description: Total push send event within the campaign/experiment
+      - name: unique_total_pushsend
+        description: Unique total push send events within the campaign/experiment
+      - name: total_smsbounce
+        description: Total sms bounce events within the campaign/experiment
+      - name: unique_total_smsbounce
+        description: Unique total sms bounce events within the campaign/experiment
+      - name: total_pushbounce
+        description: Total push bounce events within the campaign/experiment
+      - name: unique_total_pushbounce
+        description: Unique total push bounce events within the campaign/experiment
+      - name: total_inappsendskip
+        description: Total in app send skip events within the campaign/experiment
+      - name: unique_total_inappsendskip
+        description: Unique total in app send skip events within the campaign/experiment
+      - name: total_smssend
+        description: Total sms send events within the campaign/experiment
+      - name: unique_total_smssend
+        description: Unique total sms send events within the campaign/experiment
+      - name: total_inappsend
+        description: Total in app send events within the campaign/experiment
+      - name: unique_total_inappsend
+        description: Unique total in app send events within the campaign/experiment
+      - name: total_pushopen
+        description: Total push open events within the campaign/experiment
+      - name: unique_total_pushopen
+        description: Unique total push open events within the campaign/experiment
+      - name: total_emailsend
+        description: Total email send events within the campaign/experiment
+      - name: unique_total_emailsend
+        description: Unique total email send events within the campaign/experiment
+      - name: total_pushsendskip
+        description: Total push send skip events within the campaign/experiment
+      - name: unique_total_pushsendskip
+        description: Unique total push send skip events within the campaign/experiment
+      - name: total_inappopen
+        description: Total in app open events within the campaign/experiment
+      - name: unique_total_inappopen
+        description: Unique total in app open events within the campaign/experiment
+      - name: total_emailsendskip
+        description: Total email send skip events within the campaign/experiment
+      - name: unique_total_emailsendskip
+        description: Unique total email send skip events within the campaign/experiment
+      - name: total_emailbounce
+        description: Total email bounce events within the campaign/experiment
+      - name: unique_total_emailbounce
+        description: Unique total email bounce events within the campaign/experiment
+      - name: total_inappclick
+        description: Total in app click events within the campaign/experiment
+      - name: unique_total_inappclick
+        description: Unique total in app click events within the campaign/experiment
+      - name: total_pushuninstall
+        description: Total push uninstall events within the campaign/experiment
+      - name: unique_total_pushuninstall
+        description: Unique total push uninstall events within the campaign/experiment
+      - name: count_send_lists
+        description: Count of send lists within the campaign/experiment
+      - name: count_suppress_lists
+        description: Count of suppress lists within the campaign/experiment
+      - name: labels
+        description: List of labels associated with the campaign/experiment
+      - name: template_name
+        description: Name of the template associated with the campaign/experiment
+      - name: template_creator_user_id
+        description: The creator user id of the template associated with the campaign/experiment
+      - name: message_medium
+        description: The medium which the message was provided
+      - name: message_type_name
+        description: The message type name associated with the campaign/experiment
+      - name: channel_name
+        description: The channel name associated with the campaign/experiment
+      - name: channel_id
+        description: The channel identifier associated with the campaign/experiment
+      - name: channel_type
+        description: The channel type associated with the campaign/experiment
+
   - name: iterable__events
+    description: Table that provides a comprehensive view of all events with enriched information such as the campaign, user effected, and template used.
+    columns:
+      - name: event_id
+        description: Unique id of the event generated by Fivetran
+        tests:
+          - unique
+          - not_null
+      - name: campaign_id
+        description: Reference to the campaign from which the event originated
+      - name: content_id
+        description: Reference to the content the event is associated with
+      - name: created_at
+        description: Creation timestamp as epoch time in milliseconds
+      - name: email
+        description: Reference to the unique user the event was applied to
+      - name: additional_properties
+        description: json object containing addition event properties
+      - name: event_name
+        description: Name provided to the individual event
+      - name: message_bus_id
+        description: Reference to the message bus associated with the event
+      - name: message_id
+        description: Reference to the message the event is associated with
+      - name: message_type_id
+        description: Reference to the type of message the event is associated with
+      - name: recipient_state
+        description: The state of the recipient upon receiving the event
+      - name: status
+        description: Status of the event
+      - name: transactional_data
+        description: Transactional data associated with the event
+      - name: unsub_source
+        description: Source of the unsubscribe event
+      - name: user_agent
+        description: User agent associated with the event
+      - name: user_agent_device
+        description: The device of the user agent
+      - name: _fivetran_synced
+        description: Timestamp of when the event record was synced by Fivetran
+      - name: campaign_name
+        description: The name of the campaign
+      - name: campaign_type
+        description: The type of campaign
+      - name: is_campaign_recurring
+        description: Boolean indicating if the campaign is recurrent
+      - name: recurring_campaign_name
+        description: The name of the recurring campaign (if applicable)
+      - name: recurring_campaign_id
+        description: The campaign if of the recurring campaign (if applicable)
+      - name: user_id
+        description: User defined identifier of the user. This is not a unique field
+      - name: user_full_name
+        description: Full name of the user
+      - name: message_type_name
+        description: Name of the message type
+      - name: message_medium
+        description: Medium of the message
+      - name: channel_id
+        description: Unique identifier of the channel
+      - name: channel_name
+        description: The channel name
+      - name: channel_type
+        description: The type of channel
+      - name: is_app_already_running
+        description: Boolean indicating if the app is already running
+      - name: badge
+        description: Badge associated with the event
+      - name: canonical_url_id
+        description: Reference to the url associated with the event
+      - name: is_content_available
+        description: Content available from the event
+      - name: deeplink_android
+        description: Deeplink associated with the event from an android device
+      - name: deeplink_ios
+        description: Deeplink associated with the event from an ios device
+      - name: device
+        description: The device associated with the event
+      - name: email_id
+        description: Reference to the email associated with the event
+      - name: email_subject
+        description: Subject of the email associated with the event
+      - name: experiment_id
+        description: Reference to the experiment used if the event is an experiment
+      - name: from_phone_number_id
+        description: Reference to the phone number which the event is from
+      - name: from_smssender_id
+        description: Reference to the sms sender which the event is from
+      - name: image_url
+        description: Image url of the event
+      - name: is_ghost_push
+        description: Boolean indicating if the event is a result of a ghost push
+      - name: link_id
+        description: Reference to the link associated with the event
+      - name: link_url
+        description: Url of the link associated with the event
+      - name: locale
+        description: Locale associated with the event
+      - name: payload
+        description: Payload resulted from the event
+      - name: platform_endpoint
+        description: The specific platform endpoint of the event
+      - name: push_message
+        description: Boolean indicating if the event is a push message
+      - name: region
+        description: Region of the event
+      - name: sms_message
+        description: Boolean indicating if the event is an sms message
+      - name: sms_provider_response_code
+        description: sms provider response code from the event
+      - name: sms_provider_response_message
+        description: sms provider response message from the event
+      - name: sms_provider_response_more_info
+        description: sms provider response addition info from the event
+      - name: sms_provider_response_status
+        description: Status of the sms provider response from the event
+      - name: sound
+        description: Boolean indicating if a sound was used with the event
+      - name: to_phone_number
+        description: To phone number associated with the event
+      - name: url
+        description: Url associated with the event
+      - name: workflow_id
+        description: Reference to the workflow which the event originated
+      - name: workflow_name
+        description: Name of the workflow which the event originated
+      - name: template_id
+        description: Unique identifer of the template
+      - name: template_name
+        description: User defined name of the template
+      - name: template_creator_user_id
+        description: Reference to the user who created the template
+      - name: created_on
+        description: Timestamp of when the event was created
+
   - name: iterable__list_user_history
+    description: > 
+      Table that recreates the `list_user_history` source table. Additionally, this table provides an `is_current` field to 
+      identify the current lists associated with the user. Additionally, the grain of this table is at the user/list/updated_at grain.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - user_email
+            - list_id
+            - user_updated_at
+    columns:
+      - name: user_email
+        description: Unique identifier of the user as well as their email
+      - name: user_first_name
+        description: First name of the user
+      - name: user_last_name
+        description: Last name of the user
+      - name: user_id
+        description: User defined identifier of the user. This is not a unique field
+      - name: user_signup_date
+        description: Timestamp as epoch time in milliseconds of when the user signed up
+      - name: user_signup_source
+        description: Source where the user signed up
+      - name: user_updated_at
+        description: Last update timestamp as epoch time in milliseconds
+      - name: list_id
+        description: The list associated with the user
+      - name: is_current
+        description: Boolean indicating if the current list is active
+      - name: list_name
+        description: Name of the list associated with the user
+      - name: list_type
+        description: Type of list associated with the user
+      - name: list_created_at
+        description: Date the list was created
+
   - name: iterable__user_campaign
+    description: Table that provides total and unique metrics for a user associated with particular campaigns.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - user_email
+            - campaign_id
+            - experiment_id
+    columns:
+      - name: user_email
+        description: Unique identifier of the user as well as their email
+        tests:
+          - not_null
+      - name: user_full_name
+        description: The users first and last name
+      - name: campaign_id
+        description: The unique identifier of the campaign which the user metrics are associated
+      - name: campaign_name
+        description: The name of the campaign which the user metrics are associated
+      - name: template_id
+        description: The unique identifier of the template used within the campaign
+      - name: template_name
+        description: The name of the template used for the campaign
+      - name: experiment_id
+        description: The unique experiment variation of the campaign
+      - name: recurring_campaign_id
+        description: The unique identifier of the recurring campaign which the campaign is tied to
+      - name: recurring_campaign_name
+        description: The name of the recurring campaign which the campaign is tied to
+      - name: first_event_at
+        description: Timestamp of the first campaign/experiment event associated with the user
+      - name: last_event_at
+        description: Timestamp of the most recent campaign/experiment event associated with the user
+      - name: total_emailclick
+        description: Total email clicks events the user took within the campaign/experiment 
+      - name: total_emailunsubscribe
+        description: Total email unsubscription events the user performed within the campaign/experiment
+      - name: total_emailcomplaint
+        description: Total email complaint events the user performed within the campaign/experiment
+      - name: total_customevent
+        description: Total custom events associated with the user within the campaign/experiment
+      - name: total_emailsubscribe
+        description: Total email subscription events associate with the user within the campaign/experiment
+      - name: total_emailopen
+        description: Total email open events the user performed within the campaign/experiment
+      - name: total_pushsend
+        description: Total push send events the user performed within the campaign/experiment
+      - name: total_smsbounce
+        description: Total sms bounce events associated with the user within the campaign/experiment
+      - name: total_pushbounce
+        description: Total push bounce events associated with the user within the campaign/experiment
+      - name: total_inappsendskip
+        description: Total in app send skip events the user performed within the campaign/experiment
+      - name: total_smssend
+        description: Total sms send events associated with the user within the campaign/experiment
+      - name: total_inappsend
+        description: Total in app send events associated with the user within the campaign/experiment
+      - name: total_pushopen
+        description: Total push open events the user performed within the campaign/experiment
+      - name: total_emailsend
+        description: Total email send event associated with the user within the campaign/experiment
+      - name: total_pushsendskip
+        description: Total push send skip events associated with the user within the campaign/experiment
+      - name: total_inappopen
+        description: Total in app open events associated with the user within the campaign/experiment
+      - name: total_emailsendskip
+        description: Total email send skip events associated with the user within the campaign/experiment
+      - name: total_emailbounce
+        description: Total email bounce events associated with the user within the campaign/experiment
+      - name: total_inappclick
+        description: Total in app click events associated with the user within the campaign/experiment
+      - name: total_pushuninstall
+        description: Total push uninstall events associated with the user within the campaign/experiment
+
+  - name: iterable__user_unsubscriptions
+    description: Table that generates the total channel and message types a user has chosen to unsubscribe.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - email
+            - message_type_id
+            - is_unsubscribed_channel_wide
+    columns:
+      - name: email
+        description: Unique identifier of the user as well as their email
+      - name: channel_id
+        description: Unique identifier of the channel which the user is unsubscribed
+      - name: message_type_id
+        description: Unique identifer of the message type which the user is unsubscribed
+      - name: channel_name
+        description: The name of the channel which the user is unsubscribed
+      - name: message_type_name
+        description: The name of the message type which the user is unsubscribed
+      - name: channel_type
+        description: The channel type which the user is unsubscribed
+      - name: message_medium
+        description: The medium type the message was provided which the user is unsubscribed
+      - name: updated_at
+        description: Timestamp of when the user unsubscribed from the channel or message type
+      - name: is_unsubscribed_channel_wide
+        description: >
+          Boolean indicating if the user unsubscribed at the channel level (i.e. unsubscribed to all message types)
+          or if they unsubscribed from only an individual message type.
+
   - name: iterable__users
+    description: Table that provides unique user enriched information.
+    columns:
+      - name: email
+        description: Unique identifier of the user as well as their email
+        tests:
+          - unique
+          - not_null
+      - name: first_name
+        description: First name of the user
+      - name: last_name
+        description: Last name of the user
+      - name: user_id
+        description: User defined identifier of the user. This is not a unique field
+      - name: signup_date
+        description: Timestamp as epoch time in milliseconds of when the user signed up
+      - name: signup_source
+        description: Source where the user signed up
+      - name: updated_at
+        description: Last update timestamp as epoch time in milliseconds
+      - name: phone_number
+        description: Phone number associated with the user
+      - name: email_list_ids
+        description: Array of all email lists associated with the user
+      - name: count_lists
+        description: Total count of lists associated with the user
+      - name: count_total_campaigns
+        description: Count of all campaigns the user has been in
+      - name: first_event_at
+        description: The first event the user ever encountered
+      - name: last_event_at
+        description: The most recent event the user has encountered
+      - name: total_emailclick
+        description: Total number of email clicks the user has performed
+      - name: total_emailunsubscribe
+        description: Total unsubscription events the user has performed
+      - name: total_emailcomplaint
+        description: Total email complaints the user has performed
+      - name: total_customevent
+        description: Total custom events associated with the user
+      - name: total_emailsubscribe
+        description: Total subscription events the user has performed
+      - name: total_emailopen
+        description: Total email opened events the user has performed
+      - name: total_pushsend
+        description: The push send events the user has experienced
+      - name: total_smsbounce
+        description: Total sms bounces that are associated with the user
+      - name: total_pushbounce
+        description: Total number of push bounces associated with the user
+      - name: total_inappsendskip
+        description: Total in app send skips associated with the user
+      - name: total_smssend
+        description: Total sms sends that the user has experienced
+      - name: total_inappsend
+        description: Total in app sends the user has experienced
+      - name: total_pushopen
+        description: Total push messages the user has opened
+      - name: total_emailsend
+        description: Total emails that have been sent to the user
+      - name: total_pushsendskip
+        description: Total push sends the user has skipped
+      - name: total_inappopen
+        description: Total in app opens the user has performed
+      - name: total_emailsendskip
+        description: Total email sends the user has skipped
+      - name: total_emailbounce
+        description: Total number of emails that have bounced from the user
+      - name: total_inappclick
+        description: Total in app clicks associated with the user
+      - name: total_pushuninstall
+        description: Total push uninstall events the user has performed
+      - name: count_devices
+        description: Count of all devices that are associated with the user

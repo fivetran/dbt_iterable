@@ -24,7 +24,7 @@ with user_device_history as (
     
     from latest_user_device
 
-    group by email
+    group by 1
 )
 
 select *
