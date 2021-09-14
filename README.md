@@ -33,7 +33,7 @@ Include in your `packages.yml`
 ```yaml
 packages:
   - package: fivetran/iterable
-    version: [">=0.2.0", "<0.3.0"]
+    version: [">=0.3.0", "<0.4.0"]
 ```
 
 Check [dbt Hub](https://hub.getdbt.com/) for the latest installation instructions, or [read the dbt docs](https://docs.getdbt.com/docs/package-management) for more information on installing packages.
@@ -72,13 +72,11 @@ vars:
     iterable__using_user_device_history: true                        # default is FALSE
 ```
 
-### Deprecating `CAMPAIGN_SUPRESSION_LIST_HISTORY` table
+### Deprecated `CAMPAIGN_SUPRESSION_LIST_HISTORY` table
 
-The Iterable connector schema misspelled the `CAMPAIGN_SUPPRESSION_LIST_HISTORY` table as `CAMPAIGN_SUPRESSION_LIST_HISTORY` (note the singular `P`). Fivetran will deprecate the misspelled table by June 2021 and replace it with a new table with the correct name.
+The Iterable connector schema originally misspelled the `CAMPAIGN_SUPPRESSION_LIST_HISTORY` table as `CAMPAIGN_SUPRESSION_LIST_HISTORY` (note the singular `P`). As of August 2021, Fivetran has deprecated the misspelled table and will only continue syncing the correctly named `CAMPAIGN_SUPPRESSION_LIST_HISTORY` table.
 
-New connectors set up after June 2021 will have only the new table (`CAMPAIGN_SUPPRESSION_LIST_HISTORY`), and pre-existing connectors will contain both tables for a limited time. Fivetran will stop syncing the old `CAMPAIGN_SUPRESSION_LIST_HISTORY` table.
-
-By default, this package refers to the new table (`CAMPAIGN_SUPPRESSION_LIST_HISTORY`). To change this so that the package works with the old misspelled source table, add the following configuration to your `dbt_project.yml` file:
+By default, this package refers to the new table (`CAMPAIGN_SUPPRESSION_LIST_HISTORY`). To change this so that the package works with the old misspelled source table (we do not recommend this, however), add the following configuration to your `dbt_project.yml` file:
 
 ```yml
 # dbt_project.yml
@@ -87,8 +85,7 @@ config-version: 2
 
 vars:
     iterable_source:
-        campaign_suppression_list_history: "{{ source('iterable', 'campaign_supression_list_history') }}" 
-        using_old_spelling: true # default false
+        iterable__campaign_suppression_list_history_table: "campaign_supression_list_history"
 ```
 
 ### Changing the Build Schema
