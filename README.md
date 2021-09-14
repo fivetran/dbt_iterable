@@ -85,7 +85,7 @@ config-version: 2
 
 vars:
     iterable_source:
-        campaign_suppression_list_history_table: "campaign_supression_list_history"
+        iterable__campaign_suppression_list_history_table: "campaign_supression_list_history"
 ```
 
 ### Changing the Build Schema
