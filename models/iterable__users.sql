@@ -42,7 +42,7 @@ with user_event_metrics as (
 
     select 
         user_with_list_metrics.*,
-        {{ dbt_utils.star(from=ref('int_iterable__user_event_metrics'), except=['user_email'] if target.type != 'snowflake' else ['USER_EMAIL']) }}
+        {{ dbt_utils.star(from=ref('int_iterable__user_event_metrics'), except=['user_email']) }}
         {% if var('iterable__using_user_device_history', false) %}
         ,
         user_devices.count_devices
