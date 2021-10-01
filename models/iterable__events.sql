@@ -65,7 +65,7 @@ with events as (
         message_type_channel.channel_type,
 
         {% set exclude_fields = ["event_id", "content_id", "_fivetran_synced"] %}
-        {{ dbt_utils.star(from=ref('stg_iterable__event_extension'), except= exclude_fields | upper if target.type == 'snowflake' else exclude_fields ) }}
+        {{ dbt_utils.star(from=ref('stg_iterable__event_extension'), except= exclude_fields  ) }}
         ,
         campaign.template_id,
         template.template_name,

@@ -35,7 +35,6 @@ with campaign_event_metrics as (
 ), campaign_join as (
 
     {% set exclude_fields = [ 'campaign_id', 'template_id'] %} -- these are both in campaigns
-    {% set exclude_fields = exclude_fields | upper if target.type == 'snowflake' else exclude_fields %} -- snowflake needs uppercase :)
 
     -- this query will be at the campaign-experiment variation grain
     select
