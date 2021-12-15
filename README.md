@@ -24,8 +24,6 @@ This package contains transformation models, designed to work simultaneously wit
 | [iterable__user_unsubscriptions](models/iterable__user_unsubscriptions.sql)             | Each row represents a message type that a user is currently unsubscribed to, including the channel the message type belongs to. If a user is unsubscribed from an entire channel, each of the channel's message types appears as an unsubscription. |
 
 ## Installation Instructions
-`dbt_iterable` currently supports `dbt 0.20.x`.
-
 Check [dbt Hub](https://hub.getdbt.com/) for the latest installation instructions, or [read the dbt docs](https://docs.getdbt.com/docs/package-management) for more information on installing packages.
 
 Include in your `packages.yml`
@@ -33,7 +31,7 @@ Include in your `packages.yml`
 ```yaml
 packages:
   - package: fivetran/iterable
-    version: [">=0.3.0", "<0.4.0"]
+    version: [">=0.4.0", "<0.5.0"]
 ```
 
 Check [dbt Hub](https://hub.getdbt.com/) for the latest installation instructions, or [read the dbt docs](https://docs.getdbt.com/docs/package-management) for more information on installing packages.
