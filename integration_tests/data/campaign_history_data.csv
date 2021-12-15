@@ -1,3 +1,0 @@
-id,updated_at,template_id,recurring_campaign_id,campaign_state,created_at,created_by_user_id,ended_at,name,send_size,start_at,type,workflow_id,_fivetran_synced
-2452145,2021-06-11 13:31:13.748,3357343,,Ready,2021-06-11 13:31:13.748,jimmy.neutron@goddard.com,,20180618_fun_campaign campaign from Workflow 157274,,,Triggered,157274,2021-06-11 13:32:03.771
-2452149,2021-06-11 13:31:20.601,3357342,,Ready,2021-06-11 13:31:20.601,jimmy.neutron@goddard.com,,20180620_other_thing campaign from Workflow 157274,,,Triggered,157274,2021-06-11 13:32:03.771
