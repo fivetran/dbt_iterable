@@ -1,3 +1,7 @@
+# dbt_iterable v0.5.0
+🎉 Applying Package Standardization 🎉
+We are applying standardization updates to be more consistent across our documentation.
+
 # dbt_iterable v0.4.0
 🎉 dbt v1.0.0 Compatibility 🎉
 ## 🚨 Breaking Changes 🚨
