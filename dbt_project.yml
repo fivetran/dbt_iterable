@@ -1,8 +1,7 @@
 name: 'iterable'
-version: '0.4.0'
+version: '0.5.0'
 config-version: 2
-require-dbt-version: [">=1.0.0", "<2.0.0"]
-
+require-dbt-version: [">=1.2.0", "<2.0.0"]
 models:
   iterable:
     +materialized: table
@@ -10,7 +9,6 @@ models:
     intermediate:
       +materialized: view
       +schema: int_iterable
-
 vars:
   iterable:
     campaign_history: "{{ ref('stg_iterable__campaign_history') }}"
@@ -28,7 +26,6 @@ vars:
     user_device_history: "{{ ref('stg_iterable__user_device_history') }}"
     user_unsubscribed_channel_history: "{{ ref('stg_iterable__user_unsubscribed_channel_history') }}"
     user_unsubscribed_message_type_history: "{{ ref('stg_iterable__user_unsub_message_type_history') }}"
-
     iterable__event_metrics:
     - "emailClick"
     - "emailUnSubscribe"
