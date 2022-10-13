@@ -23,7 +23,7 @@ with events as (
 
     select 
         events.*
-        {# {{ dbt_utils.split_part(string_text='additional_properties', delimiter_text=' : "{', part_number=1) }} #}
+        {# {{ dbt.split_part(string_text='additional_properties', delimiter_text=' : "{', part_number=1) }} #}
 
         {% if target.type == 'snowflake' %}
         ,
