@@ -44,6 +44,3 @@ seeds:
     user_unsubscribed_message_type_history_data:
       +column_types:
         message_type_id: "{%- if target.type == 'bigquery' -%} INT64 {%- else -%} bigint {%- endif -%}"
-    user_history_data:
-      +column_types:
-        email_list_ids: "{%- if target.type == 'snowflake' -%} VARIANT {%- elif target.type in ('redshift', 'postgres') -%} varchar(100) {%- else -%} string {%- endif -%}"
