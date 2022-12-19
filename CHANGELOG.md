@@ -36,6 +36,12 @@
     - `dbt.current_timestamp_backcompat`
     - `dbt.current_timestamp_in_utc_backcompat`
 - Dependencies on `fivetran/fivetran_utils` have been upgraded, previously `[">=0.3.0", "<0.4.0"]` now `[">=0.4.0", "<0.5.0"]`.
+# dbt_iterable v0.4.1
+## 🎉 Documentation and Feature Updates
+- Introduced variable `iterable__using_campaign_suppression_list_history` to disable related downtream portions if the underlying source table does not existed. For how to configure refer to the [README](https://github.com/fivetran/dbt_iterable/blob/main/README.md#enabling-and-disabling-models). 
+- Specifically, we have added conditional blocks to relevant portions of `int_iterable__campaign_lists` if the  underlying `stg_iterable__campaign_suppression_list_history` is not materialized when `iterable__using_campaign_suppression_list_history` is disabled. ([#22](https://github.com/fivetran/dbt_iterable/pull/22))
+## Contributors
+Thank you @awpharr for raising these to our attention! ([#19](https://github.com/fivetran/dbt_iterable/issues/19))
 
 # dbt_iterable v0.4.0
 🎉 dbt v1.0.0 Compatibility 🎉

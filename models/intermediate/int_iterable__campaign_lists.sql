@@ -1,14 +1,24 @@
-with campaign_suppression_list_history as (
+with 
+
+{% if var('iterable__using_campaign_suppression_list_history', True) %}
+
+campaign_suppression_list_history as (
 
     select *
     from {{ var('campaign_suppression_list_history') }}
 
-), campaign_send_list_history as (
+), 
+
+{% endif %}
+
+campaign_send_list_history as (
 
     select *
     from {{ var('campaign_list_history') }}
 
 ), combine_list_histories as (
+
+{% if var('iterable__using_campaign_suppression_list_history', True) %}
 
     select 
         suppressed_list_id as list_id,
@@ -18,6 +28,8 @@ with campaign_suppression_list_history as (
     from campaign_suppression_list_history
 
     union all 
+
+{% endif %}
 
     select 
         list_id,
