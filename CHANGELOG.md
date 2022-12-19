@@ -36,6 +36,7 @@
     - `dbt.current_timestamp_backcompat`
     - `dbt.current_timestamp_in_utc_backcompat`
 - Dependencies on `fivetran/fivetran_utils` have been upgraded, previously `[">=0.3.0", "<0.4.0"]` now `[">=0.4.0", "<0.5.0"]`.
+- Incremental strategy within `iterable__events` has been modified to use delete+insert for Redshift and Postgres warehouses.
 # dbt_iterable v0.4.1
 ## 🎉 Documentation and Feature Updates
 - Introduced variable `iterable__using_campaign_suppression_list_history` to disable related downtream portions if the underlying source table does not existed. For how to configure refer to the [README](https://github.com/fivetran/dbt_iterable/blob/main/README.md#enabling-and-disabling-models). 

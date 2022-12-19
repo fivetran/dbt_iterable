@@ -6,7 +6,7 @@
             "field": "created_on",
             "data_type": "date"
         } if target.type == 'bigquery' else none,
-        incremental_strategy = 'merge',
+        incremental_strategy = 'merge' if target.type not in ('snowflake', 'postgres', 'redshift') else 'delete+insert',
         file_format = 'delta'
     )
 }}
