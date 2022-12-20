@@ -27,7 +27,7 @@ with message_type_channel as (
     select 
         email,
         channel_id,
-        cast(null as {{ dbt_utils.type_int() }}) as message_type_id,
+        cast(null as {{ dbt.type_int() }}) as message_type_id,
         updated_at
 
     from user_unsubscribed_channel_history
@@ -38,7 +38,7 @@ with message_type_channel as (
 
     select 
         email,
-        cast(null as {{ dbt_utils.type_int() }}) as channel_id,
+        cast(null as {{ dbt.type_int() }}) as channel_id,
         message_type_id,
         updated_at
     

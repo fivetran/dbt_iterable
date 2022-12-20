@@ -37,7 +37,7 @@ https://github.com/fivetran/dbt_iterable/issues/new/choose
         {% if target.type == 'snowflake' %}
         email_list_id.value
         {% elif target.type == 'redshift' %}
-        json_extract_array_element_text(email_list_ids, cast(numbers.generated_number as {{ dbt_utils.type_int() }}), true) 
+        json_extract_array_element_text(email_list_ids, cast(numbers.generated_number as {{ dbt.type_int() }}), true) 
         {% else %} email_list_id
         {% endif %}
         else null end 
@@ -74,7 +74,7 @@ https://github.com/fivetran/dbt_iterable/issues/new/choose
         phone_number,
         is_current,
         email_list_ids,
-        cast(email_list_id as {{ dbt_utils.type_int() }}) as list_id
+        cast(email_list_id as {{ dbt.type_int() }}) as list_id
     from unnest_email_array
 )
 
