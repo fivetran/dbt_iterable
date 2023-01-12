@@ -1,24 +1,24 @@
 config-version: 2
 name: 'iterable_integration_tests'
-version: '0.5.0'
+version: '0.5.1'
 profile: 'integration_tests'
 vars:
   iterable_source:
-    campaign_history: "{{ ref('campaign_history_data') }}"
-    campaign_label_history: "{{ ref('campaign_label_history_data') }}"
-    campaign_list_history: "{{ ref('campaign_list_history_data') }}"
-    campaign_metrics: "{{ ref('campaign_metrics_data') }}"
-    campaign_suppression_list_history: "{{ ref('campaign_suppression_list_history_data') }}"
-    channel: "{{ ref('channel_data') }}"
-    event: "{{ ref('event_data') }}"
-    event_extension: "{{ ref('event_extension_data') }}"
-    list: "{{ ref('list_data') }}"
-    message_type: "{{ ref('message_type_data') }}"
-    template_history: "{{ ref('template_history_data') }}"
-    user_history: "{{ ref('user_history_data') }}"
-    user_device_history: "{{ ref('user_device_history_data') }}"
-    user_unsubscribed_channel_history: "{{ ref('user_unsubscribed_channel_history_data') }}"
-    user_unsubscribed_message_type_history: "{{ ref('user_unsubscribed_message_type_history_data') }}"
+    iterable_schema: iterable_integration_tests
+    iterable_campaign_history_identifier: "campaign_history_data"
+    iterable_campaign_label_history_identifier: "campaign_label_history_data"
+    iterable_campaign_list_history_identifier: "campaign_list_history_data"
+    iterable_campaign_suppression_list_history_identifier: "campaign_suppression_list_history_data"
+    iterable_channel_identifier: "channel_data"
+    iterable_event_identifier: "event_data"
+    iterable_event_extension_identifier: "event_extension_data"
+    iterable_list_identifier: "list_data"
+    iterable_message_type_identifier: "message_type_data"
+    iterable_template_history_identifier: "template_history_data"
+    iterable_user_history_identifier: "user_history_data"
+    iterable_user_device_history_identifier: "user_device_history_data"
+    iterable_user_unsubscribed_channel_history_identifier: "user_unsubscribed_channel_history_data"
+    iterable_user_unsubscribed_message_type_history_identifier: "user_unsubscribed_message_type_history_data"
 seeds:
   iterable_integration_tests:
     +quote_columns: "{{ true if target.type == 'redshift' else false }}"

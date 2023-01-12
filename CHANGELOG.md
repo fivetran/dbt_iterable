@@ -1,3 +1,7 @@
+# dbt_iterable_source v0.5.1
+## 🎉 Features
+- Updated README with identifier instructions and format update. ([#24](https://github.com/fivetran/dbt_iterable/pull/24))
+
 # dbt_iterable v0.5.0
 
 ## 🚨 Breaking Changes 🚨:
