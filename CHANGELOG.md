@@ -1,4 +1,4 @@
-# dbt_iterable v0.5.1
+# dbt_iterable v0.6.0
 
 ## 🚨 Breaking Changes 🚨
 - Added `iterable_[source_table_name]_identifier` variables to the source package to allow easier flexibility of the package to refer to source tables with different names. 
