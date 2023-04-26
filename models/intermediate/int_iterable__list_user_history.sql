@@ -26,7 +26,7 @@ with user_history as (
         updated_at
 
     from previous_email_list_ids
-    where email_list_ids != previous_ids -- list ids are always stored in their arrays in numerical order
+    where email_list_ids != coalesce(previous_ids, 'this is new') -- list ids are always stored in their arrays in numerical order
 
 ), most_recent_list_ids as (
 
