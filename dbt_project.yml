@@ -9,6 +9,8 @@ models:
     intermediate:
       +materialized: view
       +schema: int_iterable
+      int_iterable__list_user_history:
+        +materialized: table
 vars:
   iterable:
     campaign_history: "{{ ref('stg_iterable__campaign_history') }}"

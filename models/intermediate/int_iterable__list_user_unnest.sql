@@ -1,4 +1,4 @@
-{{ config(materialized='table',
+{{ config(materialized='incremental',
             unique_key='unique_key',
             incremental_strategy='insert_overwrite' if target.type in ('bigquery', 'spark', 'databricks') else 'delete+insert',
             file_format='delta'
@@ -12,7 +12,8 @@ with user_history as (
     from {{ ref('int_iterable__list_user_history') }} as user_history
 
     {% if is_incremental() %}
-    where user_history.updated_at >= coalesce((select max({{this}}.updated_at) from {{ this }}), '1900-01-01')
+    -- the only rows we potentially want to overwrite are  active ones 
+    where user_history.updated_at >= coalesce((select min({{this}}.updated_at) from {{ this }} where is_current), '2010-01-01')
     {% endif %}
 
 {% if target.type == 'redshift' %}
