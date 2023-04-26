@@ -1,10 +1,10 @@
-{{ config(materialized='incremental',
-            unique_key='unique_key',
-            incremental_strategy='insert_overwrite' if target.type in ('bigquery', 'spark', 'databricks') else 'delete+insert',
-            file_format='delta'
-        ) 
+{{ config(
+        materialized='incremental',
+        unique_key='unique_key',
+        incremental_strategy='insert_overwrite' if target.type in ('bigquery', 'spark', 'databricks') else 'delete+insert',
+        file_format='delta'
+    ) 
 }}
--- materializing as a table because the computations here are fairly complex
 
 with user_history as (
 
@@ -12,11 +12,12 @@ with user_history as (
     from {{ ref('int_iterable__list_user_history') }} as user_history
 
     {% if is_incremental() %}
-    -- the only rows we potentially want to overwrite are  active ones 
+    {# the only rows we potentially want to overwrite are  active ones  #}
     where user_history.updated_at >= coalesce((select min({{this}}.updated_at) from {{ this }} where is_current), '2010-01-01')
     {% endif %}
 
 {% if target.type == 'redshift' %}
+{# using PartiQL syntax to work with redshift's SUPER types #}
 ), redshift_parse_email_lists as (
 
     select
@@ -30,6 +31,7 @@ with user_history as (
         updated_at,
         is_current,
         email_list_ids,
+        {# let's not remove empty array-rows #}
         json_parse(case when email_list_ids = '[]' then '["is_null"]' else email_list_ids end) as super_email_list_ids
         
     from user_history
@@ -46,13 +48,13 @@ with user_history as (
         phone_number,
         updated_at,
         is_current,
-        cast(email_list_ids as {{ dbt.type_string() }}) as email_list_ids,
+        {# go back to strings #}
+        cast(email_list_ids as {{ dbt.type_string() }}) as email_list_ids, 
         cast(email_list_id as {{ dbt.type_string() }}) as email_list_id
 
     from redshift_parse_email_lists as emails, emails.super_email_list_ids as email_list_id
 
 {% else %}
-
 ), unnest_email_array as (
 
     select
@@ -69,11 +71,7 @@ with user_history as (
         case when email_list_ids != '[]' then
         {% if target.type == 'snowflake' %}
         email_list_id.value
-        {% else %} email_list_id
-        {% endif %}
-        else null end 
-        as 
-        email_list_id
+        {% else %} email_list_id {% endif %} else null end as email_list_id
 
     from user_history
 
@@ -84,10 +82,10 @@ with user_history as (
     cross join 
         unnest(JSON_EXTRACT_STRING_ARRAY(email_list_ids)) as email_list_id
     {% else %}
-    /* postgres */
+    {# postgres #}
     cross join 
         json_array_elements_text(cast((
-            case when email_list_ids = '[]' then '["is_null"]'  -- to not remove empty array-rows
+            case when email_list_ids = '[]' then '["is_null"]' {# to not remove empty array-rows #}
             else email_list_ids end) as json)) as email_list_id
     {%- endif %}
 
