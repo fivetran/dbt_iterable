@@ -1,5 +1,5 @@
 # dbt_iterable v0.7.0
-PR #update adds the following changes:
+[PR #28](https://github.com/fivetran/dbt_iterable/pull/28) adds the following changes:
 
 ## 🚨 Breaking Changes 🚨
 - Adjusts the default materialization of `int_iterable__list_user_history` from a view to a table. This was changed to optimize the runtime of the downstream `int_iterable__list_user_unnest` model.
