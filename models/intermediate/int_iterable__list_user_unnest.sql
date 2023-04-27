@@ -2,7 +2,8 @@
         materialized='incremental',
         unique_key='unique_key',
         incremental_strategy='insert_overwrite' if target.type in ('bigquery', 'spark', 'databricks') else 'delete+insert',
-        file_format='delta'
+        file_format='delta',
+        on_schema_change='fail'
     ) 
 }}
 
