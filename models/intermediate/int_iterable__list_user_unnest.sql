@@ -2,6 +2,7 @@
         materialized='incremental',
         unique_key='unique_key',
         incremental_strategy='insert_overwrite' if target.type in ('bigquery', 'spark', 'databricks') else 'delete+insert',
+        partition_by={"field": "date_day", "data_type": "date"} if target.type not in ('spark','databricks') else ['date_day'],
         file_format='delta',
         on_schema_change='fail'
     ) 
@@ -14,7 +15,7 @@ with user_history as (
 
     {% if is_incremental() %}
     {# the only rows we potentially want to overwrite are  active ones  #}
-    where user_history.updated_at >= coalesce((select min({{this}}.updated_at) from {{ this }} where is_current), '2010-01-01')
+    where user_history.updated_at >= coalesce((select min(updated_at) from {{ this }} where is_current), '2010-01-01')
     {% endif %}
 
 {% if target.type == 'redshift' %}
@@ -122,7 +123,8 @@ with user_history as (
         is_current,
         email_list_ids,
         list_id,
-        {{ dbt_utils.generate_surrogate_key(["email", "list_id", "updated_at"]) }} as unique_key
+        {{ dbt_utils.generate_surrogate_key(["email", "list_id", "updated_at"]) }} as unique_key,
+        cast( {{ dbt.date_trunc('day', 'updated_at') }} as date) as date_day
     
     from adjust_nulls
 )
