@@ -44,3 +44,6 @@ seeds:
     user_unsubscribed_message_type_history_data:
       +column_types:
         message_type_id: "{%- if target.type == 'bigquery' -%} INT64 {%- else -%} bigint {%- endif -%}"
+    user_history_data:
+      +column_types:
+        updated_at: timestamp
