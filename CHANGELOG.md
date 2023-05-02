@@ -3,8 +3,8 @@
 
 ## 🚨 Breaking Changes 🚨
 - Adjusts the default materialization of `int_iterable__list_user_history` from a view to a table. This was changed to optimize the runtime of the downstream `int_iterable__list_user_unnest` model.
-- Updates `int_iterable__list_user_unnest` to be materialized as an incremental table. In order to add this logic, we also added a new `unique_key` field -- a surrogate key hashed on `email`, `list_id`, and `updated_at`.
-  - **You will need to run a full refresh first to pick up the new column**.
+- Updates `int_iterable__list_user_unnest` to be materialized as an incremental table. In order to add this logic, we also added a new `unique_key` field -- a surrogate key hashed on `email`, `list_id`, and `updated_at` -- and a `date_day` field to partition by on Bigquery + Databricks.
+  - **You will need to run a full refresh first to pick up the new columns**.
 
 ## Under the Hood
 - Adds a `coalesce` to `previous_email_ids` in the `int_iterable__list_user_history` model, in case there are no previous email ids.
