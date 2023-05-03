@@ -1,5 +1,5 @@
 name: 'iterable'
-version: '0.6.0'
+version: '0.7.0'
 config-version: 2
 require-dbt-version: [">=1.3.0", "<2.0.0"]
 models:
@@ -9,6 +9,8 @@ models:
     intermediate:
       +materialized: view
       +schema: int_iterable
+      int_iterable__list_user_history:
+        +materialized: table
 vars:
   iterable:
     campaign_history: "{{ ref('stg_iterable__campaign_history') }}"
