@@ -8,6 +8,7 @@
 
 ## Under the Hood
 - Adds a `coalesce` to `previous_email_ids` in the `int_iterable__list_user_history` model, in case there are no previous email ids.
+- Adjusts the `flatten` logic in `int_iterable__list_user_unnest` for Snowflake users.
 
 # dbt_iterable v0.6.0
 
