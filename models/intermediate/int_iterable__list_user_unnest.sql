@@ -79,7 +79,7 @@ with user_history as (
 
     {% if target.type == 'snowflake' %}
     cross join 
-        table(flatten(cast(email_list_ids as VARIANT))) as email_list_id 
+        table(flatten(input => parse_json(email_list_ids))) as email_list_id
     {% elif target.type == 'bigquery' %}
     cross join 
         unnest(JSON_EXTRACT_STRING_ARRAY(email_list_ids)) as email_list_id
