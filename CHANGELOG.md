@@ -1,3 +1,10 @@
+# dbt_iterable v0.UPDATE.UPDATE
+
+## Under the Hood:
+
+- Incorporated the new `fivetran_utils.drop_schemas_automation` macro into the end of each Buildkite integration test job.
+- Updated the pull request [templates](/.github).
+
 # dbt_iterable v0.7.0
 [PR #28](https://github.com/fivetran/dbt_iterable/pull/28) adds the following changes:
 
@@ -9,6 +16,7 @@
 ## Under the Hood
 - Adds a `coalesce` to `previous_email_ids` in the `int_iterable__list_user_history` model, in case there are no previous email ids.
 - Adjusts the `flatten` logic in `int_iterable__list_user_unnest` for Snowflake users.
+
 
 # dbt_iterable v0.6.0
 
