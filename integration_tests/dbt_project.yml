@@ -1,6 +1,6 @@
 config-version: 2
 name: 'iterable_integration_tests'
-version: '0.7.0'
+version: 0.8.0
 profile: 'integration_tests'
 vars:
   iterable_source:
@@ -47,3 +47,6 @@ seeds:
     user_history_data:
       +column_types:
         updated_at: timestamp
+dispatch:
+  - macro_namespace: dbt_utils
+    search_order: ['spark_utils', 'dbt_utils']

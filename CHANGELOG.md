@@ -1,9 +1,11 @@
-# dbt_iterable v0.UPDATE.UPDATE
+# dbt_iterable v0.8.0
+## 🎉 Feature Update 🎉
+- Databricks compatibility! ([#30](https://github.com/fivetran/dbt_iterable/pull/30))
 
-## Under the Hood:
+## 🚘 Under the Hood 🚘
+- Incorporated the new `fivetran_utils.drop_schemas_automation` macro into the end of each Buildkite integration test job. ([#27](https://github.com/fivetran/dbt_iterable/pull/27))
+- Updated the pull request [templates](/.github). ([#27](https://github.com/fivetran/dbt_iterable/pull/27))
 
-- Incorporated the new `fivetran_utils.drop_schemas_automation` macro into the end of each Buildkite integration test job.
-- Updated the pull request [templates](/.github).
 
 # dbt_iterable v0.7.0
 [PR #28](https://github.com/fivetran/dbt_iterable/pull/28) adds the following changes:
