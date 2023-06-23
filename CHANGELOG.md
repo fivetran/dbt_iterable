@@ -1,6 +1,7 @@
 # dbt_iterable v0.8.0
 ## 🎉 Feature Update 🎉
-- Databricks compatibility! ([#30](https://github.com/fivetran/dbt_iterable/pull/30))
+- Databricks compatibility for Runtime 12.2 or later. ([#30](https://github.com/fivetran/dbt_iterable/pull/30)) 
+  - Note some models may run with an earlier runtime, however 12.2 or later is required to run all models. This is because of the way arrays and JSON are handled in earlier versions.  
 
 ## 🚘 Under the Hood 🚘
 - Incorporated the new `fivetran_utils.drop_schemas_automation` macro into the end of each Buildkite integration test job. ([#27](https://github.com/fivetran/dbt_iterable/pull/27))

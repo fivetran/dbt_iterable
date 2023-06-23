@@ -71,9 +71,13 @@ with user_history as (
         is_current,
         email_list_ids,
         case when email_list_ids != '[]' then
-        {% if target.type == 'snowflake' %}
-        email_list_id.value
-        {% else %} email_list_id {% endif %} else null end as email_list_id
+            {% if target.type == 'snowflake' %}
+            email_list_id.value
+            {% elif target.type in ('spark','databricks') %}
+            email_list_id.col
+            {% else %} email_list_id {% endif %} 
+            else null 
+            end as email_list_id
 
     from user_history
 
@@ -83,8 +87,10 @@ with user_history as (
     {% elif target.type == 'bigquery' %}
     cross join 
         unnest(JSON_EXTRACT_STRING_ARRAY(email_list_ids)) as email_list_id
-    {% else %}
-    {# postgres #}
+    {% elif target.type in ('spark','databricks') %}
+    cross join 
+        lateral explode_outer(from_json(email_list_ids, 'array<int>')) as email_list_id
+    {% else %} {# target is postgres #}
     cross join 
         json_array_elements_text(cast((
             case when email_list_ids = '[]' then '["is_null"]' {# to not remove empty array-rows #}
