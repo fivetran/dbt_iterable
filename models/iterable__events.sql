@@ -5,7 +5,7 @@
         partition_by={
             "field": "created_on",
             "data_type": "date"
-        } if target.type not in ['spark', 'databricks'] else ['created_on'],
+        } if target.type == 'bigquery' else none,
         incremental_strategy = 'merge' if target.type not in ('snowflake', 'postgres', 'redshift') else 'delete+insert',
         file_format = 'delta'
     )
