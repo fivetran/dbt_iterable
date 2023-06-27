@@ -1,11 +1,19 @@
 # dbt_iterable v0.8.0
+[PR #30](https://github.com/fivetran/dbt_iterable/pull/30) includes the following updates:
+## 🚨 Breaking Changes 🚨 (recommend `--full-refresh`)
+- Updated the incremental strategy for end model `iterable__events`:
+  - For Bigquery, Spark, and Databricks, the stragegy has been updated to `insert_overwrite`. 
+  - For Snowflake, Redshift, and PostgreSQL, the stragegy has been updated to `delete+insert`.
+  - We recommend running `dbt run --full-refresh` the next time you run your project.
 ## 🎉 Feature Update 🎉
-- Databricks compatibility for Runtime 12.2 or later. ([#30](https://github.com/fivetran/dbt_iterable/pull/30)) 
-  - Note some models may run with an earlier runtime, however 12.2 or later is required to run all models. This is because arrays and JSON are handled differently in earlier versions.  
+- Databricks compatibility for Runtime 12.2 or later. 
+  - Note some models may run with an earlier runtime, however 12.2 or later is required to run all models. This is because of syntax changes from earlier versions for use with arrays and JSON.
+- We also recommend using the `dbt-databricks` adapter over `dbt-spark` because each adapter handles incremental models differently. If you must use the `dbt-spark` adapter and run into issues, please refer to [this section](https://docs.getdbt.com/reference/resource-configs/spark-configs#the-insert_overwrite-strategy) found in dbt's documentation of Spark configurations.
 
+[PR #27](https://github.com/fivetran/dbt_iterable/pull/27) includes the following updates:
 ## 🚘 Under the Hood 🚘
-- Incorporated the new `fivetran_utils.drop_schemas_automation` macro into the end of each Buildkite integration test job. ([#27](https://github.com/fivetran/dbt_iterable/pull/27))
-- Updated the pull request [templates](/.github). ([#27](https://github.com/fivetran/dbt_iterable/pull/27))
+- Incorporated the new `fivetran_utils.drop_schemas_automation` macro into the end of each Buildkite integration test job. 
+- Updated the pull request [templates](/.github).
 
 
 # dbt_iterable v0.7.0

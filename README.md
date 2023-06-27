@@ -44,6 +44,10 @@ To use this dbt package, you must have the following:
 - At least one Fivetran Iterable connector syncing data into your destination.
 - A **BigQuery**, **Snowflake**, **Redshift**, **PostgreSQL**, or **Databricks** destination.
 
+### Databricks Configuration
+- **Databricks Runtime 12.2** or later is required to run all models in this package. 
+- We also recommend using the `dbt-databricks` adapter over `dbt-spark` because each adapter handles incremental models differently. If you must use the `dbt-spark` adapter and run into issues, please refer to [this section](https://docs.getdbt.com/reference/resource-configs/spark-configs#the-insert_overwrite-strategy) found in dbt's documentation of Spark configurations.
+
 ## Step 2: Install the package
 Include the following Iterable package version in your `packages.yml` file.
 
