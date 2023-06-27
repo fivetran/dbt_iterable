@@ -2,8 +2,8 @@
 [PR #30](https://github.com/fivetran/dbt_iterable/pull/30) includes the following updates:
 ## 🚨 Breaking Changes 🚨 (recommend `--full-refresh`)
 - Updated the incremental strategy for end model `iterable__events`:
-  - For Bigquery, Spark, and Databricks, the stragegy has been updated to `insert_overwrite`. 
-  - For Snowflake, Redshift, and PostgreSQL, the stragegy has been updated to `delete+insert`.
+  - For Bigquery, Spark, and Databricks, the strategy has been updated to `insert_overwrite`. 
+  - For Snowflake, Redshift, and PostgreSQL, the strategy has been updated to `delete+insert`.
   - We recommend running `dbt run --full-refresh` the next time you run your project.
 ## 🎉 Feature Update 🎉
 - Databricks compatibility for Runtime 12.2 or later. 
