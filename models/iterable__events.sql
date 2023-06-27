@@ -7,18 +7,6 @@
         on_schema_change='fail'
     ) 
 }}
-{# {{
-    config(
-        materialized='incremental',
-        unique_key='event_id',
-        partition_by={
-            "field": "created_on",
-            "data_type": "date"
-        } if target.type == 'bigquery' else none,
-        incremental_strategy = 'merge' if target.type not in ('snowflake', 'postgres', 'redshift') else 'delete+insert',
-        file_format = 'delta'
-    )
-}} #}
 
 with events as (
 
