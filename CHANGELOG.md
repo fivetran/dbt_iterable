@@ -1,7 +1,9 @@
-# dbt_iterable v0.8.1
+# dbt_iterable v0.9.0
 [PR #33](https://github.com/fivetran/dbt_iterable/pull/33) includes the following update:
 ## 🐛 Bugfix 
 - Updated intermediate model `int_iterable__list_user_unnest` to make sure empty array-rows are not removed for all warehouses.
+  - **Bigquery and Snowflake users**: this affects downstream models `iterable__users` and `iterable__list_user_history`. We recommend using `dbt run --full-refresh` the next time you run your project.
+
 # dbt_iterable v0.8.0
 [PR #30](https://github.com/fivetran/dbt_iterable/pull/30) includes the following updates:
 ## 🚨 Breaking Changes 🚨 (recommend `--full-refresh`)
