@@ -83,13 +83,19 @@ with user_history as (
 
     {% if target.type == 'snowflake' %}
     cross join 
-        table(flatten(input => parse_json(email_list_ids))) as email_list_id
+        table(flatten(input => parse_json(
+            case when email_list_ids = '[]' then '["is_null"]' {# to not remove empty array-rows #}
+            else email_list_ids end))) as email_list_id
     {% elif target.type == 'bigquery' %}
     cross join 
-        unnest(JSON_EXTRACT_STRING_ARRAY(email_list_ids)) as email_list_id
+        unnest(JSON_EXTRACT_STRING_ARRAY(
+            case when email_list_ids = '[]' then '["is_null"]' {# to not remove empty array-rows #}
+            else email_list_ids end)) as email_list_id
     {% elif target.type in ('spark','databricks') %}
     cross join 
-        lateral explode_outer(from_json(email_list_ids, 'array<int>')) as email_list_id
+        lateral explode_outer(from_json(
+            case when email_list_ids = '[]' then '["is_null"]' {# to not remove empty array-rows #}
+            else email_list_ids end, 'array<int>')) as email_list_id
     {% else %} {# target is postgres #}
     cross join 
         json_array_elements_text(cast((
