@@ -1,3 +1,9 @@
+# dbt_iterable v0.9.1
+[PR #34](https://github.com/fivetran/dbt_iterable/pull/34) includes the following update:
+
+## 🪲 Bug Fix ⚒️
+- Adjusted intermediate model logic to correctly count unique totals based off of distinct email values for `iterable__campaigns`.
+
 # dbt_iterable v0.9.0
 [PR #33](https://github.com/fivetran/dbt_iterable/pull/33) includes the following update:
 ## 🚨 Breaking Changes 🚨 (recommend `--full-refresh` for Bigquery and Snowflake users)
