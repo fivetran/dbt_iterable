@@ -9,6 +9,7 @@ models:
           combination_of_columns:
             - campaign_id
             - experiment_id
+            - template_id
     columns:
       - name: campaign_id
         description: Unique identifier of the campaign record

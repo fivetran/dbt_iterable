@@ -1,5 +1,9 @@
-# dbt_iterable v0.9.1
-[PR #34](https://github.com/fivetran/dbt_iterable/pull/34) includes the following update:
+# dbt_iterable v0.10.0
+[PR #34](https://github.com/fivetran/dbt_iterable/pull/34) includes the following updates:
+
+## 🚨 Breaking Changes 🚨
+- Updated grain of `iterable_campaigns` to include `template_id` to fix potential fan-out issues. 
+- Updated `dbt_utils.unique_combination_of_columns` test on `iterable__campaigns` to include `template_id`.
 
 ## 🪲 Bug Fix ⚒️
 - Adjusted intermediate model logic to correctly count unique totals based off of distinct email values for `iterable__campaigns`.
