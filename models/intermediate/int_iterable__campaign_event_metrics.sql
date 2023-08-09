@@ -16,9 +16,8 @@ with user_campaign as (
             {% if col.name|lower not in ['user_email', 'user_full_name', 'campaign_id', 'campaign_name', 'recurring_campaign_id', 
                                         'recurring_campaign_name', 'first_event_at', 'last_event_at', 'template_id', 'template_name',
                                         'experiment_id'] %}
-        , sum( {{ col.name }} ) as {{ col.name }}
-        , sum(case when {{ col.name }} > 0 then 1 else 0 end) as {{ 'unique_' ~ col.name }}
-
+            , sum( {{ col.name }} ) as {{ col.name }}
+            , count(distinct case when {{ col.name }} > 0 then user_email else null end) as {{ 'unique_' ~ col.name }}
             {% endif %}
         {% endfor -%}
 

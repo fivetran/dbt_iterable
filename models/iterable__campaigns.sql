@@ -57,6 +57,7 @@ with campaign_event_metrics as (
     from campaign
     left join campaign_event_metrics 
         on campaign.campaign_id = campaign_event_metrics.campaign_id
+        and campaign.template_id = campaign_event_metrics.template_id
     left join campaign_list_metrics 
         on campaign.campaign_id = campaign_list_metrics.campaign_id
 

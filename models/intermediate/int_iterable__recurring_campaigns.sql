@@ -37,6 +37,7 @@ with latest_campaign as (
 
     from recurring_campaign_join
     left join latest_campaign on recurring_campaign_join.campaign_id = latest_campaign.recurring_campaign_id
+        and recurring_campaign_join.template_id = latest_campaign.template_id
 )
 
 select *

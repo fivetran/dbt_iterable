@@ -1,3 +1,14 @@
+# dbt_iterable v0.10.0
+[PR #34](https://github.com/fivetran/dbt_iterable/pull/34) includes the following updates:
+
+## 🚨 Breaking Changes 🚨
+- Added additional join on `template_id` in `iterable__campaigns` so the proper grain is being reflected.
+- Updated `dbt_utils.unique_combination_of_columns` test on `iterable__campaigns` to include `template_id`.
+
+## 🪲 Bug Fix ⚒️
+- Adjusted intermediate model logic in `int_iterable__campaign_event_metrics` to correctly count unique totals based off of distinct email values for `iterable__campaigns`.
+- Added additional join on `template_id` in `int_iterable__recurring_campaigns` to resolve a data fanout issue
+
 # dbt_iterable v0.9.0
 [PR #33](https://github.com/fivetran/dbt_iterable/pull/33) includes the following update:
 ## 🚨 Breaking Changes 🚨 (recommend `--full-refresh` for Bigquery and Snowflake users)
