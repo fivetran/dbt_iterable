@@ -1,4 +1,4 @@
-{{ config(enabled=var('iterable__using_user_device_history', false)) }}
+{{ config(enabled=var('iterable__using_user_device', false)) }}
 
 with user_device_history as (
     select *
