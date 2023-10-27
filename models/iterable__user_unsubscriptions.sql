@@ -3,22 +3,20 @@ with message_type_channel as (
     select *
     from {{ ref('int_iterable__message_type_channel') }}
 
-), user_unsubscribed_channel_history as (
+), user_unsubscribed_channel as (
+
+    select
+        *
+
+    from {{ var('user_unsubscribed_channel') }}
+
+{% if var('iterable__using_user_unsubscribed_message_type', True) %}
+), user_unsubscribed_message_type as (
 
     select 
-        *,
-        rank() over(partition by email order by updated_at desc) as latest_batch_index
+        *
 
-    from {{ var('user_unsubscribed_channel_history') }}
-
-{% if var('iterable__using_user_unsubscribed_message_type_history', True) %}
-), user_unsubscribed_message_type_history as (
-
-    select 
-        *,
-        rank() over(partition by email order by updated_at desc) as latest_batch_index
-
-    from {{ var('user_unsubscribed_message_type_history') }}
+    from {{ var('user_unsubscribed_message_type') }}
 
 {% endif %}
 ), combine_histories as (
@@ -30,10 +28,9 @@ with message_type_channel as (
         cast(null as {{ dbt.type_int() }}) as message_type_id,
         updated_at
 
-    from user_unsubscribed_channel_history
-    where latest_batch_index = 1
+    from user_unsubscribed_channel
 
-{% if var('iterable__using_user_unsubscribed_message_type_history', True) %}
+{% if var('iterable__using_user_unsubscribed_message_type', True) %}
     union all
 
     select 
@@ -42,8 +39,7 @@ with message_type_channel as (
         message_type_id,
         updated_at
     
-    from user_unsubscribed_message_type_history
-    where latest_batch_index = 1
+    from user_unsubscribed_message_type
 {% endif %}
 
 ), final as (

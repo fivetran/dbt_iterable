@@ -3,14 +3,6 @@ with user_event_metrics as (
     select *
     from {{ ref('int_iterable__user_event_metrics') }}
 
-{% if var('iterable__using_user_device', false) %}
-), user_devices as (
-
-    select *
-    from {{ ref('int_iterable__latest_user_device') }}
-
-{% endif %}
-
 ), user_unnested as (
     -- this has all the user fields we're looking to pass through
 
@@ -43,19 +35,10 @@ with user_event_metrics as (
     select 
         user_with_list_metrics.*,
         {{ dbt_utils.star(from=ref('int_iterable__user_event_metrics'), except=['user_email']) }}
-        {% if var('iterable__using_user_device', false) %}
-        ,
-        user_devices.count_devices
-        {% endif %}
 
     from user_with_list_metrics
     left join user_event_metrics 
         on user_with_list_metrics.email = user_event_metrics.user_email
-        
-    {% if var('iterable__using_user_device', false) %}
-    left join user_devices
-        on user_with_list_metrics.email = user_devices.email
-    {% endif %}
 )
 
 select *

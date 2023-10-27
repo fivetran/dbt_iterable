@@ -16,9 +16,11 @@ vars:
     iterable_message_type_identifier: "message_type_data"
     iterable_template_history_identifier: "template_history_data"
     iterable_user_history_identifier: "user_history_data"
-    iterable_user_device_history_identifier: "user_device_history_data"
+    iterable_user_unsubscribed_channel_identifier: "user_unsubscribed_channel_data"
+    iterable_user_unsubscribed_message_type_identifier: "user_unsubscribed_message_type_data"
     iterable_user_unsubscribed_channel_history_identifier: "user_unsubscribed_channel_history_data"
     iterable_user_unsubscribed_message_type_history_identifier: "user_unsubscribed_message_type_history_data"
+
 seeds:
   iterable_integration_tests:
     +quote_columns: "{{ true if target.type == 'redshift' else false }}"

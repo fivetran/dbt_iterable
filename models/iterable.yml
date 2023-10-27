@@ -503,5 +503,3 @@ models:
         description: Total in app clicks associated with the user
       - name: total_pushuninstall
         description: Total push uninstall events the user has performed
-      - name: count_devices
-        description: Count of all devices that are associated with the user
