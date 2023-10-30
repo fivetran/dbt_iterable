@@ -18,7 +18,6 @@ with events as (
         case when campaign_id is null then 'organic' else campaign_name end as campaign_name,
         template_id,
         template_name,
-        
 
         recurring_campaign_id,
         recurring_campaign_name,

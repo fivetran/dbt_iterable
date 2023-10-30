@@ -23,6 +23,7 @@ with user_history as (
 ), redshift_parse_email_lists as (
 
     select
+        _fivetran_user_id,
         email,
         first_name,
         last_name,
@@ -41,6 +42,7 @@ with user_history as (
 ), unnest_email_array as (
 
     select
+        _fivetran_user_id,
         email,
         first_name,
         last_name,
@@ -60,6 +62,7 @@ with user_history as (
 ), unnest_email_array as (
 
     select
+        _fivetran_user_id,
         email,
         first_name,
         last_name,
@@ -107,6 +110,7 @@ with user_history as (
 ), adjust_nulls as (
 
     select
+        _fivetran_user_id,
         email,
         first_name,
         last_name,
@@ -129,7 +133,6 @@ with user_history as (
         email,
         first_name,
         last_name,
-        user_id,
         signup_date,
         signup_source,
         updated_at,
@@ -137,7 +140,7 @@ with user_history as (
         is_current,
         email_list_ids,
         list_id,
-        {{ dbt_utils.generate_surrogate_key(["email", "list_id", "updated_at"]) }} as unique_key,
+        {{ dbt_utils.generate_surrogate_key(["_fivetran_user_id", "list_id", "updated_at"]) }} as unique_key,
         cast( {{ dbt.date_trunc('day', 'updated_at') }} as date) as date_day
 
     from adjust_nulls

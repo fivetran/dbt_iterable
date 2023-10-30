@@ -18,7 +18,6 @@ with user_history as (
         _fivetran_user_id,
         user_id,
         email,
-        user_id,
         first_name,
         last_name,
         email_list_ids,

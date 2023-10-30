@@ -15,7 +15,6 @@ with user_list_unnest as (
         user_list_unnest.email as user_email,
         user_list_unnest.first_name as user_first_name,
         user_list_unnest.last_name as user_last_name,
-        user_list_unnest.user_id,
         user_list_unnest.signup_date as user_signup_date,
         user_list_unnest.signup_source as user_signup_source,
         user_list_unnest.updated_at as user_updated_at,

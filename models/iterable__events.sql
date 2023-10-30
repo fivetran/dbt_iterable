@@ -53,7 +53,6 @@ with events as (
         campaign.recurring_campaign_id,
 
         users.user_id,
-        users._fivetran_user_id,
         users.first_name || ' ' || users.last_name as user_full_name,
 
         message_type_channel.message_type_name,
@@ -62,7 +61,7 @@ with events as (
         message_type_channel.channel_name,
         message_type_channel.channel_type,
 
-        {% set exclude_fields = ["event_id", "content_id", "_fivetran_synced"] %}
+        {% set exclude_fields = ["_fivetran_user_id","event_id", "content_id", "_fivetran_synced"] %}
         {{ dbt_utils.star(from=ref('stg_iterable__event_extension'), except= exclude_fields  ) }}
         ,
         campaign.template_id,

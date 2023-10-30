@@ -24,7 +24,7 @@ with user_campaign as (
         {% endfor -%}
 
     from user_campaign
-    group by user_email
+    group by 1,2,3
 
 )
 

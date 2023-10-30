@@ -35,10 +35,10 @@ with user_event_metrics as (
 
     select 
         user_with_list_metrics.*,
-        {{ dbt_utils.star(from=ref('int_iterable__user_event_metrics'), except=['user_email']) }}
+        {{ dbt_utils.star(from=ref('int_iterable__user_event_metrics'), except=['_fivetran_user_id','user_id','user_email']) }}
 
     from user_with_list_metrics
-    left join user_event_metrics 
+    left join user_event_metrics
         on user_with_list_metrics._fivetran_user_id = user_event_metrics._fivetran_user_id
 )
 
