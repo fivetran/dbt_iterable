@@ -14,7 +14,9 @@ with user_history as (
 
 ), only_new_email_list_ids as (
 
-    select 
+    select
+        _fivetran_user_id,
+        user_id,
         email,
         user_id,
         first_name,
@@ -32,13 +34,14 @@ with user_history as (
 
     select 
         *,
-        row_number() over(partition by email order by updated_at desc) as latest_user_index
+        row_number() over(partition by _fivetran_user_id order by updated_at desc) as latest_user_index
     
     from only_new_email_list_ids
 
 ), final as (
 
-    select 
+    select
+        _fivetran_user_id,
         email,
         user_id,
         first_name,

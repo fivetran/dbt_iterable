@@ -12,10 +12,9 @@ with message_type_channel as (
 {% if var('iterable__using_user_unsubscribed_message_type', True) %}
 ), user_unsubscribed_message_type as (
 
-    select 
+    select
         *
     from {{ var('user_unsubscribed_message_type') }}
-
 {% endif %}
 
 {% if does_table_exist('user_unsubscribed_channel') %}
@@ -24,7 +23,7 @@ with message_type_channel as (
     select 
         _fivetran_user_id,
         channel_id,
-        cast(null as {{ dbt.type_int() }}) as message_type_id
+        cast(null as {{ dbt.type_string() }}) as message_type_id
     from user_unsubscribed_channel
 
 {% if var('iterable__using_user_unsubscribed_message_type', True) %}
@@ -34,7 +33,7 @@ with message_type_channel as (
 
     select 
         _fivetran_user_id,
-        cast(null as {{ dbt.type_int() }}) as channel_id,
+        cast(null as {{ dbt.type_string() }}) as channel_id,
         message_type_id
     from user_unsubscribed_message_type
 {% endif %}
@@ -50,7 +49,7 @@ with message_type_channel as (
         message_type_channel.channel_name,
         message_type_channel.message_type_name,
         message_type_channel.channel_type,
-        message_type_channel.message_medium
+        message_type_channel.message_medium,
         case when combine.channel_id is not null then true else false end as is_unsubscribed_channel_wide
 
     from combine
@@ -61,6 +60,9 @@ with message_type_channel as (
         or combine.message_type_id = message_type_channel.message_type_id
 )
 
+select *
+from final
+
 {% else %}
 
 ), combine_histories as (
@@ -69,7 +71,7 @@ with message_type_channel as (
     select 
         email,
         channel_id,
-        cast(null as {{ dbt.type_int() }}) as message_type_id,
+        cast(null as {{ dbt.type_string() }}) as message_type_id,
         updated_at
 
     from user_unsubscribed_channel
@@ -79,7 +81,7 @@ with message_type_channel as (
 
     select 
         email,
-        cast(null as {{ dbt.type_int() }}) as channel_id,
+        cast(null as {{ dbt.type_string() }}) as channel_id,
         message_type_id,
         updated_at
     
@@ -108,8 +110,7 @@ with message_type_channel as (
         or combine_histories.message_type_id = message_type_channel.message_type_id
 )
 
-{% endif %}
-{% endif %}
-
 select *
 from final
+
+{% endif %}

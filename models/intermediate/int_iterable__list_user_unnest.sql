@@ -124,6 +124,8 @@ with user_history as (
 ), final as (
 
     select
+        _fivetran_user_id,
+        user_id,
         email,
         first_name,
         last_name,
@@ -137,7 +139,7 @@ with user_history as (
         list_id,
         {{ dbt_utils.generate_surrogate_key(["email", "list_id", "updated_at"]) }} as unique_key,
         cast( {{ dbt.date_trunc('day', 'updated_at') }} as date) as date_day
-    
+
     from adjust_nulls
 )
 

@@ -15,10 +15,11 @@ with user_event_metrics as (
 ), user_with_list_metrics as (
 
     select
+        user_id,
+        _fivetran_user_id,
         email,
         first_name,
         last_name,
-        user_id,
         signup_date,
         signup_source,
         updated_at,
@@ -28,7 +29,7 @@ with user_event_metrics as (
 
     from user_unnested
     -- roll up to the user
-    {{ dbt_utils.group_by(n=9) }}
+    {{ dbt_utils.group_by(n=10) }}
 
 ), user_join as (
 
@@ -38,7 +39,7 @@ with user_event_metrics as (
 
     from user_with_list_metrics
     left join user_event_metrics 
-        on user_with_list_metrics.email = user_event_metrics.user_email
+        on user_with_list_metrics._fivetran_user_id = user_event_metrics._fivetran_user_id
 )
 
 select *

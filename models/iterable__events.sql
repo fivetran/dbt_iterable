@@ -53,6 +53,7 @@ with events as (
         campaign.recurring_campaign_id,
 
         users.user_id,
+        users._fivetran_user_id,
         users.first_name || ' ' || users.last_name as user_full_name,
 
         message_type_channel.message_type_name,
@@ -68,17 +69,17 @@ with events as (
         template.template_name,
         template.creator_user_id as template_creator_user_id
         
-    from events 
-    left join event_extension 
+    from events
+    left join event_extension
         on events.event_id = event_extension.event_id
         and events._fivetran_user_id = event_extension._fivetran_user_id
-    left join campaign 
+    left join campaign
         on events.campaign_id = campaign.campaign_id
     left join users
-        on events.email = users.email
+        on events._fivetran_user_id = users._fivetran_user_id
     left join message_type_channel
         on events.message_type_id = message_type_channel.message_type_id
-    left join template 
+    left join template
         on campaign.template_id = template.template_id
 )
 

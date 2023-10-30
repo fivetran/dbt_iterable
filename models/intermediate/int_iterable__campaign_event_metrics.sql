@@ -8,7 +8,7 @@ with user_campaign as (
 {%- set user_campaign_columns = adapter.get_columns_in_relation(ref('iterable__user_campaign')) %}
 
     select
-        campaign_id, 
+        campaign_id,
         template_id,
         experiment_id,
         count(distinct user_email) as count_unique_users

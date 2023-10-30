@@ -25,8 +25,8 @@ vars:
     message_type: "{{ ref('stg_iterable__message_type') }}"
     template_history: "{{ ref('stg_iterable__template_history') }}"
     user_history: "{{ ref('stg_iterable__user_history') }}"
-    user_unsubscribed_channel: "{{ source('iterable', 'user_unsubscribed_channel') }}"
-    user_unsubscribed_message_type: "{{ source('iterable', 'user_unsubscribed_message_type') }}"
+    user_unsubscribed_channel: "{{ ref('stg_iterable__user_unsubscribed_channel') }}"
+    user_unsubscribed_message_type: "{{ ref('stg_iterable__user_unsub_message_type') }}"
     iterable__event_metrics:
     - "emailClick"
     - "emailUnSubscribe"

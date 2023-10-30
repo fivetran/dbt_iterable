@@ -4,7 +4,7 @@ with latest_campaign as (
     from {{ ref('int_iterable__latest_campaign') }}
 
 ), recurring_campaign_join as (
-     select
+    select
         latest_campaign.campaign_id,
         latest_campaign.campaign_name,
         latest_campaign.updated_at,
