@@ -9,8 +9,8 @@ with events as (
 -- if experiment_id is null, the user-campaign interactions happened outside of an experiment
 -- if campaign_id is null, the user interactions are organic
     select
-        user_id,
         _fivetran_user_id,
+        user_id,
         email as user_email,
         user_full_name,
         campaign_id,
