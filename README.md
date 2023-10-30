@@ -35,7 +35,7 @@ The following table provides a detailed list of all models materialized within t
 | [iterable__events](https://fivetran.github.io/dbt_iterable/#!/model/model.iterable.iterable__events)             | Each record represents a unique event in Iterable, enhanced with information regarding attributed campaigns, the triggering user, and the channel, template, and message type associated with the event. Commerce events are not tracked by the Fivetran connector. See the [tracked events details](https://fivetran.com/docs/applications/iterable#schemanotes). |
 | [iterable__user_campaign](https://fivetran.github.io/dbt_iterable/#!/model/model.iterable.iterable__user_campaign)             | Each record represents a unique user-campaign-experiment variation combination, enriched with pivoted-out metrics reflecting instances of the user triggering different types of events in campaigns.
 | [iterable__campaigns](https://fivetran.github.io/dbt_iterable/#!/model/model.iterable.iterable__campaigns)             | Each record represents a unique campaign-experiment variation, enriched with gross event and unique user interaction metrics, and information regarding templates, labels, and applied or suppressed lists. |
-| [iterable__users](https://fivetran.github.io/dbt_iterable/#!/model/model.iterable.iterable__users)             | Each record represents the most current state of a unique user, enriched with metrics around the campaigns and lists they have been a part of and interacted with, channels and message types they've unsubscribed from, their associated devices, and more. |
+| [iterable__users](https://fivetran.github.io/dbt_iterable/#!/model/model.iterable.iterable__users)             | Each record represents the most current state of a unique user, enriched with metrics around the campaigns and lists they have been a part of and interacted with, channels and message types they've unsubscribed from, and more. |
 | [iterable__list_user_history](https://fivetran.github.io/dbt_iterable/#!/model/model.iterable.iterable__list_user_history)             | Each record represents a unique user-list combination. This is intended to recreate the `LIST_USER_HISTORY` source table, which can be disconnected from your syncs, as it can lead to excessive MAR usage. |
 | [iterable__user_unsubscriptions](https://fivetran.github.io/dbt_iterable/#!/model/model.iterable.iterable__user_unsubscriptions)             | Each row represents a message type that a user is currently unsubscribed to, including the channel the message type belongs to. If a user is unsubscribed from an entire channel, each of the channel's message types appears as an unsubscription. |
 
@@ -80,7 +80,7 @@ vars:
 ## Step 4: Enabling/Disabling Models
 Your Iterable connector might not sync every table that this package expects. If your syncs exclude certain tables, it is either because you do not use that functionality in Iterable or have actively excluded some tables from your syncs. In order to enable or disable the relevant tables in the package, you will need to add the following variable(s) to your `dbt_project.yml` file.
 
-By default, all variables are assumed to be `true` (with exception of `iterable__using_user_device_history`, which is set to `false`). 
+By default, all variables are assumed to be `true`. 
 
 
 ```yml
@@ -88,11 +88,16 @@ vars:
     iterable__using_campaign_label_history: false                    # default is true
     iterable__using_user_unsubscribed_message_type_history: false    # default is true
     iterable__using_campaign_suppression_list_history: false         # default is true   
-    
-    iterable__using_user_device_history: true                        # default is FALSE
 ```
 
-## (Optional) Step 5: Additional configurations
+## Step 5: Unsubscribe tables are no longer history tables
+
+For connectors created past August 2023, the `user_unsubscribed_channel_history` and `user_unsubscribed_message_type_history` Iterable objects will no longer be history tables as part of schema changes following Iterable's API updates. The fields have also changed. If you are using the old schema, you may update to the new schema. However, if you wish to remain on the old schema, we have checks in place that will automatically persist the respective fields depending on what exists in your schema.
+
+*Please be sure you are syncing them as either both history or non-history.*
+
+
+## (Optional) Step 6: Additional configurations
 <details><summary>Expand for details</summary>
 <br>
 
@@ -138,7 +143,7 @@ vars:
 ```
 </details>
 
-## (Optional) Step 6: Orchestrate your models with Fivetran Transformations for dbt Core™
+## (Optional) Step 7: Orchestrate your models with Fivetran Transformations for dbt Core™
 <details><summary>Expand for details</summary>
 <br>
     
