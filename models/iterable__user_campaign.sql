@@ -10,11 +10,11 @@ with events as (
 -- if campaign_id is null, the user interactions are organic
     select
         _fivetran_user_id,
+        campaign_id,
+        experiment_id,
         user_id,
         email as user_email,
         user_full_name,
-        campaign_id,
-        experiment_id,
         case when campaign_id is null then 'organic' else campaign_name end as campaign_name,
         template_id,
         template_name,

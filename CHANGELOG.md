@@ -1,3 +1,5 @@
+# dbt_iterable v0.11.0
+
 # dbt_iterable v0.10.0
 [PR #34](https://github.com/fivetran/dbt_iterable/pull/34) includes the following updates:
 
