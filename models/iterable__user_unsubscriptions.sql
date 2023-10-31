@@ -22,6 +22,7 @@ with message_type_channel as (
 
     select 
         _fivetran_user_id,
+        unique_user_key,
         channel_id,
         cast(null as {{ dbt.type_string() }}) as message_type_id
     from user_unsubscribed_channel
@@ -33,6 +34,7 @@ with message_type_channel as (
 
     select 
         _fivetran_user_id,
+        unique_user_key,
         cast(null as {{ dbt.type_string() }}) as channel_id,
         message_type_id
     from user_unsubscribed_message_type
@@ -43,6 +45,7 @@ with message_type_channel as (
 
     select 
         combine._fivetran_user_id,
+        combine.unique_user_key,
         -- coalescing since message_type -> channel goes up a grain
         coalesce(combine.channel_id, message_type_channel.channel_id) as channel_id,
         coalesce(combine.message_type_id, message_type_channel.message_type_id) as message_type_id,
@@ -70,6 +73,7 @@ from final
 -- we are combining because channels are effectively parents of message types
     select 
         email,
+        unique_user_key,
         channel_id,
         cast(null as {{ dbt.type_string() }}) as message_type_id,
         updated_at
@@ -81,6 +85,7 @@ from final
 
     select 
         email,
+        unique_user_key,
         cast(null as {{ dbt.type_string() }}) as channel_id,
         message_type_id,
         updated_at
@@ -90,8 +95,9 @@ from final
 
 ), final as (
 
-    select 
+    select
         combine_histories.email,
+        combine_histories.unique_user_key,
         -- coalescing since message_type -> channel goes up a grain
         coalesce(combine_histories.channel_id, message_type_channel.channel_id) as channel_id,
         coalesce(combine_histories.message_type_id, message_type_channel.message_type_id) as message_type_id,

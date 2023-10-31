@@ -10,6 +10,7 @@ with user_list_unnest as (
 
 ), final as (
     select
+        user_list_unnest.unique_user_key,
         user_list_unnest._fivetran_user_id,
         user_list_unnest.user_id,
         user_list_unnest.email as user_email,

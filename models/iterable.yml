@@ -165,7 +165,7 @@ models:
         tests:
           - not_null
       - name: _fivetran_user_id
-        description: A Fivetran-created unique identifier for users, derived from hashing user_id and/or email, depending on project type.
+        description: A Fivetran-created unique identifier for the new Iterable schema in Aug 2023, for users, derived from hashing user_id and/or email, depending on project type.
       - name: campaign_id
         description: Reference to the campaign from which the event originated
       - name: content_id
@@ -173,7 +173,7 @@ models:
       - name: created_at
         description: Creation timestamp as epoch time in milliseconds
       - name: email
-        description: Reference to the unique user the event was applied to
+        description: The email of the user this event is related to. User identifier, for email-based projects. Previously was the unique identifier for user records, for Iterable customers before August 2023.
       - name: additional_properties
         description: json object containing addition event properties
       - name: event_name
@@ -209,7 +209,7 @@ models:
       - name: recurring_campaign_id
         description: The campaign if of the recurring campaign (if applicable)
       - name: user_id
-        description: User defined identifier of the user. This is not a unique field
+        description:  User identifier, for userID-based projects.
       - name: user_full_name
         description: Full name of the user
       - name: message_type_name
@@ -300,12 +300,14 @@ models:
     tests:
       - dbt_utils.unique_combination_of_columns:
           combination_of_columns:
-            - _fivetran_user_id
+            - unique_user_key
             - list_id
             - user_updated_at
     columns:
+      - name: unique_user_key
+        description: The unique identifier of the user. With the new schema (Aug 2023), it is the _fivetran_user_id. This is a hash of user_id and/or email, depending on project type. If using the old schema, it is email.
       - name: _fivetran_user_id
-        description: A Fivetran-created unique identifier for users, derived from hashing user_id and/or email, depending on project type.
+        description: A Fivetran-created unique identifier for the new Iterable schema in Aug 2023, for users, derived from hashing user_id and/or email, depending on project type.
       - name: user_email
         description: Email of the user if it exists.
       - name: user_first_name
@@ -313,7 +315,7 @@ models:
       - name: user_last_name
         description: Last name of the user
       - name: user_id
-        description: User defined identifier of the user. This is not a unique field
+        description:  User identifier, for userID-based projects.
       - name: user_signup_date
         description: Timestamp as epoch time in milliseconds of when the user signed up
       - name: user_signup_source
@@ -336,14 +338,16 @@ models:
     tests:
       - dbt_utils.unique_combination_of_columns:
           combination_of_columns:
-            - _fivetran_user_id
+            - unique_user_key
             - campaign_id
             - experiment_id
     columns:
       - name: _fivetran_user_id
-        description: A Fivetran-created unique identifier for users, derived from hashing user_id and/or email, depending on project type.
-        tests:
-          - not_null
+        description: A Fivetran-created unique identifier for the new Iterable schema in Aug 2023, for users, derived from hashing user_id and/or email, depending on project type.
+      - name: unique_user_key
+        description: The unique identifier of the user. With the new schema (Aug 2023), it is the _fivetran_user_id. This is a hash of user_id and/or email, depending on project type. If using the old schema, it is email.
+      - name: user_id
+        description:  User identifier, for userID-based projects.
       - name: user_email
         description: Email of the user if it exists.
       - name: user_full_name
@@ -412,16 +416,18 @@ models:
     tests:
       - dbt_utils.unique_combination_of_columns:
           combination_of_columns:
-            - _fivetran_user_id
+            - unique_user_key
             - message_type_id
             - is_unsubscribed_channel_wide
     columns:
       - name: _fivetran_user_id
-        description: A Fivetran-created unique identifier for users, derived from hashing user_id and/or email, depending on project type.
+        description: A Fivetran-created unique identifier for the new Iterable schema in Aug 2023, for users, derived from hashing user_id and/or email, depending on project type.
+      - name: unique_user_key
+        description: The unique identifier of the user. With the new schema (Aug 2023), it is the _fivetran_user_id. This is a hash of user_id and/or email, depending on project type. If using the old schema, it is email.
         tests:
           - not_null
       - name: email
-        description: Email of the user if it exists.
+        description: Email of the user if it exists. User identifier, for email-based projects. Previously was the unique identifier for user records, for Iterable customers before August 2023.
       - name: channel_id
         description: Unique identifier of the channel which the user is unsubscribed
       - name: message_type_id
@@ -444,19 +450,21 @@ models:
   - name: iterable__users
     description: Table that provides unique user enriched information.
     columns:
-      - name: _fivetran_user_id
-        description: A Fivetran-created unique identifier for users, derived from hashing user_id and/or email, depending on project type.
+      - name: unique_user_key
+        description: The unique identifier of the user. With the new schema (Aug 2023), it is the _fivetran_user_id. This is a hash of user_id and/or email, depending on project type. If using the old schema, it is email.
         tests:
           - unique
           - not_null
+      - name: _fivetran_user_id
+        description: A Fivetran-created unique identifier for the new Iterable schema in Aug 2023, for users, derived from hashing user_id and/or email, depending on project type.
       - name: email
-        description: Email of the user if it exists.
+        description: Email of the user if it exists. User identifier, for email-based projects. Previously was the unique identifier for user records, for Iterable customers before August 2023.
       - name: first_name
         description: First name of the user
       - name: last_name
         description: Last name of the user
       - name: user_id
-        description: User defined identifier of the user. This is not a unique field
+        description:  User identifier, for userID-based projects.
       - name: signup_date
         description: Timestamp as epoch time in milliseconds of when the user signed up
       - name: signup_source
