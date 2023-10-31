@@ -16,6 +16,7 @@ with user_history as (
 
     select
         _fivetran_user_id,
+        unique_user_key,
         user_id,
         email,
         first_name,
@@ -41,6 +42,7 @@ with user_history as (
 
     select
         _fivetran_user_id,
+        unique_user_key,
         email,
         user_id,
         first_name,

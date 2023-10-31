@@ -10,9 +10,10 @@ with events as (
 -- if campaign_id is null, the user interactions are organic
     select
         _fivetran_user_id,
+        unique_user_key,
+        user_id,
         campaign_id,
         experiment_id,
-        user_id,
         email as user_email,
         user_full_name,
         case when campaign_id is null then 'organic' else campaign_name end as campaign_name,
@@ -34,7 +35,7 @@ with events as (
         {% endfor %}
 
     from events
-    {{ dbt_utils.group_by(n=11) }}
+    {{ dbt_utils.group_by(n=12) }}
 
 )
 

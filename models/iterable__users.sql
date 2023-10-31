@@ -17,6 +17,7 @@ with user_event_metrics as (
     select
         user_id,
         _fivetran_user_id,
+        unique_user_key,
         email,
         first_name,
         last_name,
@@ -29,13 +30,13 @@ with user_event_metrics as (
 
     from user_unnested
     -- roll up to the user
-    {{ dbt_utils.group_by(n=10) }}
+    {{ dbt_utils.group_by(n=11) }}
 
 ), user_join as (
 
     select 
         user_with_list_metrics.*,
-        {{ dbt_utils.star(from=ref('int_iterable__user_event_metrics'), except=['_fivetran_user_id','user_id','user_email']) }}
+        {{ dbt_utils.star(from=ref('int_iterable__user_event_metrics'), except=['unique_user_key','_fivetran_user_id','user_id','user_email']) }}
 
     from user_with_list_metrics
     left join user_event_metrics

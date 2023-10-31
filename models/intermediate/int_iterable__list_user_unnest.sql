@@ -24,6 +24,7 @@ with user_history as (
 
     select
         _fivetran_user_id,
+        unique_user_key,
         email,
         first_name,
         last_name,
@@ -43,6 +44,7 @@ with user_history as (
 
     select
         _fivetran_user_id,
+        unique_user_key,
         email,
         first_name,
         last_name,
@@ -63,6 +65,7 @@ with user_history as (
 
     select
         _fivetran_user_id,
+        unique_user_key,
         email,
         first_name,
         last_name,
@@ -111,6 +114,7 @@ with user_history as (
 
     select
         _fivetran_user_id,
+        unique_user_key,
         email,
         first_name,
         last_name,
@@ -129,6 +133,7 @@ with user_history as (
 
     select
         _fivetran_user_id,
+        unique_user_key,
         user_id,
         email,
         first_name,
@@ -140,7 +145,7 @@ with user_history as (
         is_current,
         email_list_ids,
         list_id,
-        {{ dbt_utils.generate_surrogate_key(["_fivetran_user_id", "list_id", "updated_at"]) }} as unique_key,
+        {{ dbt_utils.generate_surrogate_key(["unique_user_key", "list_id", "updated_at"]) }} as unique_key,
         cast( {{ dbt.date_trunc('day', 'updated_at') }} as date) as date_day
 
     from adjust_nulls

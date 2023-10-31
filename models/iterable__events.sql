@@ -1,6 +1,6 @@
 {{ config(
         materialized='incremental',
-        unique_key=['event_id','_fivetran_user_id'],
+        unique_key=['event_id','unique_user_key'],
         incremental_strategy='insert_overwrite' if target.type in ('bigquery', 'spark', 'databricks') else 'delete+insert',
         partition_by={"field": "created_on", "data_type": "date"} if target.type not in ('spark','databricks') else ['created_on'],
         file_format='parquet',
@@ -61,7 +61,7 @@ with events as (
         message_type_channel.channel_name,
         message_type_channel.channel_type,
 
-        {% set exclude_fields = ["_fivetran_user_id","event_id", "content_id", "_fivetran_synced"] %}
+        {% set exclude_fields = ["unique_user_key","_fivetran_user_id","event_id", "content_id", "_fivetran_synced"] %}
         {{ dbt_utils.star(from=ref('stg_iterable__event_extension'), except= exclude_fields  ) }}
         ,
         campaign.template_id,
@@ -75,7 +75,7 @@ with events as (
     left join campaign
         on events.campaign_id = campaign.campaign_id
     left join users
-        on events._fivetran_user_id = users._fivetran_user_id
+        on events.unique_user_key = users.unique_user_key
     left join message_type_channel
         on events.message_type_id = message_type_channel.message_type_id
     left join template
