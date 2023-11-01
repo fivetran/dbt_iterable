@@ -426,8 +426,6 @@ models:
         description: The unique identifier of the user. With the new schema (Aug 2023), it is the _fivetran_user_id. This is a hash of user_id and/or email, depending on project type. If using the old schema, it is email.
         tests:
           - not_null
-      - name: email
-        description: Email of the user if it exists. User identifier, for email-based projects. Previously was the unique identifier for user records, for Iterable customers before August 2023.
       - name: channel_id
         description: Unique identifier of the channel which the user is unsubscribed
       - name: message_type_id

@@ -8,7 +8,7 @@ with user_history as (
 
     select
         *,
-        lag(email_list_ids) over(partition by email order by updated_at asc) as previous_ids
+        lag(email_list_ids) over(partition by unique_user_key order by updated_at asc) as previous_ids
 
     from user_history 
 
