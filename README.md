@@ -61,7 +61,7 @@ Some of the end models in this package are materialized incrementally. We have c
 
 ### Unsubscribe tables are no longer history tables
 
-For connectors created past August 2023, the `user_unsubscribed_channel_history` and `user_unsubscribed_message_type_history` Iterable objects will no longer be history tables as part of schema changes following Iterable's API updates. The fields have also changed. If you are using the old schema, you may update to the new schema. However, if you wish to remain on the old schema, we have checks in place that will automatically persist the respective fields depending on what exists in your schema.
+For connectors created past August 2023, the `user_unsubscribed_channel_history` and `user_unsubscribed_message_type_history` Iterable objects will no longer be history tables as part of schema changes following Iterable's API updates. The fields have also changed. There is no lift required, since we have checks in place that will automatically persist the respective fields depending on what exists in your schema (they will still be history tables if you are using the old schema).
 
 *Please be sure you are syncing them as either both history or non-history.*
 

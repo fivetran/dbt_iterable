@@ -173,7 +173,7 @@ models:
       - name: created_at
         description: Creation timestamp as epoch time in milliseconds
       - name: email
-        description: The email of the user this event is related to. User identifier, for email-based projects. Previously was the unique identifier for user records, for Iterable customers before August 2023.
+        description: The user's email. User identifier, for email-based projects. Previously was the unique identifier for user records, for the old Iterable schema before the August 2023 updates. 
       - name: additional_properties
         description: json object containing addition event properties
       - name: event_name
@@ -456,7 +456,7 @@ models:
       - name: _fivetran_user_id
         description: A Fivetran-created unique identifier for the new Iterable schema in Aug 2023, for users, derived from hashing user_id and/or email, depending on project type.
       - name: email
-        description: Email of the user if it exists. User identifier, for email-based projects. Previously was the unique identifier for user records, for Iterable customers before August 2023.
+        description: The user's email. User identifier, for email-based projects. Previously was the unique identifier for user records, for the old Iterable schema before the August 2023 updates. 
       - name: first_name
         description: First name of the user
       - name: last_name
