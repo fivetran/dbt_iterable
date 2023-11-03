@@ -1,5 +1,10 @@
 # dbt_iterable v0.11.0
+[PR #39](https://github.com/fivetran/dbt_iterable/pull/39) includes updates in response to the [Aug 2023 updates](https://fivetran.com/docs/applications/iterable/changelog#august2023) for the Iterable connector.
 
+## 🚨 Breaking Changes 🚨
+- Introduced a new user key `unique_user_key`. If you are syncing the new schema from Iterable, this will be `_fivetran_user_id`, generated from hashing `user_id` and/or `email`, depending on project type. Otherwise, this is `email`, the user identifier for email-based projects and was the previous unique user key used in the old schema. 
+  - Models that have previously used `email` as a grain or as a join field have been updated to use `unique_user_key`.
+- We have removed `user_device` related fields as we removed the underlying object.
 
 # dbt_iterable v0.10.0
 [PR #34](https://github.com/fivetran/dbt_iterable/pull/34) includes the following updates:

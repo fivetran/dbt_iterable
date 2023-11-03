@@ -59,6 +59,12 @@ Some of the end models in this package are materialized incrementally. We have c
 `delete+insert` is our second-choice as it resembles `insert_overwrite` but lacks partitions. This strategy works most of the time and appropriately handles incremental loads that do not contain changes to past records. However, if a past record has been updated and is outside of the incremental window, `delete+insert` will insert a duplicate record. 😱
 > Because of this, we highly recommend that **Snowflake**, **Redshift**, and **Postgres** users periodically run a `--full-refresh` to ensure a high level of data quality and remove any possible duplicates.
 
+### Unsubscribe tables are no longer history tables
+
+For connectors created past August 2023, the `user_unsubscribed_channel_history` and `user_unsubscribed_message_type_history` Iterable objects will no longer be history tables as part of schema changes following Iterable's API updates. The fields have also changed. If you are using the old schema, you may update to the new schema. However, if you wish to remain on the old schema, we have checks in place that will automatically persist the respective fields depending on what exists in your schema.
+
+*Please be sure you are syncing them as either both history or non-history.*
+
 ## Step 2: Install the package
 Include the following Iterable package version in your `packages.yml` file.
 
@@ -90,11 +96,6 @@ vars:
     iterable__using_campaign_suppression_list_history: false         # default is true   
 ```
 
-## Step 5: Unsubscribe tables are no longer history tables
-
-For connectors created past August 2023, the `user_unsubscribed_channel_history` and `user_unsubscribed_message_type_history` Iterable objects will no longer be history tables as part of schema changes following Iterable's API updates. The fields have also changed. If you are using the old schema, you may update to the new schema. However, if you wish to remain on the old schema, we have checks in place that will automatically persist the respective fields depending on what exists in your schema.
-
-*Please be sure you are syncing them as either both history or non-history.*
 
 
 ## (Optional) Step 6: Additional configurations
