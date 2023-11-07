@@ -294,28 +294,14 @@ models:
         description: A boolean indicating whether the SMS message is an estimation or not.
       - name: labels 
         description: Any labels or tags associated with the event, which can be used for categorization or organization.
-      - name: message_context 
-        description: Additional contextual information related to the marketing message or event.
       - name: message_status 
         description: The status of the marketing message, such as sent, delivered, opened, etc.
       - name: mms_send_count 
         description: The count of multimedia messages (MMS) sent as part of the event.
-      - name: product_recommendation_count 
-        description: The count of product recommendations included in the message.
-      - name: proxy_source 
-        description: Information about the source or proxy used for sending the message.
       - name: reason 
         description: The reason or cause associated with a specific event or action.
       - name: sms_send_count 
         description: The count of SMS messages sent as part of the event.
-      - name: web_push_body 
-        description: The content or body of a web push notification sent as part of the event.
-      - name: web_push_click_action 
-        description: The action triggered when a recipient clicks a web push notification.
-      - name: web_push_icon 
-        description: The icon or image associated with the web push notification.
-      - name: web_push_message 
-        description: The message or notification sent to web users as part of the event.
 
   - name: iterable__list_user_history
     description: > 
