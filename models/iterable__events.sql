@@ -71,11 +71,11 @@ with events as (
     from events
     left join event_extension
         on events.event_id = event_extension.event_id
-        and events.unique_user_key = event_extension.unique_user_key
+        and events._fivetran_user_id = event_extension._fivetran_user_id -- event_id and _fivetran_user_id are the primary keys in the event and event_extension source tables
     left join campaign
         on events.campaign_id = campaign.campaign_id
     left join users
-        on events.unique_user_key = users.unique_user_key
+        on events.unique_user_key = users.unique_user_key -- unique_user_key = _fivetran_user_id if exists, otherwise email
     left join message_type_channel
         on events.message_type_id = message_type_channel.message_type_id
     left join template
