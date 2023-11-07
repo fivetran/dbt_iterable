@@ -40,7 +40,7 @@ with user_event_metrics as (
 
     from user_with_list_metrics
     left join user_event_metrics
-        on user_with_list_metrics._fivetran_user_id = user_event_metrics._fivetran_user_id
+        on user_with_list_metrics.unique_user_key = user_event_metrics.unique_user_key
 )
 
 select *

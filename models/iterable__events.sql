@@ -71,7 +71,7 @@ with events as (
     from events
     left join event_extension
         on events.event_id = event_extension.event_id
-        and events._fivetran_user_id = event_extension._fivetran_user_id
+        and events.unique_user_key = event_extension.unique_user_key
     left join campaign
         on events.campaign_id = campaign.campaign_id
     left join users
