@@ -14,7 +14,7 @@ with user_history as (
     from {{ ref('int_iterable__list_user_history') }} as user_history
 
     {% if is_incremental() %}
-    {# the only rows we potentially want to overwrite are  active ones  #}
+    {# the only rows we potentially want to overwrite are active ones  #}
     where user_history.updated_at >= coalesce((select min(updated_at) from {{ this }} where is_current), '2010-01-01')
     {% endif %}
 
