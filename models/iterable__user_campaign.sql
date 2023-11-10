@@ -35,7 +35,6 @@ with events as (
         {% endfor %}
 
     from events
-    where unique_user_key is not null
     {{ dbt_utils.group_by(n=12) }}
 
 )
