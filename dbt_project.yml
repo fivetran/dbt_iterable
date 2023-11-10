@@ -27,6 +27,10 @@ vars:
     user_history: "{{ ref('stg_iterable__user_history') }}"
     user_unsubscribed_channel: "{{ ref('stg_iterable__user_unsubscribed_channel') }}"
     user_unsubscribed_message_type: "{{ ref('stg_iterable__user_unsub_message_type') }}"
+
+    iterable_event_extension_pass_through_columns: []
+    iterable_user_history_pass_through_columns: []
+
     iterable__event_metrics:
     - "emailClick"
     - "emailUnSubscribe"

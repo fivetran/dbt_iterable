@@ -28,6 +28,9 @@ with user_history as (
         signup_source,
         updated_at
 
+        --The below script allows for pass through columns.
+        {{ fivetran_utils.persist_pass_through_columns(pass_through_variable='iterable_user_history_pass_through_columns', identifier='previous_email_list_ids') }}
+
     from previous_email_list_ids
     where email_list_ids != coalesce(previous_ids, 'this is new') -- list ids are always stored in their arrays in numerical order
 
@@ -53,7 +56,10 @@ with user_history as (
         signup_date,
         signup_source,
         updated_at,
-        latest_user_index = 1 as is_current
+        latest_user_index = 1 as is_current        
+
+        --The below script allows for pass through columns.
+        {{ fivetran_utils.persist_pass_through_columns(pass_through_variable='iterable_user_history_pass_through_columns', identifier='most_recent_list_ids') }}
 
     from most_recent_list_ids
 )

@@ -37,7 +37,10 @@ with user_history as (
         email_list_ids,
         {# let's not remove empty array-rows #}
         json_parse(case when email_list_ids = '[]' then '["is_null"]' else email_list_ids end) as super_email_list_ids
-        
+
+        --The below script allows for pass through columns.
+        {{ fivetran_utils.persist_pass_through_columns(pass_through_variable='iterable_user_history_pass_through_columns', identifier='user_history') }}
+
     from user_history
 
 ), unnest_email_array as (
@@ -57,6 +60,9 @@ with user_history as (
         {# go back to strings #}
         cast(email_list_ids as {{ dbt.type_string() }}) as email_list_ids, 
         cast(email_list_id as {{ dbt.type_string() }}) as email_list_id
+
+        --The below script allows for pass through columns.
+        {{ fivetran_utils.persist_pass_through_columns(pass_through_variable='iterable_user_history_pass_through_columns', identifier='emails') }}
 
     from redshift_parse_email_lists as emails, emails.super_email_list_ids as email_list_id
 
@@ -84,6 +90,9 @@ with user_history as (
             {% else %} email_list_id {% endif %} 
             else null 
             end as email_list_id
+
+        --The below script allows for pass through columns.
+        {{ fivetran_utils.persist_pass_through_columns(pass_through_variable='iterable_user_history_pass_through_columns', identifier='user_history') }}
 
     from user_history
 
@@ -127,6 +136,9 @@ with user_history as (
         case when email_list_ids = '["is_null"]' then '[]' else email_list_ids end as email_list_ids,
         cast(NULLIF(email_list_id, 'is_null') as {{ dbt.type_int() }}) as list_id
 
+        --The below script allows for pass through columns.
+        {{ fivetran_utils.persist_pass_through_columns(pass_through_variable='iterable_user_history_pass_through_columns', identifier='unnest_email_array') }}
+
     from unnest_email_array
 
 ), final as (
@@ -147,6 +159,9 @@ with user_history as (
         list_id,
         {{ dbt_utils.generate_surrogate_key(["unique_user_key", "list_id", "updated_at"]) }} as unique_key,
         cast( {{ dbt.date_trunc('day', 'updated_at') }} as date) as date_day
+
+        --The below script allows for pass through columns.
+        {{ fivetran_utils.persist_pass_through_columns(pass_through_variable='iterable_user_history_pass_through_columns', identifier='adjust_nulls') }}
 
     from adjust_nulls
 )
