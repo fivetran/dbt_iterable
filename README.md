@@ -26,6 +26,7 @@
 
 - Generates a comprehensive data dictionary of your source and modeled Iterable data through the [dbt docs site](https://fivetran.github.io/dbt_iterable/).
 
+<!--section="iterable_transformation_model-->
 The following table provides a detailed list of all models materialized within this package by default.
 
 > TIP: See more details about these models in the package's [dbt docs site](https://fivetran.github.io/dbt_iterable/).
@@ -38,6 +39,8 @@ The following table provides a detailed list of all models materialized within t
 | [iterable__users](https://fivetran.github.io/dbt_iterable/#!/model/model.iterable.iterable__users)             | Each record represents the most current state of a unique user, enriched with metrics around the campaigns and lists they have been a part of and interacted with, channels and message types they've unsubscribed from, their associated devices, and more. |
 | [iterable__list_user_history](https://fivetran.github.io/dbt_iterable/#!/model/model.iterable.iterable__list_user_history)             | Each record represents a unique user-list combination. This is intended to recreate the `LIST_USER_HISTORY` source table, which can be disconnected from your syncs, as it can lead to excessive MAR usage. |
 | [iterable__user_unsubscriptions](https://fivetran.github.io/dbt_iterable/#!/model/model.iterable.iterable__user_unsubscriptions)             | Each row represents a message type that a user is currently unsubscribed to, including the channel the message type belongs to. If a user is unsubscribed from an entire channel, each of the channel's message types appears as an unsubscription. |
+
+<!--section-end-->
 
 # 🎯 How do I use the dbt package?
 
