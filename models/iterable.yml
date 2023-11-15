@@ -434,6 +434,7 @@ models:
           combination_of_columns:
             - unique_user_key
             - message_type_id
+            - channel_id
             - is_unsubscribed_channel_wide
     columns:
       - name: _fivetran_user_id
