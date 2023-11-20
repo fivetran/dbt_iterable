@@ -9,8 +9,11 @@ For changes in the upstream staging models, refer to the dbt_iterable_source [ch
 - We have removed `user_device` related fields as we removed the underlying object.
 
 ## 🎉 Feature Update 🎉
-- Adding the passthrough columns functionality for `event_extension` and `user_history` source tables. You will see these additional columns persist through the end `iterable__events` and `iterable__users` models. For instructions on leveraging this feature, refer to the [README](./README.md#passing-through-additional-fields).
+- Added the passthrough columns functionality for `event_extension` and `user_history` source tables. You will see these additional columns persist through the end `iterable__events` and `iterable__users` models. For instructions on leveraging this feature, refer to the [README](./README.md#passing-through-additional-fields).
   - **Notice**: A `dbt run --full-refresh` is required each time these variables are edited.
+
+## Test Updates
+- Updated the tests for uniqueness that were using `email` to `unique_user_key`.
 
 # dbt_iterable v0.10.0
 [PR #34](https://github.com/fivetran/dbt_iterable/pull/34) includes the following updates:
