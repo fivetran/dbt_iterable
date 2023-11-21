@@ -14,7 +14,7 @@ with user_history as (
     from {{ ref('int_iterable__list_user_history') }} as user_history
 
     {% if is_incremental() %}
-    {# the only rows we potentially want to overwrite are  active ones  #}
+    {# the only rows we potentially want to overwrite are active ones  #}
     where user_history.updated_at >= coalesce((select min(updated_at) from {{ this }} where is_current), '2010-01-01')
     {% endif %}
 
@@ -23,6 +23,8 @@ with user_history as (
 ), redshift_parse_email_lists as (
 
     select
+        _fivetran_user_id,
+        unique_user_key,
         email,
         first_name,
         last_name,
@@ -35,12 +37,17 @@ with user_history as (
         email_list_ids,
         {# let's not remove empty array-rows #}
         json_parse(case when email_list_ids = '[]' then '["is_null"]' else email_list_ids end) as super_email_list_ids
-        
+
+        --The below script allows for pass through columns.
+        {{ fivetran_utils.persist_pass_through_columns(pass_through_variable='iterable_user_history_pass_through_columns', identifier='user_history') }}
+
     from user_history
 
 ), unnest_email_array as (
 
     select
+        _fivetran_user_id,
+        unique_user_key,
         email,
         first_name,
         last_name,
@@ -54,12 +61,17 @@ with user_history as (
         cast(email_list_ids as {{ dbt.type_string() }}) as email_list_ids, 
         cast(email_list_id as {{ dbt.type_string() }}) as email_list_id
 
+        --The below script allows for pass through columns.
+        {{ fivetran_utils.persist_pass_through_columns(pass_through_variable='iterable_user_history_pass_through_columns', identifier='emails') }}
+
     from redshift_parse_email_lists as emails, emails.super_email_list_ids as email_list_id
 
 {% else %}
 ), unnest_email_array as (
 
     select
+        _fivetran_user_id,
+        unique_user_key,
         email,
         first_name,
         last_name,
@@ -78,6 +90,9 @@ with user_history as (
             {% else %} email_list_id {% endif %} 
             else null 
             end as email_list_id
+
+        --The below script allows for pass through columns.
+        {{ fivetran_utils.persist_pass_through_columns(pass_through_variable='iterable_user_history_pass_through_columns', identifier='user_history') }}
 
     from user_history
 
@@ -107,6 +122,8 @@ with user_history as (
 ), adjust_nulls as (
 
     select
+        _fivetran_user_id,
+        unique_user_key,
         email,
         first_name,
         last_name,
@@ -119,15 +136,20 @@ with user_history as (
         case when email_list_ids = '["is_null"]' then '[]' else email_list_ids end as email_list_ids,
         cast(NULLIF(email_list_id, 'is_null') as {{ dbt.type_int() }}) as list_id
 
+        --The below script allows for pass through columns.
+        {{ fivetran_utils.persist_pass_through_columns(pass_through_variable='iterable_user_history_pass_through_columns', identifier='unnest_email_array') }}
+
     from unnest_email_array
 
 ), final as (
 
     select
+        _fivetran_user_id,
+        unique_user_key,
+        user_id,
         email,
         first_name,
         last_name,
-        user_id,
         signup_date,
         signup_source,
         updated_at,
@@ -135,9 +157,12 @@ with user_history as (
         is_current,
         email_list_ids,
         list_id,
-        {{ dbt_utils.generate_surrogate_key(["email", "list_id", "updated_at"]) }} as unique_key,
+        {{ dbt_utils.generate_surrogate_key(["unique_user_key", "list_id", "updated_at"]) }} as unique_key,
         cast( {{ dbt.date_trunc('day', 'updated_at') }} as date) as date_day
-    
+
+        --The below script allows for pass through columns.
+        {{ fivetran_utils.persist_pass_through_columns(pass_through_variable='iterable_user_history_pass_through_columns', identifier='adjust_nulls') }}
+
     from adjust_nulls
 )
 

@@ -3,14 +3,6 @@ with user_event_metrics as (
     select *
     from {{ ref('int_iterable__user_event_metrics') }}
 
-{% if var('iterable__using_user_device_history', false) %}
-), user_devices as (
-
-    select *
-    from {{ ref('int_iterable__latest_user_device') }}
-
-{% endif %}
-
 ), user_unnested as (
     -- this has all the user fields we're looking to pass through
 
@@ -23,10 +15,12 @@ with user_event_metrics as (
 ), user_with_list_metrics as (
 
     select
+        user_id,
+        _fivetran_user_id,
+        unique_user_key,
         email,
         first_name,
         last_name,
-        user_id,
         signup_date,
         signup_source,
         updated_at,
@@ -36,26 +30,17 @@ with user_event_metrics as (
 
     from user_unnested
     -- roll up to the user
-    {{ dbt_utils.group_by(n=9) }}
+    {{ dbt_utils.group_by(n=11) }}
 
 ), user_join as (
 
     select 
         user_with_list_metrics.*,
-        {{ dbt_utils.star(from=ref('int_iterable__user_event_metrics'), except=['user_email']) }}
-        {% if var('iterable__using_user_device_history', false) %}
-        ,
-        user_devices.count_devices
-        {% endif %}
+        {{ dbt_utils.star(from=ref('int_iterable__user_event_metrics'), except=['unique_user_key','_fivetran_user_id','user_id','user_email']) }}
 
     from user_with_list_metrics
-    left join user_event_metrics 
-        on user_with_list_metrics.email = user_event_metrics.user_email
-        
-    {% if var('iterable__using_user_device_history', false) %}
-    left join user_devices
-        on user_with_list_metrics.email = user_devices.email
-    {% endif %}
+    left join user_event_metrics
+        on user_with_list_metrics.unique_user_key = user_event_metrics.unique_user_key
 )
 
 select *

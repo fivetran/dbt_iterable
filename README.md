@@ -36,7 +36,7 @@ The following table provides a detailed list of all models materialized within t
 | [iterable__events](https://fivetran.github.io/dbt_iterable/#!/model/model.iterable.iterable__events)             | Each record represents a unique event in Iterable, enhanced with information regarding attributed campaigns, the triggering user, and the channel, template, and message type associated with the event. Commerce events are not tracked by the Fivetran connector. See the [tracked events details](https://fivetran.com/docs/applications/iterable#schemanotes). |
 | [iterable__user_campaign](https://fivetran.github.io/dbt_iterable/#!/model/model.iterable.iterable__user_campaign)             | Each record represents a unique user-campaign-experiment variation combination, enriched with pivoted-out metrics reflecting instances of the user triggering different types of events in campaigns.
 | [iterable__campaigns](https://fivetran.github.io/dbt_iterable/#!/model/model.iterable.iterable__campaigns)             | Each record represents a unique campaign-experiment variation, enriched with gross event and unique user interaction metrics, and information regarding templates, labels, and applied or suppressed lists. |
-| [iterable__users](https://fivetran.github.io/dbt_iterable/#!/model/model.iterable.iterable__users)             | Each record represents the most current state of a unique user, enriched with metrics around the campaigns and lists they have been a part of and interacted with, channels and message types they've unsubscribed from, their associated devices, and more. |
+| [iterable__users](https://fivetran.github.io/dbt_iterable/#!/model/model.iterable.iterable__users)             | Each record represents the most current state of a unique user, enriched with metrics around the campaigns and lists they have been a part of and interacted with, channels and message types they've unsubscribed from, and more. |
 | [iterable__list_user_history](https://fivetran.github.io/dbt_iterable/#!/model/model.iterable.iterable__list_user_history)             | Each record represents a unique user-list combination. This is intended to recreate the `LIST_USER_HISTORY` source table, which can be disconnected from your syncs, as it can lead to excessive MAR usage. |
 | [iterable__user_unsubscriptions](https://fivetran.github.io/dbt_iterable/#!/model/model.iterable.iterable__user_unsubscriptions)             | Each row represents a message type that a user is currently unsubscribed to, including the channel the message type belongs to. If a user is unsubscribed from an entire channel, each of the channel's message types appears as an unsubscription. |
 
@@ -62,6 +62,12 @@ Some of the end models in this package are materialized incrementally. We have c
 `delete+insert` is our second-choice as it resembles `insert_overwrite` but lacks partitions. This strategy works most of the time and appropriately handles incremental loads that do not contain changes to past records. However, if a past record has been updated and is outside of the incremental window, `delete+insert` will insert a duplicate record. 😱
 > Because of this, we highly recommend that **Snowflake**, **Redshift**, and **Postgres** users periodically run a `--full-refresh` to ensure a high level of data quality and remove any possible duplicates.
 
+### Unsubscribe tables are no longer history tables
+
+For connectors created past August 2023, the `user_unsubscribed_channel_history` and `user_unsubscribed_message_type_history` Iterable objects will no longer be history tables as part of schema changes following Iterable's API updates. The fields have also changed. There is no lift required, since we have checks in place that will automatically persist the respective fields depending on what exists in your schema (they will still be history tables if you are using the old schema).
+
+*Please be sure you are syncing them as either both history or non-history.*
+
 ## Step 2: Install the package
 Include the following Iterable package version in your `packages.yml` file.
 
@@ -70,7 +76,7 @@ Include the following Iterable package version in your `packages.yml` file.
 ```yaml
 packages:
   - package: fivetran/iterable
-    version: [">=0.10.0", "<0.11.0"]
+    version: [">=0.11.0", "<0.12.0"]
 ```
 ## Step 3: Define database and schema variables
 By default, this package runs using your destination and the `iterable` schema of your [target database](https://docs.getdbt.com/docs/running-a-dbt-project/using-the-command-line-interface/configure-your-profile). If this is not where your Iterable data is located (for example, if your Iterable schema is named `iterable_fivetran`), add the following configuration to your root `dbt_project.yml` file:
@@ -83,7 +89,7 @@ vars:
 ## Step 4: Enabling/Disabling Models
 Your Iterable connector might not sync every table that this package expects. If your syncs exclude certain tables, it is either because you do not use that functionality in Iterable or have actively excluded some tables from your syncs. In order to enable or disable the relevant tables in the package, you will need to add the following variable(s) to your `dbt_project.yml` file.
 
-By default, all variables are assumed to be `true` (with exception of `iterable__using_user_device_history`, which is set to `false`). 
+By default, all variables are assumed to be `true`. 
 
 
 ```yml
@@ -91,13 +97,37 @@ vars:
     iterable__using_campaign_label_history: false                    # default is true
     iterable__using_user_unsubscribed_message_type_history: false    # default is true
     iterable__using_campaign_suppression_list_history: false         # default is true   
-    
-    iterable__using_user_device_history: true                        # default is FALSE
 ```
+
+
 
 ## (Optional) Step 5: Additional configurations
 <details><summary>Expand for details</summary>
 <br>
+
+### Passing Through Additional Fields
+
+This package includes fields we judged were standard across Iterable users. However, the Fivetran connector allows for additional columns to be brought through in the `event_extension` and `user_history` objects. Therefore, if you wish to bring them through, leverage our passthrough column variables. 
+
+You will see these additional columns populate in the end `iterable__events` and `iterable__users` models.
+
+**Notice**: A `dbt run --full-refresh` is required each time these variables are edited.
+
+These variables allow for the passthrough fields to be aliased (alias) and casted (transform_sql) if desired, but not required. Datatype casting is configured via a sql snippet within the transform_sql key. You may add the desired sql while omitting the as field_name at the end and your custom pass-though fields will be casted accordingly. Use the below format for declaring the respective pass-through variables:
+
+```yml
+# dbt_project.yml
+
+vars:
+  iterable_event_extension_pass_through_columns:
+    - name: "event_extension_field"
+      alias: "renamed_field"
+      transform_sql: "cast(renamed_field as string)"
+  iterable_user_history_pass_through_columns:
+    - name: "user_attribute"
+      alias: "renamed_user_attribute"
+    - name: "user_attribute_2"
+```
 
 ### Changing the Build Schema
 
@@ -161,7 +191,7 @@ packages:
       version: [">=1.0.0", "<2.0.0"]
 
     - package: fivetran/iterable_source
-      version: [">=0.7.0", "<0.8.0"]
+      version: [">=0.8.0", "<0.9.0"]
 ```
 
 # 🙌 How is this package maintained and can I contribute?

@@ -1,3 +1,23 @@
+# dbt_iterable v0.11.0
+[PR #39](https://github.com/fivetran/dbt_iterable/pull/39) includes updates in response to the [Aug 2023 updates](https://fivetran.com/docs/applications/iterable/changelog#august2023) for the Iterable connector.
+
+For changes in the upstream staging models, refer to the dbt_iterable_source [changelog](https://github.com/fivetran/dbt_iterable_source/compare/v0.7.0...v0.8.0) and respective [PR #28](https://github.com/fivetran/dbt_iterable_source/pull/28).
+
+## 🚨 Breaking Changes 🚨
+- Introduced a new user key `unique_user_key`. If you are syncing the new schema from Iterable, this will be `_fivetran_user_id`, generated from hashing `user_id` and/or `email`, depending on project type. Otherwise, this is `email`, the user identifier for email-based projects and was the previous unique user key used in the old schema. 
+  - Models that have previously used `email` as a grain or as a join field have been updated to use `unique_user_key`.
+- The grain in `iterable__events` was previously on `event_id` but is now `unique_event_id`. This is a generated surrogate key from `event_id` and `_fivetran_user_id`. Due to the Iterable Aug 2023 updates, previously the unique key for events was just `event_id`, but now the unique keys involves a combination of `event_id` and `_fivetran_user_id`, if it exists.
+- We have removed `user_device` related fields as we removed the underlying object.
+
+## 🎉 Feature Update 🎉
+- Added the passthrough columns functionality for `event_extension` and `user_history` source tables. You will see these additional columns persist through the end `iterable__events` and `iterable__users` models. For instructions on leveraging this feature, refer to the [README](./README.md#passing-through-additional-fields).
+  - **Notice**: A `dbt run --full-refresh` is required each time these variables are edited.
+
+## Test Updates
+- Updated the tests for uniqueness that were using `email` to `unique_user_key`.
+- The unique test in `iterable__events` now tests on `unique_event_id` instead of `event_id`.
+- The unique test in `iterable__user_unsubscriptions` now tests on `unique_user_key, message_type_id, channel_id,` and `is_unsubscribed_channel_wide`.
+
 # dbt_iterable v0.10.0
 [PR #34](https://github.com/fivetran/dbt_iterable/pull/34) includes the following updates:
 

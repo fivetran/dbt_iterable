@@ -17,9 +17,6 @@ models:
   - name: int_iterable__latest_template
     description: Table that provides the most recent version of the template as well as joining relevant message type information. 
 
-  - name: int_iterable__latest_user_device
-    description: Table that filters out historical versions of user device records, and returns only the most recent version.
-
   - name: int_iterable__latest_user
     description: Table that filters out historical versions of the user, and returns only the most recent version.
 

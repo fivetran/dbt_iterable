@@ -1,5 +1,5 @@
 name: 'iterable'
-version: '0.10.0'
+version: '0.11.0'
 config-version: 2
 require-dbt-version: [">=1.3.0", "<2.0.0"]
 models:
@@ -25,9 +25,12 @@ vars:
     message_type: "{{ ref('stg_iterable__message_type') }}"
     template_history: "{{ ref('stg_iterable__template_history') }}"
     user_history: "{{ ref('stg_iterable__user_history') }}"
-    user_device_history: "{{ ref('stg_iterable__user_device_history') }}"
-    user_unsubscribed_channel_history: "{{ ref('stg_iterable__user_unsubscribed_channel_history') }}"
-    user_unsubscribed_message_type_history: "{{ ref('stg_iterable__user_unsub_message_type_history') }}"
+    user_unsubscribed_channel: "{{ ref('stg_iterable__user_unsubscribed_channel') }}"
+    user_unsubscribed_message_type: "{{ ref('stg_iterable__user_unsub_message_type') }}"
+
+    iterable_event_extension_pass_through_columns: []
+    iterable_user_history_pass_through_columns: []
+
     iterable__event_metrics:
     - "emailClick"
     - "emailUnSubscribe"

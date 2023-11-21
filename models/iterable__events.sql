@@ -1,6 +1,6 @@
 {{ config(
         materialized='incremental',
-        unique_key='event_id',
+        unique_key=['unique_event_id'],
         incremental_strategy='insert_overwrite' if target.type in ('bigquery', 'spark', 'databricks') else 'delete+insert',
         partition_by={"field": "created_on", "data_type": "date"} if target.type not in ('spark','databricks') else ['created_on'],
         file_format='parquet',
@@ -61,23 +61,23 @@ with events as (
         message_type_channel.channel_name,
         message_type_channel.channel_type,
 
-        {% set exclude_fields = ["event_id", "content_id", "_fivetran_synced"] %}
+        {% set exclude_fields = ["unique_user_key","_fivetran_user_id","event_id", "content_id", "_fivetran_synced", "unique_event_id"] %}
         {{ dbt_utils.star(from=ref('stg_iterable__event_extension'), except= exclude_fields  ) }}
         ,
         campaign.template_id,
         template.template_name,
         template.creator_user_id as template_creator_user_id
         
-    from events 
-    left join event_extension 
-        on events.event_id = event_extension.event_id
-    left join campaign 
+    from events
+    left join event_extension
+        on events.unique_event_id = event_extension.unique_event_id
+    left join campaign
         on events.campaign_id = campaign.campaign_id
     left join users
-        on events.email = users.email
+        on events.unique_user_key = users.unique_user_key -- unique_user_key = _fivetran_user_id if exists, otherwise email
     left join message_type_channel
         on events.message_type_id = message_type_channel.message_type_id
-    left join template 
+    left join template
         on campaign.template_id = template.template_id
 )
 
