@@ -8,6 +8,8 @@ table_variables:
     - campaign_label_history
   iterable__using_campaign_suppression_list_history:
     - campaign_suppression_list_history
+  iterable__using_user_unsubscribed_message_type:
+    - user_unsubscribed_message_type
     
 destination_configurations:
   databricks:
