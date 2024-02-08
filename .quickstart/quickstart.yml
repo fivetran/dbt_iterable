@@ -1,0 +1,18 @@
+database_key: iterable_database
+schema_key: iterable_schema
+
+dbt_versions: ">=1.3.0 <2.0.0"
+
+table_variables:
+  iterable__using_campaign_label_history:
+    - campaign_label_history
+  iterable__using_campaign_suppression_list_history:
+    - campaign_suppression_list_history
+  iterable__using_user_unsubscribed_message_type:
+    - user_unsubscribed_message_type
+    
+destination_configurations:
+  databricks:
+    dispatch:
+      - macro_namespace: dbt_utils
+        search_order: [ 'spark_utils', 'dbt_utils' ]
