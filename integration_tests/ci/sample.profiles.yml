@@ -42,7 +42,7 @@ integration_tests:
       pass: "{{ env_var('CI_POSTGRES_DBT_PASS') }}"
       dbname: "{{ env_var('CI_POSTGRES_DBT_DBNAME') }}"
       port: 5432
-      schema: iterable_integration_tests_09
+      schema: iterable_integration_tests_10
       threads: 8
     databricks:
       catalog: "{{ env_var('CI_DATABRICKS_DBT_CATALOG') }}"
