@@ -1,3 +1,12 @@
+# dbt_iterable v0.RELEASE.RELEASE
+
+## Under the Hood
+- Addition of integrity and consistency validation tests within integration tests pertaining to the `iterable__user_unsubscriptions` model.
+- Updated seed data to ensure proper testing of the latest [v0.8.1 `dbt_iterable_source` release](https://github.com/fivetran/dbt_iterable_source/releases/tag/v0.8.1).
+- Updated [pull request and issue templates](https://github.com/fivetran/dbt_iterable_source/tree/v0.8.1/.github).
+- Included auto-releaser GitHub Actions workflow to automate future releases.
+
+
 # dbt_iterable v0.11.0
 [PR #39](https://github.com/fivetran/dbt_iterable/pull/39) includes updates in response to the [Aug 2023 updates](https://fivetran.com/docs/applications/iterable/changelog#august2023) for the Iterable connector.
 

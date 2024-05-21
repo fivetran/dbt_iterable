@@ -4,7 +4,7 @@ version: '0.11.0'
 profile: 'integration_tests'
 vars:
   iterable_source:
-    iterable_schema: iterable_integration_tests_08
+    iterable_schema: iterable_integration_tests_09
     iterable_campaign_history_identifier: "campaign_history_data"
     iterable_campaign_label_history_identifier: "campaign_label_history_data"
     iterable_campaign_list_history_identifier: "campaign_list_history_data"
@@ -16,10 +16,19 @@ vars:
     iterable_message_type_identifier: "message_type_data"
     iterable_template_history_identifier: "template_history_data"
     iterable_user_history_identifier: "user_history_data"
-    iterable_user_unsubscribed_channel_identifier: "user_unsubscribed_channel_data"
-    iterable_user_unsubscribed_message_type_identifier: "user_unsubscribed_message_type_data"
+    # iterable_user_unsubscribed_channel_identifier: "user_unsubscribed_channel_data"
+    # iterable_user_unsubscribed_message_type_identifier: "user_unsubscribed_message_type_data"
     iterable_user_unsubscribed_channel_history_identifier: "user_unsubscribed_channel_history_data"
     iterable_user_unsubscribed_message_type_history_identifier: "user_unsubscribed_message_type_history_data"
+    
+    iterable__using_user_unsubscribed_message_type: true 
+  
+  ## For validation testing. To be commented out before release.
+  # iterable_schema: iterable_test_env
+
+
+models:
+  +schema: "iterable_{{ var('directed_schema','dev') }}"
 
 seeds:
   iterable_integration_tests:

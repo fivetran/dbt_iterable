@@ -1,3 +1,6 @@
 id,name,channel_id,_fivetran_deleted,_fivetran_synced,created_at,frequency_cap,rate_limit_per_minute,subscription_policy,updated_at
 50806,Event Invites,13508,TRUE,2021-03-10 14:17:29.467,2023-10-25 15:30:00,5,100,"Gold",2023-10-25 16:45:00
 50830,Event Invites,14206,FALSE,2021-06-14 14:17:32.568,2023-10-25 15:30:00,5,1000,"Basic",2023-10-25 15:45:00
+20246,Event Invites,11249,FALSE,2021-06-14 14:17:32.568,2023-10-25 15:30:00,5,1000,"Basic",2023-10-25 15:45:00
+20248,Event Invites,11249,FALSE,2021-06-14 14:17:32.568,2023-10-25 15:30:00,5,1000,"Basic",2023-10-25 15:45:00
+20247,Purchases,11250,FALSE,2021-06-14 14:17:32.568,2023-10-25 15:30:00,5,1000,"Basic",2023-10-25 15:45:00
