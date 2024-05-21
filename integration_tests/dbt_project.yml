@@ -24,11 +24,8 @@ vars:
     iterable__using_user_unsubscribed_message_type: true 
   
   ## For validation testing. To be commented out before release.
-  # iterable_schema: iterable_test_env
-
-
-models:
-  +schema: "iterable_{{ var('directed_schema','dev') }}"
+  # models:
+  #   +schema: "iterable_{{ var('directed_schema','dev') }}"
 
 seeds:
   iterable_integration_tests:
