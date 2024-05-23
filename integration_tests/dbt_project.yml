@@ -22,8 +22,8 @@ vars:
     iterable_user_unsubscribed_message_type_history_identifier: "user_unsubscribed_message_type_history_data"
     
   ## For validation testing. To be commented out before release.
-  # models:
-  #   +schema: "iterable_{{ var('directed_schema','dev') }}"
+models:
+  +schema: "iterable_{{ var('directed_schema','dev') }}"
 
 seeds:
   iterable_integration_tests:
