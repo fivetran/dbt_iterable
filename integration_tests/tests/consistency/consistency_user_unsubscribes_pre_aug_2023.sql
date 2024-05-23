@@ -10,8 +10,8 @@
 with prod as (
 
     select 
-        1 as join_key, 
-        coalesce(count(distinct unique_user_key), 0) as unique_users_prod, 
+        unique_user_key, 
+        coalesce(count(distinct unique_user_key), 0) as unique_user_records_prod, 
         coalesce(count(distinct channel_id), 0) as channels_prod, 
         coalesce(count(distinct message_type_id), 0) as message_types_prod
     from {{ target.schema }}_iterable_prod.iterable__user_unsubscriptions
@@ -23,8 +23,8 @@ with prod as (
 dev as (
 
     select 
-        1 as join_key, 
-        coalesce(count(distinct unique_user_key), 0) as unique_users_dev, 
+        unique_user_key, 
+        coalesce(count(distinct unique_user_key), 0) as unique_user_records_dev, 
         coalesce(count(distinct channel_id), 0) as channels_dev, 
         coalesce(count(distinct message_type_id), 0) as message_types_dev
     from {{ target.schema }}_iterable_dev.iterable__user_unsubscriptions
@@ -36,16 +36,16 @@ dev as (
 final as (
 
     select 
-        prod.join_key,
-        unique_users_prod,
-        unique_users_dev,
+        prod.unique_user_key,
+        unique_user_records_prod,
+        unique_user_records_dev,
         channels_prod,
         channels_dev,
         message_types_prod,
         message_types_dev
     from prod
     full outer join dev
-        on prod.join_key = dev.join_key
+        on prod.unique_user_key = dev.unique_user_key
 )    
 
 select *
