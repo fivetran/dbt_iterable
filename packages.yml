@@ -1,8 +1,4 @@
 packages:
-  # - package: fivetran/iterable_source
-  #   version: [">=0.8.0", "<0.9.0"]
-
-  - git: https://github.com/fivetran/dbt_iterable_source.git
-    revision: bugfix/catch-all-recent-unsubscribes 
-    warn-unpinned: false
+  - package: fivetran/iterable_source
+    version: [">=0.8.0", "<0.9.0"]
 
