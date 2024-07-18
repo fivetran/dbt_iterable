@@ -3,7 +3,7 @@
 
 ## Bug Fixes
 - Introduces variable `iterable__using_event_extension` to disable the `event_extension` table and exclude its fields from persisting downstream. This allows the downstream models to run even if the source `event_extension` table does not exist. For more information on how to configure the `iterable__using_event_extension` variable, refer to the [README](https://github.com/fivetran/dbt_iterable/blob/main/README.md#step-4-enablingdisabling-models).
-- Persists `user_history` passthrough columns as stipulated via the `iterable_user_history_pass_through_columns` variable through to the `iterable__users` model. For more information on how to configure the `iterable_user_history_pass_through_columns` variable, refer to the [README](https://github.com/fivetran/dbt_iterable/blob/main/README.md#passing-through-additional-fields).
+- Persists `user_history` passthrough columns, as stipulated via the `iterable_user_history_pass_through_columns` variable, through to the `iterable__users` model. For more information on how to configure the `iterable_user_history_pass_through_columns` variable, refer to the [README](https://github.com/fivetran/dbt_iterable/blob/main/README.md#passing-through-additional-fields).
 
 ## Under the Hood
 - Addition of integrity and consistency validation tests within integration tests pertaining to the `iterable__user_unsubscriptions` model.

@@ -109,7 +109,7 @@ vars:
 
 This package includes fields we judged were standard across Iterable users. However, the Fivetran connector allows for additional columns to be brought through in the `event_extension` and `user_history` objects. Therefore, if you wish to bring them through, leverage our passthrough column variables. 
 
-You will see these additional columns populate in the end `iterable__events` and `iterable__users` models.
+You will see these additional columns populate in the end `iterable__list_user_history`, `iterable__events`, and `iterable__users` models.
 
 **Notice**: A `dbt run --full-refresh` is required each time these variables are edited.
 
