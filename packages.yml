@@ -1,4 +1,7 @@
 packages:
   # - package: fivetran/iterable_source
   #   version: [">=0.8.0", "<0.9.0"]
-  - local: ../dbt_iterable_source
+  # - local: ../dbt_iterable_source
+  - git: https://github.com/fivetran/dbt_iterable_source.git
+    revision: add_event_extension_table_disable
+    warn-unpinned: false
