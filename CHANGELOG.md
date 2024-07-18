@@ -1,4 +1,5 @@
-# dbt_iterable v0.RELEASE.RELEASE
+# dbt_iterable v0.11.1
+
 
 ## Under the Hood
 - Addition of integrity and consistency validation tests within integration tests pertaining to the `iterable__user_unsubscriptions` model.
