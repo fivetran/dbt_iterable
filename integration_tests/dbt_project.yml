@@ -3,7 +3,7 @@ name: 'iterable_integration_tests'
 version: '0.11.1'
 profile: 'integration_tests'
 vars:
-    iterable_schema: iterable_integration_tests_10
+    iterable_schema: iterable_integration_tests_11
     iterable_source:
       iterable_campaign_history_identifier: "campaign_history_data"
       iterable_campaign_label_history_identifier: "campaign_label_history_data"
