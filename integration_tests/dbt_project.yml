@@ -3,8 +3,8 @@ name: 'iterable_integration_tests'
 version: '0.11.1'
 profile: 'integration_tests'
 vars:
-  iterable_source:
     iterable_schema: iterable_integration_tests_10
+    iterable_source:
     iterable_campaign_history_identifier: "campaign_history_data"
     iterable_campaign_label_history_identifier: "campaign_label_history_data"
     iterable_campaign_list_history_identifier: "campaign_list_history_data"
@@ -20,10 +20,10 @@ vars:
     iterable_user_unsubscribed_message_type_identifier: "user_unsubscribed_message_type_data"
     iterable_user_unsubscribed_channel_history_identifier: "user_unsubscribed_channel_history_data"
     iterable_user_unsubscribed_message_type_history_identifier: "user_unsubscribed_message_type_history_data"
-    
+
   ## For validation testing. To be commented out before release.
-models:
-  +schema: "iterable_{{ var('directed_schema','dev') }}"
+# models:
+#   +schema: "iterable_{{ var('directed_schema','dev') }}"
 
 seeds:
   iterable_integration_tests:
