@@ -5,21 +5,21 @@ profile: 'integration_tests'
 vars:
     iterable_schema: iterable_integration_tests_10
     iterable_source:
-    iterable_campaign_history_identifier: "campaign_history_data"
-    iterable_campaign_label_history_identifier: "campaign_label_history_data"
-    iterable_campaign_list_history_identifier: "campaign_list_history_data"
-    iterable_campaign_suppression_list_history_identifier: "campaign_suppression_list_history_data"
-    iterable_channel_identifier: "channel_data"
-    iterable_event_identifier: "event_data"
-    iterable_event_extension_identifier: "event_extension_data"
-    iterable_list_identifier: "list_data"
-    iterable_message_type_identifier: "message_type_data"
-    iterable_template_history_identifier: "template_history_data"
-    iterable_user_history_identifier: "user_history_data"
-    iterable_user_unsubscribed_channel_identifier: "user_unsubscribed_channel_data"
-    iterable_user_unsubscribed_message_type_identifier: "user_unsubscribed_message_type_data"
-    iterable_user_unsubscribed_channel_history_identifier: "user_unsubscribed_channel_history_data"
-    iterable_user_unsubscribed_message_type_history_identifier: "user_unsubscribed_message_type_history_data"
+      iterable_campaign_history_identifier: "campaign_history_data"
+      iterable_campaign_label_history_identifier: "campaign_label_history_data"
+      iterable_campaign_list_history_identifier: "campaign_list_history_data"
+      iterable_campaign_suppression_list_history_identifier: "campaign_suppression_list_history_data"
+      iterable_channel_identifier: "channel_data"
+      iterable_event_identifier: "event_data"
+      iterable_event_extension_identifier: "event_extension_data"
+      iterable_list_identifier: "list_data"
+      iterable_message_type_identifier: "message_type_data"
+      iterable_template_history_identifier: "template_history_data"
+      iterable_user_history_identifier: "user_history_data"
+      iterable_user_unsubscribed_channel_identifier: "user_unsubscribed_channel_data"
+      iterable_user_unsubscribed_message_type_identifier: "user_unsubscribed_message_type_data"
+      iterable_user_unsubscribed_channel_history_identifier: "user_unsubscribed_channel_history_data"
+      iterable_user_unsubscribed_message_type_history_identifier: "user_unsubscribed_message_type_history_data"
 
   ## For validation testing. To be commented out before release.
 # models:
