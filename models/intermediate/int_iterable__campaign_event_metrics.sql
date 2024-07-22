@@ -2,7 +2,7 @@ with user_campaign as (
     select *
     from {{ ref('iterable__user_campaign') }}
 ), campaign_user_event_metrics as (
-    {%- set user_campaign_columns = adapter.get_columns_in_relation(ref('iterable__user_campaign')) %}
+{%- set user_campaign_columns = adapter.get_columns_in_relation(ref('iterable__user_campaign')) %}
     
     select
         campaign_id,
