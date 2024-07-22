@@ -2,16 +2,16 @@
     tags="fivetran_validations",
     enabled=var('fivetran_validation_tests_enabled', false)
 ) }}
--- this test ensures the iterable__users end model matches the prior version
+-- this test ensures the iterable__campaigns end model matches the prior version
 with prod as (
     select *
-    from {{ target.schema }}_iterable_prod.iterable__users
+    from {{ target.schema }}_iterable_prod.iterable__campaigns
     where date(updated_at) < date({{ dbt.current_timestamp() }})
 ),
 
 dev as (
     select *
-    from {{ target.schema }}_iterable_dev.iterable__users
+    from {{ target.schema }}_iterable_dev.iterable__campaigns
     where date(updated_at) < date({{ dbt.current_timestamp() }})
 ),
 

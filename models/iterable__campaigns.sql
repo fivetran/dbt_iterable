@@ -36,7 +36,7 @@ with campaign_event_metrics as (
 
     {% set exclude_fields = [ 'campaign_id', 'template_id'] %} -- these are both in campaigns
 
-    -- this query will be at the campaign-experiment variation grain
+    -- this query will be at the campaign and experiment(if available) variation grain
     select
         campaign.*,
         {{ dbt_utils.star(from=ref('int_iterable__campaign_event_metrics'), except=exclude_fields) }}
