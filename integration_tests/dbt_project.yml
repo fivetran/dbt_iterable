@@ -23,7 +23,7 @@ vars:
 
   ## For validation testing. To be commented out before release.
 # models:
-#   +schema: "iterable_{{ var('directed_schema','dev') }}"
+  +schema: "iterable_{{ var('directed_schema','dev') }}"
 
 seeds:
   iterable_integration_tests:
