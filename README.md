@@ -97,13 +97,12 @@ vars:
     iterable__using_campaign_label_history: false                    # default is true
     iterable__using_user_unsubscribed_message_type_history: false    # default is true
     iterable__using_campaign_suppression_list_history: false         # default is true   
+    iterable__using_event_extension: false         # default is true   
 ```
 
 
 
 ## (Optional) Step 5: Additional configurations
-<details><summary>Expand for details</summary>
-<br>
 
 ### Passing Through Additional Fields
 
@@ -169,7 +168,6 @@ By default, this package refers to the new table (`CAMPAIGN_SUPPRESSION_LIST_HIS
 vars:
     iterable_campaign_suppression_list_history_identifier: "campaign_supression_list_history"
 ```
-</details>
 
 ## (Optional) Step 6: Orchestrate your models with Fivetran Transformations for dbt Core™
 <details><summary>Expand for details</summary>
