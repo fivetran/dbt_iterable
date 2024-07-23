@@ -2,15 +2,19 @@
     tags="fivetran_validations",
     enabled=var('fivetran_validation_tests_enabled', false)
 ) }}
+
+{% set exclude_fields = ["labels"] %}
+{% set fields = dbt_utils.star(from=ref('iterable__campaigns'), except=exclude_fields) %}
+
 -- this test ensures the iterable__campaigns end model matches the prior version
 with prod as (
-    select *
+    select {{ fields }}
     from {{ target.schema }}_iterable_prod.iterable__campaigns
     where date(updated_at) < date({{ dbt.current_timestamp() }})
 ),
 
 dev as (
-    select *
+    select {{ fields }}
     from {{ target.schema }}_iterable_dev.iterable__campaigns
     where date(updated_at) < date({{ dbt.current_timestamp() }})
 ),

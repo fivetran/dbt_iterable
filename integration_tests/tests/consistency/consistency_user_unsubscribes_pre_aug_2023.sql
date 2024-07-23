@@ -50,6 +50,6 @@ final as (
 
 select *
 from final
-where unique_users_prod != unique_users_dev
+where unique_user_records_prod != unique_user_records_dev
     and channels_prod != channels_dev 
     and message_types_prod != message_types_dev
