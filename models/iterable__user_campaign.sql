@@ -46,7 +46,17 @@ with events as (
     {{ dbt_utils.group_by(n=11) }}
     {% endif %}
 
+), add_surrogate_key as (
+
+    {% set surrogate_key_fields = ['unique_user_key', 'campaign_id'] %}
+    {% do surrogate_key_fields.append('experiment_id') if var('iterable__using_event_extension', True) %}
+
+    select 
+        *,
+        {{ dbt_utils.generate_surrogate_key(surrogate_key_fields) }} as user_campaign_id
+
+    from pivot_out_events
 )
 
 select *
-from pivot_out_events
+from add_surrogate_key

@@ -68,7 +68,18 @@ with campaign_event_metrics as (
     
     left join template
         on campaign.template_id = template.template_id
+
+), add_surrogate_key as (
+
+    {% set surrogate_key_fields = ['campaign_id', 'template_id'] %}
+    {% do surrogate_key_fields.append('experiment_id') if var('iterable__using_event_extension', True) %}
+
+    select 
+        *,
+        {{ dbt_utils.generate_surrogate_key(surrogate_key_fields) }} as campaign_version_id
+
+    from campaign_join
 )
 
 select *
-from campaign_join
+from add_surrogate_key
