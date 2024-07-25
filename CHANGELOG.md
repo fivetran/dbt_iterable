@@ -4,6 +4,9 @@
 ## 🚨 Breaking Changes 🚨
 - Introduces variable `iterable__using_event_extension` to allow the `event_extension` table to be disabled and exclude its field, `experiment_id`, from persisting downstream. This permits the downstream models to run even if the source `event_extension` table does not exist. By default the variable is set to True. If you don't have this table, you will need to set `iterable__using_event_extension` to False. For more information on how to configure the `iterable__using_event_extension` variable, refer to the [README](https://github.com/fivetran/dbt_iterable/blob/main/README.md#step-4-enablingdisabling-models). 
    - This will be a breaking change if you choose to disable the `event_extension` table as `experiment_id` will be removed from downstream models. Conversely, if you wish to include the `experiment_id` grain, ensure that `iterable__using_event_extension` is not explicitly set to False.
+   - Following this, the uniqueness tests in related models have been updated to account for whether `iterable__using_event_extension` is enabled/disabled by now relying on new surrogate keys:
+      - `unique_campaign_version_id`: Unique identifier for the `iterable__campaigns` model that combines `campaign_id`, `template_id`, and if available, `experiment_id`.
+      - unique_user_campaign_id: Unique identifier for the `iterable__user_campaign` model that combines `unique_user_key`, `campaign_id`, and if available, `experiment_id`.
 
 - Persists `user_history` passthrough columns, as stipulated via the `iterable_user_history_pass_through_columns` variable, through to the `iterable__users` model. For more information on how to configure the `iterable_user_history_pass_through_columns` variable, refer to the [README](https://github.com/fivetran/dbt_iterable/blob/main/README.md#passing-through-additional-fields).
 
