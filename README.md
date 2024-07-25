@@ -76,7 +76,7 @@ Include the following Iterable package version in your `packages.yml` file.
 ```yaml
 packages:
   - package: fivetran/iterable
-    version: [">=0.11.0", "<0.12.0"]
+    version: [">=0.12.0", "<0.13.0"]
 ```
 ## Step 3: Define database and schema variables
 By default, this package runs using your destination and the `iterable` schema of your [target database](https://docs.getdbt.com/docs/running-a-dbt-project/using-the-command-line-interface/configure-your-profile). If this is not where your Iterable data is located (for example, if your Iterable schema is named `iterable_fivetran`), add the following configuration to your root `dbt_project.yml` file:
@@ -97,19 +97,18 @@ vars:
     iterable__using_campaign_label_history: false                    # default is true
     iterable__using_user_unsubscribed_message_type_history: false    # default is true
     iterable__using_campaign_suppression_list_history: false         # default is true   
+    iterable__using_event_extension: false         # default is true   
 ```
 
 
 
 ## (Optional) Step 5: Additional configurations
-<details><summary>Expand for details</summary>
-<br>
 
 ### Passing Through Additional Fields
 
-This package includes fields we judged were standard across Iterable users. However, the Fivetran connector allows for additional columns to be brought through in the `event_extension` and `user_history` objects. Therefore, if you wish to bring them through, leverage our passthrough column variables. 
+This package includes fields we judged were standard across Iterable users. However, the Fivetran connector allows for additional columns to be brought through in the `event_extension` and `user_history` objects. Therefore, if you wish to bring them through, leverage our passthrough column variables. For `event_extension` columns, ensure that `iterable__using_event_extension` is set to True, which is the default.
 
-You will see these additional columns populate in the end `iterable__events` and `iterable__users` models.
+You will see these additional columns populate in the end `iterable__list_user_history`, `iterable__events`, and `iterable__users` models.
 
 **Notice**: A `dbt run --full-refresh` is required each time these variables are edited.
 
@@ -169,7 +168,6 @@ By default, this package refers to the new table (`CAMPAIGN_SUPPRESSION_LIST_HIS
 vars:
     iterable_campaign_suppression_list_history_identifier: "campaign_supression_list_history"
 ```
-</details>
 
 ## (Optional) Step 6: Orchestrate your models with Fivetran Transformations for dbt Core™
 <details><summary>Expand for details</summary>
@@ -191,7 +189,7 @@ packages:
       version: [">=1.0.0", "<2.0.0"]
 
     - package: fivetran/iterable_source
-      version: [">=0.8.0", "<0.9.0"]
+      version: [">=0.9.0", "<0.10.0"]
 ```
 
 # 🙌 How is this package maintained and can I contribute?

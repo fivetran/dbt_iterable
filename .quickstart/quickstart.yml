@@ -10,6 +10,8 @@ table_variables:
     - campaign_suppression_list_history
   iterable__using_user_unsubscribed_message_type:
     - user_unsubscribed_message_type
+  iterable__using_event_extension:
+    - event_extension
     
 destination_configurations:
   databricks:

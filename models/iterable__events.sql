@@ -22,10 +22,13 @@ with events as (
     select *
     from {{ ref('int_iterable__recurring_campaigns') }}
 
+
+{% if var('iterable__using_event_extension', True) %}
 ), event_extension as (
 
     select *
     from {{ var('event_extension') }}
+{% endif %}
 
 ), users as (
 
@@ -59,18 +62,25 @@ with events as (
         message_type_channel.message_medium,
         message_type_channel.channel_id,
         message_type_channel.channel_name,
-        message_type_channel.channel_type,
+        message_type_channel.channel_type
 
+        {% if var('iterable__using_event_extension', True) %}
         {% set exclude_fields = ["unique_user_key","_fivetran_user_id","event_id", "content_id", "_fivetran_synced", "unique_event_id"] %}
-        {{ dbt_utils.star(from=ref('stg_iterable__event_extension'), except= exclude_fields  ) }}
+        , {{ dbt_utils.star(from=ref('stg_iterable__event_extension'), except=exclude_fields) }}
+        {% endif %}
+
         ,
         campaign.template_id,
         template.template_name,
         template.creator_user_id as template_creator_user_id
         
     from events
+
+    {% if var('iterable__using_event_extension', True) %}
     left join event_extension
         on events.unique_event_id = event_extension.unique_event_id
+    {% endif %}
+
     left join campaign
         on events.campaign_id = campaign.campaign_id
     left join users
