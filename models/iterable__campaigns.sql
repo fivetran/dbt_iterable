@@ -76,7 +76,7 @@ with campaign_event_metrics as (
 
     select 
         *,
-        {{ dbt_utils.generate_surrogate_key(surrogate_key_fields) }} as campaign_version_id
+        {{ dbt_utils.generate_surrogate_key(surrogate_key_fields) }} as unique_campaign_version_id
 
     from campaign_join
 )

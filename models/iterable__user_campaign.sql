@@ -53,7 +53,7 @@ with events as (
 
     select 
         *,
-        {{ dbt_utils.generate_surrogate_key(surrogate_key_fields) }} as user_campaign_id
+        {{ dbt_utils.generate_surrogate_key(surrogate_key_fields) }} as unique_user_campaign_id
 
     from pivot_out_events
 )
