@@ -18,3 +18,12 @@ destination_configurations:
     dispatch:
       - macro_namespace: dbt_utils
         search_order: [ 'spark_utils', 'dbt_utils' ]
+
+public_models: [
+  "iterable__events",
+  "iterable__campaigns",
+  "iterable__user_unsubscriptions",
+  "iterable__users",
+  "iterable__user_campaign",
+  "iterable__list_user_history"
+]
