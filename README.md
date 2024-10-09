@@ -158,6 +158,18 @@ If an individual source table has a different name than what the package expects
 vars:
     iterable_<default_source_table_name>_identifier: "your_table_name"
 ```
+#### User Campaign metric selection 
+In the `iterable__user_campaign` model, there are metrics calculated based on Iterable event names. If not all metrics apply to your use case, you can select which event names are used to calculate the metrics by adding the variable `iterable__event_metrics` to your `dbt_project.yml` file.  
+
+> IMPORTANT: See this project's [`dbt_project.yml`](https://github.com/fivetran/dbt_iterable_source/blob/main/dbt_project.yml) to see the current event names used.
+
+```yml
+vars:
+  iterable__event_metrics:
+    - "emailSend"
+    - "emailOpen"
+```
+
 #### Deprecated `CAMPAIGN_SUPRESSION_LIST_HISTORY` table
 
 The Iterable connector schema originally misspelled the `CAMPAIGN_SUPPRESSION_LIST_HISTORY` table as `CAMPAIGN_SUPRESSION_LIST_HISTORY` (note the singular `P`). As of August 2021, Fivetran has deprecated the misspelled table and will only continue syncing the correctly named `CAMPAIGN_SUPPRESSION_LIST_HISTORY` table.
