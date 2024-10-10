@@ -76,7 +76,7 @@ Include the following Iterable package version in your `packages.yml` file.
 ```yaml
 packages:
   - package: fivetran/iterable
-    version: [">=0.12.0", "<0.13.0"]
+    version: [">=0.12.1", "<0.13.0"]
 ```
 ### Step 3: Define database and schema variables
 By default, this package runs using your destination and the `iterable` schema of your [target database](https://docs.getdbt.com/docs/running-a-dbt-project/using-the-command-line-interface/configure-your-profile). If this is not where your Iterable data is located (for example, if your Iterable schema is named `iterable_fivetran`), add the following configuration to your root `dbt_project.yml` file:

@@ -1,3 +1,9 @@
+# dbt_iterable v0.12.1
+[PR #50](https://github.com/fivetran/dbt_iterable/pull/50) includes the following updates:
+
+## 🎉 Feature Update 🎉
+- New field `first_open_or_click_event_at` in the `iterable__user_campaign` model to show the first time a user interacted with a campaign.
+
 # dbt_iterable v0.12.0
 [PR #44](https://github.com/fivetran/dbt_iterable/pull/44) includes the following updates:
 

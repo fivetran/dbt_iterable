@@ -1,6 +1,6 @@
 config-version: 2
 name: 'iterable_integration_tests'
-version: '0.12.0'
+version: '0.12.1'
 profile: 'integration_tests'
 vars:
   iterable_source:
