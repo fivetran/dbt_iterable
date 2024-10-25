@@ -1,10 +1,10 @@
 # dbt_iterable v0.13.0
-[PR #44](https://github.com/fivetran/dbt_iterable/pull/44) includes the following updates:
+[PR #51](https://github.com/fivetran/dbt_iterable/pull/51) includes the following updates:
 
 ## Breaking Changes
 - Adds a field called `first_open_or_click_time` in the `iterable__user_campaign` model. This timestamp records the earliest occurring event, out of 'emailOpen', 'emailClick', and 'pushOpen'.
 
-## Bugfix
+## Bug Fix 
 - Updates the incremental logic in `iterable__events` to use the `created_on` date field instead of the `created_at` timestamp. Previously, this would potentially exclude late-arriving new records from populating in the end models if they had an older `created_at` value than what was present in the model. Switching to `created_on` widens the criteria.
 
 ## Under the Hood
