@@ -28,7 +28,10 @@ with events as (
         recurring_campaign_name,
 
         min(created_at) as first_event_at,
-        max(created_at) as last_event_at
+        max(created_at) as last_event_at,
+
+        min(case when lower(event_name) in ('emailopen', 'emailclick', 'pushopen') then created_at end) as first_open_or_click_time
+
 
         -- count up the number of instances of each metric
         -- `iterable__event_metrics` is set by default to all events brought in by fivetran+iterable
