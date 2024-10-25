@@ -158,6 +158,18 @@ If an individual source table has a different name than what the package expects
 vars:
     iterable_<default_source_table_name>_identifier: "your_table_name"
 ```
+
+##### Lookback Window
+Records from the source can sometimes arrive late. Since several of the models in this package are incremental, by default we look back 7 days to ensure late arrivals are captured while avoiding the need for frequent full refreshes. While the frequency can be reduced, we still recommend running `dbt --full-refresh` periodically to maintain data quality of the models.
+
+To change the default lookback window, add the following variable to your `dbt_project.yml` file:
+
+```yml
+vars:
+  iterable:
+    lookback_window: number_of_days # default is 7
+```
+
 #### Deprecated `CAMPAIGN_SUPRESSION_LIST_HISTORY` table
 
 The Iterable connector schema originally misspelled the `CAMPAIGN_SUPPRESSION_LIST_HISTORY` table as `CAMPAIGN_SUPRESSION_LIST_HISTORY` (note the singular `P`). As of August 2021, Fivetran has deprecated the misspelled table and will only continue syncing the correctly named `CAMPAIGN_SUPPRESSION_LIST_HISTORY` table.
@@ -189,7 +201,7 @@ packages:
       version: [">=1.0.0", "<2.0.0"]
 
     - package: fivetran/iterable_source
-      version: [">=0.9.0", "<0.10.0"]
+      version: [">=0.10.0", "<0.11.0"]
 ```
 
 ## How is this package maintained and can I contribute?
