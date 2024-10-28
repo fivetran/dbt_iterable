@@ -422,8 +422,8 @@ models:
         description: Total in app click events associated with the user within the campaign/experiment
       - name: total_pushuninstall
         description: Total push uninstall events associated with the user within the campaign/experiment
-      - name: first_open_or_click_time
-        description: The time of the first open or click time. The timestamp of the earliest occurring event, out of 'emailopen', 'emailclick', and 'pushopen'.
+      - name: first_open_or_click_event_at
+        description: The time of the first open or click time. This is the first time a user interacts with a campaign, recording the earliest occurring event out of 'emailOpen', 'emailClick', and 'pushOpen'.
 
   - name: iterable__user_unsubscriptions
     description: Table that generates the total channel and message types a user has chosen to unsubscribe.
