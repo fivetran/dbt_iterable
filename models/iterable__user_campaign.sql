@@ -29,8 +29,7 @@ with events as (
 
         min(created_at) as first_event_at,
         max(created_at) as last_event_at,
-
-        min(case when lower(event_name) in ('emailopen', 'emailclick', 'pushopen') then created_at end) as first_open_or_click_time
+        min(case when event_name in ('emailOpen', 'emailClick', 'pushOpen') then created_at end) as first_open_or_click_event_at
 
 
         -- count up the number of instances of each metric
