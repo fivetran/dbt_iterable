@@ -1,10 +1,10 @@
 config-version: 2
 name: 'iterable_integration_tests'
-version: '0.12.1'
+version: '0.13.0'
 profile: 'integration_tests'
 vars:
   iterable_source:
-    iterable_schema: iterable_integration_tests_13
+    iterable_schema: iterable_integration_tests_14
     iterable_campaign_history_identifier: "campaign_history_data"
     iterable_campaign_label_history_identifier: "campaign_label_history_data"
     iterable_campaign_list_history_identifier: "campaign_list_history_data"
@@ -20,6 +20,7 @@ vars:
     iterable_user_unsubscribed_message_type_identifier: "user_unsubscribed_message_type_data"
     iterable_user_unsubscribed_channel_history_identifier: "user_unsubscribed_channel_history_data"
     iterable_user_unsubscribed_message_type_history_identifier: "user_unsubscribed_message_type_history_data"
+  lookback_window: 8
 
 models:
   +schema: "iterable_{{ var('directed_schema','dev') }}"

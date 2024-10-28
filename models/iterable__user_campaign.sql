@@ -31,6 +31,7 @@ with events as (
         max(created_at) as last_event_at,
         min(case when event_name in ('emailOpen', 'emailClick', 'pushOpen') then created_at end) as first_open_or_click_event_at
 
+
         -- count up the number of instances of each metric
         -- `iterable__event_metrics` is set by default to all events brought in by fivetran+iterable
         -- https://fivetran.com/docs/applications/iterable#schemanotes
