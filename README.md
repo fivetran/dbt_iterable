@@ -159,7 +159,19 @@ vars:
     iterable_<default_source_table_name>_identifier: "your_table_name"
 ```
 
-##### Lookback Window
+#### User Campaign metric selection 
+In the `iterable__user_campaign` model, there are metrics calculated based on Iterable event names. If not all metrics apply to your use case, you can select which event names are used to calculate the metrics by adding the variable `iterable__event_metrics` to your `dbt_project.yml` file.  
+
+> IMPORTANT: See this project's [`dbt_project.yml`](https://github.com/fivetran/dbt_iterable_source/blob/main/dbt_project.yml) to see the current event names used.
+
+```yml
+vars:
+  iterable__event_metrics:
+    - "emailSend"
+    - "emailOpen"
+```
+
+#### Lookback Window
 Records from the source can sometimes arrive late. Since several of the models in this package are incremental, by default we look back 7 days to ensure late arrivals are captured while avoiding the need for frequent full refreshes. While the frequency can be reduced, we still recommend running `dbt --full-refresh` periodically to maintain data quality of the models.
 
 To change the default lookback window, add the following variable to your `dbt_project.yml` file:
