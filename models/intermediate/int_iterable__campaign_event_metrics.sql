@@ -15,7 +15,7 @@ with user_campaign as (
         , count(distinct unique_user_key) as count_unique_users
         
         {% for col in user_campaign_columns %}
-            {% if col.name|lower not in ['unique_user_key', 'user_id', '_fivetran_user_id', 'user_email', 'user_full_name', 'campaign_id', 'campaign_name', 'recurring_campaign_id', 'recurring_campaign_name', 'first_event_at', 'last_event_at', 'template_id', 'template_name', 'experiment_id', 'unique_user_campaign_id'] %}
+            {% if col.name|lower not in ['unique_user_key', 'user_id', '_fivetran_user_id', 'user_email', 'user_full_name', 'campaign_id', 'campaign_name', 'recurring_campaign_id', 'recurring_campaign_name', 'first_event_at', 'last_event_at', 'template_id', 'template_name', 'experiment_id', 'unique_user_campaign_id','first_open_or_click_event_at'] %}
                             , sum({{ col.name }}) as {{ col.name }}
                             , count(distinct case when {{ col.name }} > 0 then user_email else null end) as unique_{{ col.name }}
             {% endif %}

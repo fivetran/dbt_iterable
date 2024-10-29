@@ -76,7 +76,7 @@ Include the following Iterable package version in your `packages.yml` file.
 ```yaml
 packages:
   - package: fivetran/iterable
-    version: [">=0.12.0", "<0.13.0"]
+    version: [">=0.13.0", "<0.14.0"]
 ```
 ### Step 3: Define database and schema variables
 By default, this package runs using your destination and the `iterable` schema of your [target database](https://docs.getdbt.com/docs/running-a-dbt-project/using-the-command-line-interface/configure-your-profile). If this is not where your Iterable data is located (for example, if your Iterable schema is named `iterable_fivetran`), add the following configuration to your root `dbt_project.yml` file:
@@ -158,6 +158,7 @@ If an individual source table has a different name than what the package expects
 vars:
     iterable_<default_source_table_name>_identifier: "your_table_name"
 ```
+
 #### User Campaign metric selection 
 In the `iterable__user_campaign` model, there are metrics calculated based on Iterable event names. If not all metrics apply to your use case, you can select which event names are used to calculate the metrics by adding the variable `iterable__event_metrics` to your `dbt_project.yml` file.  
 
@@ -168,6 +169,17 @@ vars:
   iterable__event_metrics:
     - "emailSend"
     - "emailOpen"
+```
+
+#### Lookback Window
+Records from the source can sometimes arrive late. Since several of the models in this package are incremental, by default we look back 7 days to ensure late arrivals are captured while avoiding the need for frequent full refreshes. While the frequency can be reduced, we still recommend running `dbt --full-refresh` periodically to maintain data quality of the models.
+
+To change the default lookback window, add the following variable to your `dbt_project.yml` file:
+
+```yml
+vars:
+  iterable:
+    lookback_window: number_of_days # default is 7
 ```
 
 #### Deprecated `CAMPAIGN_SUPRESSION_LIST_HISTORY` table
@@ -182,11 +194,8 @@ vars:
 ```
 
 ### (Optional) Step 6: Orchestrate your models with Fivetran Transformations for dbt Core™
-<details><summary>Expand for details</summary>
-<br>
-    
+
 Fivetran offers the ability for you to orchestrate your dbt project through [Fivetran Transformations for dbt Core™](https://fivetran.com/docs/transformations/dbt). Learn how to set up your project for orchestration through Fivetran in our [Transformations for dbt Core setup guides](https://fivetran.com/docs/transformations/dbt#setupguide).
-</details>
 
 ## Does this package have dependencies?
 This dbt package is dependent on the following dbt packages. These dependencies are installed by default within this package. For more information on the following packages, refer to the [dbt hub](https://hub.getdbt.com/) site.
@@ -201,7 +210,7 @@ packages:
       version: [">=1.0.0", "<2.0.0"]
 
     - package: fivetran/iterable_source
-      version: [">=0.9.0", "<0.10.0"]
+      version: [">=0.10.0", "<0.11.0"]
 ```
 
 ## How is this package maintained and can I contribute?
