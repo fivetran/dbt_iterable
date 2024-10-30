@@ -16,7 +16,7 @@ models:
       - name: campaign_name
         description: User defined name of the campaign.
       - name: updated_at
-        description: Last update timestamp as epoch time in milliseconds
+        description: Last update timestamp
       - name: campaign_state
         description: State of the campaign. Can be Draft, Ready, Scheduled, Running, Finished, Starting, Aborted or Recurring
       - name: campaign_type
@@ -24,11 +24,11 @@ models:
       - name: send_size
         description: Size of the campaign. Number of individuals included in the campaign
       - name: start_at
-        description: Start timestamp as epoch time in milliseconds
+        description: Start timestamp
       - name: ended_at
-        description: Ended timestamp as epoch time in milliseconds
+        description: Ended timestamp
       - name: created_at
-        description: Creation timestamp as epoch time in milliseconds
+        description: Creation timestamp
       - name: created_by_user_id
         description: Reference to the user who created the campaign
       - name: template_id
@@ -173,7 +173,7 @@ models:
       - name: content_id
         description: Reference to the content the event is associated with
       - name: created_at
-        description: Creation timestamp as epoch time in milliseconds
+        description: Creation timestamp
       - name: email
         description: The user's email. User identifier, for email-based projects. Previously was the unique identifier for user records, for the old Iterable schema before the August 2023 updates. 
       - name: additional_properties
@@ -331,11 +331,11 @@ models:
       - name: user_id
         description:  User identifier, for userID-based projects.
       - name: user_signup_date
-        description: Timestamp as epoch time in milliseconds of when the user signed up
+        description: Timestamp of when the user signed up
       - name: user_signup_source
         description: Source where the user signed up
       - name: user_updated_at
-        description: Last update timestamp as epoch time in milliseconds
+        description: Last update timestamp
       - name: list_id
         description: The list associated with the user
       - name: is_current
@@ -479,11 +479,11 @@ models:
       - name: user_id
         description:  User identifier, for userID-based projects.
       - name: signup_date
-        description: Timestamp as epoch time in milliseconds of when the user signed up
+        description: Timestamp of when the user signed up
       - name: signup_source
         description: Source where the user signed up
       - name: updated_at
-        description: Last update timestamp as epoch time in milliseconds
+        description: Last update timestamp
       - name: phone_number
         description: Phone number associated with the user
       - name: email_list_ids
