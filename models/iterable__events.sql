@@ -1,6 +1,6 @@
 {{ config(
         materialized='incremental',
-        unique_key=['unique_event_id'],
+        unique_key=['unique_event_id','created_at'],
         incremental_strategy='insert_overwrite' if target.type in ('bigquery', 'spark', 'databricks') else 'delete+insert',
         partition_by={"field": "created_on", "data_type": "date"} if target.type not in ('spark','databricks') else ['created_on'],
         file_format='parquet',
