@@ -20,7 +20,6 @@ vars:
     iterable_user_unsubscribed_message_type_identifier: "user_unsubscribed_message_type_data"
     iterable_user_unsubscribed_channel_history_identifier: "user_unsubscribed_channel_history_data"
     iterable_user_unsubscribed_message_type_history_identifier: "user_unsubscribed_message_type_history_data"
-  # lookback_window: 8
 
 models:
   +schema: "iterable_{{ var('directed_schema','dev') }}"
