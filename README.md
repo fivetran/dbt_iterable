@@ -177,7 +177,7 @@ To change the default lookback window, add the following variable to your `dbt_p
 ```yml
 vars:
   iterable:
-    lookback_window: number_of_days # default is 7
+    iterable_lookback_window: number_of_days # default is 7
 ```
 
 #### Deprecated `CAMPAIGN_SUPRESSION_LIST_HISTORY` table
