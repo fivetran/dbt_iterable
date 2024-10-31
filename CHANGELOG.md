@@ -9,7 +9,7 @@
 - In addition to using `created_on` in the incremental logic in `iterable__events`, we introduced a `lookback_window` to increase the window for accommodating potential late-arriving records. The default is 7 days prior to the maximum created_on value present in the `iterable__events` model, but you may customize this by setting the var `lookback_window` in your dbt_project.yml. See the [Lookback Window section of the README](https://github.com/fivetran/dbt_iterable/blob/main/README.md#lookback-window) for more details.
 
 ## Contributors
-- [@justin-fundrise](https://github.com/justin-fundrise) ([Issue #48](https://github.com/fivetran/dbt_iterable/issues/48), [PR #49](https://github.com/fivetran/dbt_iterable/pull/49), [PR #50](https://github.com/fivetran/dbt_iterable/pull/50))
+- [@justin-fundrise](https://github.com/justin-fundrise) ([PR #49](https://github.com/fivetran/dbt_iterable/pull/49), [PR #50](https://github.com/fivetran/dbt_iterable/pull/50))
 
 # dbt_iterable v0.12.0
 [PR #44](https://github.com/fivetran/dbt_iterable/pull/44) includes the following updates:
