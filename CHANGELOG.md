@@ -3,9 +3,8 @@
 
 ## Breaking Changes (`--full-refresh` required after upgrading)  
 - Adds a field called `first_open_or_click_event_at` in the `iterable__user_campaign` model. This timestamp shows the first time a user interacted with a campaign, recording the earliest occurring event out of 'emailOpen', 'emailClick', and 'pushOpen'. ([PR #50](https://github.com/fivetran/dbt_iterable/pull/50))
-- Updates to the incremental logic in `iterable__events` model:
-   - Corrected the incremental filter to now use the `created_on` date field instead of the `created_at` timestamp. 
-       - Previously, this would potentially exclude late-arriving new records from populating in the end models if they had an older `created_at` value than what was present in the model. Switching to `created_on` widens the criteria. 
+- Corrected the incremental filter in `iterable__events` model to now use the `created_on` date field instead of the `created_at` timestamp. 
+   - Previously, this would potentially exclude late-arriving new records from populating in the end models if they had an older `created_at` value than what was present in the model. Switching to `created_on` widens the criteria. 
 
 ## Under the Hood
 - In addition to using `created_on` in the incremental logic in `iterable__events`, we introduced a `iterable_lookback_window` variable to increase the window for accommodating potential late-arriving records. The default is 7 days prior to the maximum `created_on` value present in the `iterable__events` model, but you may customize this by setting the var `iterable_lookback_window ` in your dbt_project.yml. See the [Lookback Window section of the README](https://github.com/fivetran/dbt_iterable/blob/main/README.md#lookback-window) for more details.
