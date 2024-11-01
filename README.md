@@ -160,14 +160,31 @@ vars:
 ```
 
 #### Pivoting out event metrics 
-In the `iterable__user_campaign` model, there are metrics calculated based on Iterable events. By default, all event metrics are enabled as shown in the [`dbt_project.yml`](https://github.com/fivetran/dbt_iterable/blob/2c0c1764f55af255726397a374b48004de20cf51/dbt_project.yml#L34). If not all metrics apply to your use case, you can specify which event metrics to include by configuring the variable `iterable__event_metrics` in your own `dbt_project.yml` as shown below.  
+In the `iterable__user_campaign` model, there are metrics calculated based on Iterable events. By default, all the below metrics are enabled by default. If not all metrics apply to your use case, you can specify which event metrics to include by adjusting the `iterable__event_metrics` variable in your own `dbt_project.yml`.
 
 ```yml
 vars:
-  iterable__event_metrics:
-    - "emailSend"
+    iterable__event_metrics:
+    - "emailClick"
+    - "emailUnSubscribe"
+    - "emailComplaint"
+    - "customEvent"
+    - "emailSubscribe"
     - "emailOpen"
-```
+    - "pushSend"
+    - "smsBounce"
+    - "pushBounce"
+    - "inAppSendSkip"
+    - "smsSend"
+    - "inAppSend"
+    - "pushOpen"
+    - "emailSend"
+    - "pushSendSkip"
+    - "inAppOpen"
+    - "emailSendSkip"
+    - "emailBounce"
+    - "inAppClick"
+    - "pushUninstall"
 
 #### Lookback Window
 Records from the source can sometimes arrive late. Since several of the models in this package are incremental, by default we look back 7 days to ensure late arrivals are captured while avoiding the need for frequent full refreshes. While the frequency can be reduced, we still recommend running `dbt --full-refresh` periodically to maintain data quality of the models.
