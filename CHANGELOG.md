@@ -6,7 +6,7 @@
 - Corrected the incremental filter in `iterable__events` model to now use the `created_on` date field instead of the `created_at` timestamp. 
    - Previously, this would potentially exclude late-arriving new records from populating in the end models if they had an older `created_at` value than what was present in the model. Switching to `created_on` widens the criteria.
 - Updated upstream `stg_iterable__user_history` model from materializing as a table to a view in order to improve performance.
-- In order to ensure no issues, we encourage you to run a `--full-refresh`.
+- In order to ensure no issues a `--full-refresh` is required after upgrading.
 
 ## Under the Hood
 - In addition to using `created_on` in the incremental logic in `iterable__events`, we introduced a `iterable_lookback_window` variable to increase the window for accommodating potential late-arriving records. The default is 7 days prior to the maximum `created_on` value present in the `iterable__events` model, but you may customize this by setting the var `iterable_lookback_window ` in your dbt_project.yml. See the [Lookback Window section of the README](https://github.com/fivetran/dbt_iterable/blob/main/README.md#lookback-window) for more details.
