@@ -185,6 +185,7 @@ vars:
     - "emailBounce"
     - "inAppClick"
     - "pushUninstall"
+```
 
 #### Lookback Window
 Records from the source can sometimes arrive late. Since several of the models in this package are incremental, by default we look back 7 days to ensure late arrivals are captured while avoiding the need for frequent full refreshes. While the frequency can be reduced, we still recommend running `dbt --full-refresh` periodically to maintain data quality of the models.
