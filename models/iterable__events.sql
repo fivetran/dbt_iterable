@@ -14,7 +14,10 @@ with events as (
     from {{ var('event') }}
 
     {% if is_incremental() %}
-    where created_at >= (select max(created_at) from {{ this }} )
+    where created_on >= {{ iterable.iterable_lookback(
+        from_date="max(created_on)",
+        datepart='day', 
+        interval=var('iterable_lookback_window', 7)) }}
     {% endif %}
 
 ), campaign as (
