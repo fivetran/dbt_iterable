@@ -1,7 +1,3 @@
 packages:
-  # - package: fivetran/iterable_source
-  #   version: [">=0.10.0", "<0.11.0"]
-
-  - git: https://github.com/fivetran/dbt_iterable_source.git
-    revision: rm_src_freshness
-    warn-unpinned: false
+  - package: fivetran/iterable_source
+    version: [">=0.10.0", "<0.11.0"]
