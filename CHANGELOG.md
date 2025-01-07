@@ -1,3 +1,9 @@
+# dbt_iterable version.version
+
+## Documentation
+- Added Quickstart model counts to README. ([#54](https://github.com/fivetran/dbt_iterable/pull/54))
+- Corrected references to connectors and connections in the README. ([#54](https://github.com/fivetran/dbt_iterable/pull/54))
+
 # dbt_iterable v0.13.0
 [PR #51](https://github.com/fivetran/dbt_iterable/pull/51) includes the following updates:
 
