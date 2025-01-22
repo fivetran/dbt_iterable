@@ -40,6 +40,8 @@ The following table provides a detailed list of all tables materialized within t
 | [iterable__list_user_history](https://fivetran.github.io/dbt_iterable/#!/model/model.iterable.iterable__list_user_history)             | Each record represents a unique user-list combination. This is intended to recreate the `LIST_USER_HISTORY` source table, which can be disconnected from your syncs, as it can lead to excessive MAR usage. |
 | [iterable__user_unsubscriptions](https://fivetran.github.io/dbt_iterable/#!/model/model.iterable.iterable__user_unsubscriptions)             | Each row represents a message type that a user is currently unsubscribed to, including the channel the message type belongs to. If a user is unsubscribed from an entire channel, each of the channel's message types appears as an unsubscription. |
 
+### Materialized Models
+Each Quickstart transformation job run materializes 43 models if all components of this data model are enabled. This count includes all staging, intermediate, and final models materialized as `view`, `table`, or `incremental`.
 <!--section-end-->
 
 ## How do I use the dbt package?
@@ -47,7 +49,7 @@ The following table provides a detailed list of all tables materialized within t
 ### Step 1: Prerequisites
 To use this dbt package, you must have the following:
 
-- At least one Fivetran Iterable connector syncing data into your destination.
+- At least one Fivetran Iterable connection syncing data into your destination.
 - A **BigQuery**, **Snowflake**, **Redshift**, **PostgreSQL**, or **Databricks** destination.
 
 #### Databricks Configuration
@@ -64,7 +66,7 @@ Some of the end models in this package are materialized incrementally. We have c
 
 #### Unsubscribe tables are no longer history tables
 
-For connectors created past August 2023, the `user_unsubscribed_channel_history` and `user_unsubscribed_message_type_history` Iterable objects will no longer be history tables as part of schema changes following Iterable's API updates. The fields have also changed. There is no lift required, since we have checks in place that will automatically persist the respective fields depending on what exists in your schema (they will still be history tables if you are using the old schema).
+For connections created past August 2023, the `user_unsubscribed_channel_history` and `user_unsubscribed_message_type_history` Iterable objects will no longer be history tables as part of schema changes following Iterable's API updates. The fields have also changed. There is no lift required, since we have checks in place that will automatically persist the respective fields depending on what exists in your schema (they will still be history tables if you are using the old schema).
 
 *Please be sure you are syncing them as either both history or non-history.*
 
@@ -87,7 +89,7 @@ vars:
   iterable_schema: your_schema_name 
 ```
 ### Step 4: Enabling/Disabling Models
-Your Iterable connector might not sync every table that this package expects. If your syncs exclude certain tables, it is either because you do not use that functionality in Iterable or have actively excluded some tables from your syncs. In order to enable or disable the relevant tables in the package, you will need to add the following variable(s) to your `dbt_project.yml` file.
+Your Iterable connection might not sync every table that this package expects. If your syncs exclude certain tables, it is either because you do not use that functionality in Iterable or have actively excluded some tables from your syncs. In order to enable or disable the relevant tables in the package, you will need to add the following variable(s) to your `dbt_project.yml` file.
 
 By default, all variables are assumed to be `true`.
 
