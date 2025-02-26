@@ -1,8 +1,9 @@
 # dbt_iterable v0.13.1
-[PR #55](https://github.com/fivetran/dbt_iterable/pull/55) includes the following updates:
+
 
 ## Documentation
-- Refreshed the docs to account for the upstream update to the macro `does_table_exist`. For more information refer to the upstream [PR #42](https://github.com/fivetran/dbt_iterable_source/pull/42).
+- Refreshed the docs to account for the upstream update to the macro `does_table_exist`. ([#55](https://github.com/fivetran/dbt_iterable/pull/55))
+  - For more information refer to the upstream PR ([#42](https://github.com/fivetran/dbt_iterable_source/pull/42)).
 - Added Quickstart model counts to README. ([#54](https://github.com/fivetran/dbt_iterable/pull/54))
 - Corrected references to connectors and connections in the README. ([#54](https://github.com/fivetran/dbt_iterable/pull/54))
 
