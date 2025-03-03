@@ -1,4 +1,6 @@
-<p align="center">
+# Iterable Transformation dbt Package ([docs](https://fivetran.github.io/dbt_iterable/))
+
+<p align="left">
     <a alt="License"
         href="https://github.com/fivetran/dbt_iterable/blob/main/LICENSE">
         <img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg" /></a>
@@ -13,7 +15,6 @@
         <img src="https://img.shields.io/badge/Fivetran_Quickstart_Compatible%3F-yes-green.svg" /></a>
 </p>
 
-# Iterable Transformation dbt Package ([docs](https://fivetran.github.io/dbt_iterable/))
 ## What does this dbt package do?
 - Produces modeled tables that leverage Iterable data from [Fivetran's connector](https://fivetran.com/docs/applications/iterable) in the format described by [this ERD](https://fivetran.com/docs/applications/iterable#schemainformation) and builds off the output of our [Iterable source package](https://github.com/fivetran/dbt_iterable_source).
 
