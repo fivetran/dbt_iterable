@@ -1,5 +1,14 @@
-# dbt_iterable v0.13.1
+# dbt_iterable v0.13.2
+[PR #59](https://github.com/fivetran/dbt_iterable/pull/59) introduces the following updates:
 
+## Bug Fixes
+- Updated `file_format` configuration in `iterable__events` and `int_iterable__list_user_unnest` to be `delta` rather than `parquet`. This resolves Databricks incompatible configuration errors that arise with the parquet format. 
+
+## Under the Hood
+- Updated the package maintainer PR template. 
+
+# dbt_iterable v0.13.1
+This release introduces the following updates: 
 
 ## Documentation
 - Refreshed the docs to account for the upstream update to the macro `does_table_exist`. ([#55](https://github.com/fivetran/dbt_iterable/pull/55))
