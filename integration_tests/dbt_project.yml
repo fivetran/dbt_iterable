@@ -1,6 +1,6 @@
 config-version: 2
 name: 'iterable_integration_tests'
-version: '0.13.2'
+version: '0.14.0'
 profile: 'integration_tests'
 vars:
   iterable_source:
@@ -25,6 +25,8 @@ models:
   +schema: "iterable_{{ var('directed_schema','dev') }}"
 
 seeds:
+  +docs:
+    show: false
   iterable_integration_tests:
     +quote_columns: "{{ true if target.type == 'redshift' else false }}"
     +column_types:
