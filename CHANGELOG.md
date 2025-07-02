@@ -1,6 +1,14 @@
 # dbt_iterable v0.14.0
 [PR #59](https://github.com/fivetran/dbt_iterable/pull/59) introduces the following updates:
 
+
+## Schema Updates
+
+| Data Model                                                                                                                                               | Change Type | Old Name                     | New Name                                             | Notes                                                                                    |
+| -------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- | ---------------------------- | ---------------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| `iterable__events`             | New Databricks file format |   |          | Changed from `delta` to `parquet`.    |
+| `int_iterable__list_user_unnest`             | New Databricks file format |   |          | Changed from `delta` to `parquet`.     |
+
 ## Breaking Changes (`--full-refresh` required for Databricks users)
 - Updated `file_format` configuration in `iterable__events` and `int_iterable__list_user_unnest` to be `delta` rather than `parquet`. This resolves Databricks incompatible configuration errors that arise with the parquet format. 
 
