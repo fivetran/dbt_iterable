@@ -3,6 +3,7 @@
 
 ## Schema Updates
 
+**2 total changes • 2 possible breaking changes for Databricks users**
 | Data Model                                                                                                                                               | Change Type | Old                     | New                                             | Notes                                                                                    |
 | -------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- | ---------------------------- | ---------------------------------------------------- | ---------------------------------------------------------------------------------------- |
 | `iterable__events`             | New Databricks file format |  `parquet`  |    `delta`      | Requires `--full-refresh` for Databricks users.    |
