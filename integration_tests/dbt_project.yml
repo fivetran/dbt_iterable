@@ -1,10 +1,10 @@
 config-version: 2
 name: 'iterable_integration_tests'
-version: '0.13.1'
+version: '0.14.0'
 profile: 'integration_tests'
 vars:
   iterable_source:
-    iterable_schema: iterable_integration_tests_20
+    iterable_schema: iterable_integration_tests_24
     iterable_campaign_history_identifier: "campaign_history_data"
     iterable_campaign_label_history_identifier: "campaign_label_history_data"
     iterable_campaign_list_history_identifier: "campaign_list_history_data"
@@ -25,6 +25,8 @@ models:
   +schema: "iterable_{{ var('directed_schema','dev') }}"
 
 seeds:
+  +docs:
+    show: false
   iterable_integration_tests:
     +quote_columns: "{{ true if target.type == 'redshift' else false }}"
     +column_types:

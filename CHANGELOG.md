@@ -1,5 +1,18 @@
-# dbt_iterable v0.13.1
+# dbt_iterable v0.14.0
+[PR #59](https://github.com/fivetran/dbt_iterable/pull/59) introduces the following updates:
 
+## Schema Updates
+**2 total changes • 2 possible breaking changes for Databricks users**
+| Data Model                                                                                                                                               | Change Type | Old                     | New                                             | Notes                                                                                    |
+| -------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- | ---------------------------- | ---------------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| `iterable__events`             | New Databricks file format |  `parquet`  |    `delta`      | Requires `--full-refresh` for Databricks users.    |
+| `int_iterable__list_user_unnest`             | New Databricks file format |  `parquet`  |     `delta`     | Requires `--full-refresh` for Databricks users.     |
+
+## Under the Hood
+- Updated the package maintainer PR template. 
+
+# dbt_iterable v0.13.1
+This release introduces the following updates: 
 
 ## Documentation
 - Refreshed the docs to account for the upstream update to the macro `does_table_exist`. ([#55](https://github.com/fivetran/dbt_iterable/pull/55))
