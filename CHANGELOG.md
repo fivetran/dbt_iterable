@@ -1,7 +1,6 @@
 # dbt_iterable v0.14.0
 [PR #59](https://github.com/fivetran/dbt_iterable/pull/59) introduces the following updates:
 
-
 ## Schema Updates
 
 | Data Model                                                                                                                                               | Change Type | Old Name                     | New Name                                             | Notes                                                                                    |
