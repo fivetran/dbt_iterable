@@ -3,13 +3,10 @@
 
 ## Schema Updates
 
-| Data Model                                                                                                                                               | Change Type | Old Name                     | New Name                                             | Notes                                                                                    |
+| Data Model                                                                                                                                               | Change Type | Old                     | New                                             | Notes                                                                                    |
 | -------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- | ---------------------------- | ---------------------------------------------------- | ---------------------------------------------------------------------------------------- |
-| `iterable__events`             | New Databricks file format |   |          | Changed from `delta` to `parquet`.    |
-| `int_iterable__list_user_unnest`             | New Databricks file format |   |          | Changed from `delta` to `parquet`.     |
-
-## Breaking Changes (`--full-refresh` required for Databricks users)
-- Updated `file_format` configuration in `iterable__events` and `int_iterable__list_user_unnest` to be `delta` rather than `parquet`. This resolves Databricks incompatible configuration errors that arise with the parquet format. 
+| `iterable__events`             | New Databricks file format |  `parquet`  |    `delta`      | Requires `--full-refresh` for Databricks users.    |
+| `int_iterable__list_user_unnest`             | New Databricks file format |  `parquet`  |     `delta`     | Requires `--full-refresh` for Databricks users.     |
 
 ## Under the Hood
 - Updated the package maintainer PR template. 
