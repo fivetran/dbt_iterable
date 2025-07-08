@@ -54,6 +54,13 @@ seeds:
     user_history_data:
       +column_types:
         updated_at: timestamp
+        email_list_ids: "{{ 'string' if target.type in ('bigquery', 'spark', 'databricks') else 'varchar' }}"
+    user_history_bq_json_data:
+      +enabled: "{{ target.type == 'bigquery' }}"
+      +column_types:
+        updated_at: timestamp
+        email_list_ids: json
+
 dispatch:
   - macro_namespace: dbt_utils
     search_order: ['spark_utils', 'dbt_utils']
