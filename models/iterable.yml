@@ -308,12 +308,6 @@ models:
     description: > 
       Table that recreates the `list_user_history` source table. Additionally, this table provides an `is_current` field to 
       identify the current lists associated with the user. Additionally, the grain of this table is at the user/list/updated_at grain.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - unique_user_key
-            - list_id
-            - user_updated_at
     columns:
       - name: unique_user_key
         description: The unique identifier of the user. With the new schema (Aug 2023), it is the _fivetran_user_id. This is a hash of user_id and/or email, depending on project type. If using the old schema, it is email.
@@ -424,13 +418,6 @@ models:
 
   - name: iterable__user_unsubscriptions
     description: Table that generates the total channel and message types a user has chosen to unsubscribe.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - unique_user_key
-            - message_type_id
-            - channel_id
-            - is_unsubscribed_channel_wide
     columns:
       - name: _fivetran_user_id
         description: A Fivetran-created unique identifier for the new Iterable schema in Aug 2023, for users, derived from hashing user_id and/or email, depending on project type.

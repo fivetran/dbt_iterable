@@ -5,7 +5,7 @@ with
 campaign_suppression_list_history as (
 
     select *
-    from {{ var('campaign_suppression_list_history') }}
+    from {{ ref('stg_iterable__campaign_suppression_list_history') }}
 
 ), 
 
@@ -14,7 +14,7 @@ campaign_suppression_list_history as (
 campaign_send_list_history as (
 
     select *
-    from {{ var('campaign_list_history') }}
+    from {{ ref('stg_iterable__campaign_list_history') }}
 
 ), combine_list_histories as (
 

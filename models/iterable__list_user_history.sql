@@ -6,7 +6,7 @@ with user_list_unnest as (
 ), lists as (
 
     select * 
-    from {{ var('list') }}
+    from {{ ref('stg_iterable__list') }}
 
 ), final as (
     select

@@ -2,7 +2,7 @@
 with user_history as (
 
     select *
-    from {{ var('user_history') }}
+    from {{ ref('stg_iterable__user_history') }}
 
 ), previous_email_list_ids as (
 

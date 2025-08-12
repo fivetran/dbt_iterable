@@ -1,6 +1,6 @@
 with template_history as (
   select *
-  from {{ var('template_history') }}
+  from {{ ref('stg_iterable__template_history') }}
 
 ), order_template as (
     select
