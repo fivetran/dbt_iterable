@@ -1,4 +1,4 @@
-# Iterable Transformation dbt Package ([docs](https://fivetran.github.io/dbt_iterable/))
+# Iterable dbt Package ([docs](https://fivetran.github.io/dbt_iterable/))
 
 <p align="left">
     <a alt="License"
