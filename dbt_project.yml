@@ -13,8 +13,10 @@ models:
       int_iterable__list_user_history:
         +materialized: table
     staging:
-      +schema: iterable_source
-      +materialized: view
+      +materialized: table
+      +schema: stg_iterable
+      tmp:
+        +materialized: view
 vars:
   iterable:
     campaign_history: "{{ source('iterable', 'campaign_history') }}"

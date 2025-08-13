@@ -6,6 +6,8 @@ sources:
     schema: "{{var ('iterable_schema', 'iterable')}}"
 
     loader: fivetran
+    config:
+      loaded_at_field: _fivetran_synced
 
     tables:
       - name: campaign_history
