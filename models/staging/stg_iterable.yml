@@ -1,0 +1,385 @@
+version: 2
+
+models:
+  - name: stg_iterable__campaign_history
+    description: Table containing a history of campaigns.
+    columns:
+      - name: campaign_id
+        description: Unique identifier of the campaign record
+        tests:
+          - not_null
+      - name: updated_at
+        description: Last update timestamp
+      - name: campaign_name
+        description: User defined name of the campaign.
+      - name: campaign_state
+        description: State of the campaign. Can be Draft, Ready, Scheduled, Running, Finished, Starting, Aborted or Recurring
+      - name: campaign_type
+        description: The campaign type. Can be Blast or Triggered
+      - name: send_size
+        description: Size of the campaign. Number of individuals included in the campaign
+      - name: start_at
+        description: Start timestamp
+      - name: ended_at
+        description: Ended timestamp
+      - name: created_at
+        description: Creation timestamp
+      - name: recurring_campaign_id
+        description: Reference to the recurring campaign, if applicable
+      - name: created_by_user_id
+        description: Reference to the user who created the campaign
+      - name: template_id
+        description: Reference to the campaign template
+      - name: updated_by_user_id
+        description: ID of the user who updated this record
+      - name: message_medium
+        description: The medium that this message was sent via, for example Email or InApp
+      - name: workflow_id
+        description: Reference to the workflow which the event originated
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
+
+  - name: stg_iterable__campaign_label_history
+    description: Table containing a history of labels.
+    columns:
+      - name: campaign_id
+        description: Reference to the campaign associated with the label
+        tests:
+          - not_null
+      - name: label
+        description: Name of the label
+      - name: updated_at
+        description: Last update timestamp
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
+
+  - name: stg_iterable__campaign_list_history
+    description: Table containing a history of lists.
+    columns:
+      - name: campaign_id
+        description: Reference to the campaign associated with the label
+        tests:
+          - not_null
+      - name: list_id
+        description: Reference to the list used
+      - name: updated_at
+        description: Last update timestamp
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
+
+  - name: stg_iterable__campaign_suppression_list_history
+    description: Table containing a history of suppression lists.
+    columns:
+      - name: campaign_id
+        description: Reference to the campaign associated with the label
+        tests:
+          - not_null
+      - name: suppressed_list_id
+        description: Reference to the list used
+      - name: updated_at
+        description: Last update timestamp
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
+
+  - name: stg_iterable__channel
+    description: Table containing unique channels.     
+    columns:
+      - name: channel_id
+        description: Unique identifier of the channel
+        tests:
+          - unique
+          - not_null
+      - name: channel_name
+        description: User defined name of the channel
+      - name: channel_type
+        description: The channel type
+      - name: message_medium
+        description: The message medium associated with the channel
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
+
+  - name: stg_iterable__event
+    description: Table containing individual events within campaigns.
+    columns:
+      - name: event_id
+        description: A Fivetran-created unique identifier derived from hashing campaign_id, created_at, and event_name. 
+        tests:
+          - not_null
+      - name: unique_event_id
+        description: A surrogate key made up of event_id and _fivetran_user_id.
+        tests:
+          - unique
+      - name: campaign_id
+        description: Reference to the campaign from which the event originated
+      - name: content_id
+        description: Reference to the content the event is associated with
+      - name: created_at
+        description: Creation timestamp
+      - name: created_on
+        description: Creation date
+      - name: email
+        description: Reference to the unique user the event was applied to
+      - name: additional_properties
+        description: json object containing addition event properties
+      - name: event_name
+        description: Name provided to the individual event
+      - name: message_bus_id
+        description: Reference to the message bus associated with the event
+      - name: message_id
+        description: Reference to the message the event is associated with
+      - name: message_type_id
+        description: Reference to the type of message the event is associated with
+      - name: recipient_state
+        description: The state of the recipient upon receiving the event
+      - name: status
+        description: Status of the event
+      - name: transactional_data
+        description: Transactional data associated with the event
+      - name: unsub_source
+        description: Source of the unsubscribe event
+      - name: user_agent
+        description: User agent associated with the event
+      - name: user_agent_device
+        description: The device of the user agent
+      - name: _fivetran_user_id
+        description: A Fivetran-created unique identifier for users, derived from hashing user_id and/or email, depending on project type. This exists for users of the new schema starting Aug 2023. In the old schema, the unique identifier is email.
+      - name: unique_user_key
+        description: The unique identifier of the user. With the new schema (Aug 2023), it is the _fivetran_user_id. This is a hash of user_id and/or email, depending on project type. If using the old schema, it is email.
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
+  
+  - name: stg_iterable__event_extension
+    description: Table containing addition properties from the event table.
+    columns:
+      - name: event_id
+        description: A Fivetran-created unique identifier derived from hashing campaign_id, created_at, and event_name. 
+        tests:
+          - not_null
+      - name: unique_event_id
+        description: A surrogate key made up of event_id and _fivetran_user_id.
+        tests:
+          - unique
+      - name: is_app_already_running
+        description: Boolean indicating if the app is currently running or not
+      - name: badge
+        description: Badge associated with the event
+      - name: canonical_url_id
+        description: Reference to the url associated with the event
+      - name: is_content_available
+        description: Content available from the event
+      - name: content_id
+        description: Reference to the content associated with the event
+      - name: device
+        description: The device associated with the event
+      - name: email_id
+        description: Reference to the email associated with the event
+      - name: email_subject
+        description: Subject of the email associated with the event
+      - name: experiment_id
+        description: Reference to the experiment used if the event is an experiment
+      - name: from_phone_number_id
+        description: Reference to the phone number which the event is from
+      - name: from_smssender_id
+        description: Reference to the sms sender which the event is from
+      - name: link_id
+        description: Reference to the link associated with the event
+      - name: link_url
+        description: Url of the link associated with the event
+      - name: locale
+        description: Locale associated with the event
+      - name: payload
+        description: Payload resulted from the event
+      - name: platform_endpoint
+        description: The specific platform endpoint of the event
+      - name: push_message
+        description: Boolean indicating if the event is a push message
+      - name: region
+        description: Region of the event
+      - name: sms_message
+        description: Boolean indicating if the event is an sms message
+      - name: to_phone_number
+        description: To phone number associated with the event
+      - name: url
+        description: Url associated with the event
+      - name: workflow_id
+        description: Reference to the workflow which the event originated
+      - name: workflow_name
+        description: Name of the workflow which the event originated
+      - name: catalog_collection_count
+        description: The count of products or items collected in a catalog associated with the event.
+      - name: catalog_lookup_count 
+        description: The count of times a catalog was looked up or queried during the event.
+      - name: city 
+        description: The city associated with the event, which could be the location of the recipient.
+      - name: clicked_url 
+        description: The URL that was clicked by the recipient in response to the marketing message.
+      - name: country 
+        description: The country associated with the event, which could be the location of the recipient.
+      - name: error_code 
+        description: The error code or message indicating any issues or errors encountered during the event.
+      - name: expires_at 
+        description: The date and time when the event or message is set to expire or become invalid.
+      - name: from_phone_number 
+        description: The phone number from which the SMS message was sent.
+      - name: in_app_body 
+        description: The content or body of an in-app message that was sent as part of the event.
+      - name: is_sms_estimation 
+        description: A boolean indicating whether the SMS message is an estimation or not.
+      - name: labels 
+        description: Any labels or tags associated with the event, which can be used for categorization or organization.
+      - name: message_status 
+        description: The status of the marketing message, such as sent, delivered, opened, etc.
+      - name: mms_send_count 
+        description: The count of multimedia messages (MMS) sent as part of the event.
+      - name: reason 
+        description: The reason or cause associated with a specific event or action.
+      - name: sms_send_count 
+        description: The count of SMS messages sent as part of the event.
+      - name: _fivetran_user_id
+        description: A Fivetran-created unique identifier for users, derived from hashing user_id and/or email, depending on project type. This exists for users of the new schema starting Aug 2023. In the old schema, the unique identifier is email.
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
+
+  - name: stg_iterable__list
+    description: Table containing users and the lists the users are associated with.
+    columns:
+      - name: list_id
+        description: Unique identifier of the list
+        tests:
+          - unique
+          - not_null
+      - name: list_name
+        description: User defined name of the list
+      - name: list_type
+        description: The list type
+      - name: created_at
+        description: Creation timestamp
+      - name: list_description
+        description: Information about the list
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
+
+  - name: stg_iterable__message_type
+    description: Table containing unique message types.
+    columns:
+      - name: message_type_id
+        description: Unique identifer of the message type
+        tests:
+          - unique
+          - not_null
+      - name: message_type_name
+        description: User defined name of the message type
+      - name: channel_id
+        description: Channel that this message type belongs to
+      - name: message_type_created_at
+        description: Time when the message type was initially created
+      - name: frequency_cap
+        description: The maximum number of times a message of this type can be sent to a recipient within a specified time period to prevent over-messaging
+      - name: rate_limit_per_minute
+        description: The maximum number of messages of this type that can be sent to recipients in a minute, ensuring controlled message delivery
+      - name: subscription_policy
+        description: Information about the policy or rules governing how users can subscribe to or unsubscribe from this specific message type, like OptOut
+      - name: message_type_updated_at
+        description: Time when the message type was last updated or modified
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
+
+  - name: stg_iterable__template_history
+    description: Table containing unique templates used across campaigns.
+    columns:
+      - name: template_id
+        description: Unique identifer of the template
+        tests:
+          - not_null
+      - name: template_name
+        description: User defined name of the template
+      - name: template_type
+        description: The type of the template
+      - name: created_at
+        description: Creation timestamp
+      - name: client_template_id
+        description: Reference to the client template
+      - name: creator_user_id
+        description: Reference to the user who created the template
+      - name: message_type_id
+        description: Reference to the message type associated with the template
+      - name: updated_at
+        description: Last update timestamp
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
+
+  - name: stg_iterable__user_history
+    description: Table containing individual user history information.
+    columns:
+      - name: unique_user_key
+        description: The unique identifier of the user. With the new schema (Aug 2023), it is the _fivetran_user_id. This is a hash of user_id and/or email, depending on project type. If using the old schema, it is email. 
+        tests:
+          - not_null
+      - name: email
+        description: The user's email. User identifier, for email-based projects. Previously was the unique identifier for user records, for the old Iterable schema before the August 2023 updates. 
+      - name: user_id
+        description:  User identifier, for userID-based projects.
+      - name: first_name
+        description: First name of the user
+      - name: last_name
+        description: Last name of the user
+      - name: email_list_ids
+        description: Array of references to the lists associated with the user
+      - name: signup_date
+        description: Timestamp of when the user signed up
+      - name: signup_source
+        description: Source where the user signed up
+      - name: updated_at
+        description: Last update timestamp
+      - name: phone_number 
+        description: Phone number associated with the user
+      - name: iterable_user_id
+        description: Another user identifier, for userID-based projects
+      - name: _fivetran_user_id
+        description: A Fivetran-created unique identifier for users, derived from hashing user_id and/or email, depending on project type. This exists for users of the new schema starting Aug 2023. In the old schema, the unique identifier is email.
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
+  
+  - name: stg_iterable__user_unsubscribed_channel
+    description: Table containing the history of channels from which a user has unsubscribed.
+    columns:
+      - name: channel_id
+        description: Reference to the channel from which the user unsubscribed
+        tests:
+          - not_null
+      - name: unsub_channel_unique_key
+        description: A surrogate key providing a unique key for each record. If using user_unsubscribed_channel_history, it uses 'email', 'channel_id', and 'updated_at'. If not using the history table, it uses '_fivetran_user_id' and 'channel_id'.
+        tests:
+          - unique
+      - name: _fivetran_user_id
+        description: A Fivetran-created unique identifier for users, derived from hashing user_id and/or email, depending on project type. This exists for users of the new schema starting Aug 2023. In the old schema, the unique identifier is email.
+      - name: unique_user_key
+        description: The unique identifier of the user. With the new schema (Aug 2023), it is the _fivetran_user_id. This is a hash of user_id and/or email, depending on project type. If using the old schema, it is email.
+      - name: latest_batch_index
+        description: Indexes each user record based on the most recent available.
+      - name: updated_at
+        description: Last update timestamp
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
+
+  - name: stg_iterable__user_unsub_message_type
+    description: Table containing the message types from which a user has unsubscribed. "Unsubscribed" is shortened to "unsub" for postgres compatibility.
+    columns:
+      - name: message_type_id
+        description: Reference to the message type from which the user unsubscribed
+        tests:
+          - not_null
+      - name: unsub_message_type_unique_key
+        description: A surrogate key providing a unique key for each record. If using user_unsubscribed_message_type_history, it uses 'email', 'message_type_id', and 'updated_at'. If not using the history table, it uses '_fivetran_user_id' and 'message_type_id'.
+        tests:
+          - unique
+      - name: _fivetran_user_id
+        description: A Fivetran-created unique identifier for users, derived from hashing user_id and/or email, depending on project type. This exists for users of the new schema starting Aug 2023. In the old schema, the unique identifier is email.
+      - name: unique_user_key
+        description: The unique identifier of the user. With the new schema (Aug 2023), it is the _fivetran_user_id. This is a hash of user_id and/or email, depending on project type. If using the old schema, it is email.
+      - name: latest_batch_index
+        description: Indexes each user record based on the most recent available.
+      - name: updated_at
+        description: Last update timestamp
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"

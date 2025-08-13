@@ -1,6 +1,6 @@
 with campaign_history as (
   select *
-  from {{ var('campaign_history') }}
+  from {{ ref('stg_iterable__campaign_history') }}
 
 ), latest_campaign as (
     select

@@ -1,9 +1,9 @@
 config-version: 2
 name: 'iterable_integration_tests'
-version: '0.14.0'
+version: '1.0.0'
 profile: 'integration_tests'
 vars:
-  iterable_source:
+  iterable:
     iterable_schema: iterable_integration_tests_24
     iterable_campaign_history_identifier: "campaign_history_data"
     iterable_campaign_label_history_identifier: "campaign_label_history_data"

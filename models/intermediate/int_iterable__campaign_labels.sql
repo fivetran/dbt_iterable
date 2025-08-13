@@ -3,7 +3,7 @@
 with campaign_label_history as (
 
     select *
-    from {{ var('campaign_label_history') }}
+    from {{ ref('stg_iterable__campaign_label_history') }}
 
 ), order_campaign_labels as (
 
