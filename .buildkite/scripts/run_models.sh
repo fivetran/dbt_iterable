@@ -21,6 +21,10 @@ dbt compile --target "$db"
 dbt run --target "$db" --full-refresh
 dbt run --target "$db"
 dbt test --target "$db"
+if [ "$db" = "bigquery" ]; then
+dbt run --vars '{iterable_user_history_identifier: user_history_bq_json_data}' --target "$db" --full-refresh
+dbt test --target "$db"
+fi
 dbt run --vars '{iterable_user_history_pass_through_columns: [{name: "phone_number_updated_at"}], iterable_event_extension_pass_through_columns: [{name: "web_push_message"}]}' --target "$db" --full-refresh
 dbt run --vars '{iterable__using_campaign_label_history: false, iterable__using_user_unsubscribed_message_type_history: false, iterable__using_campaign_suppression_list_history: false, iterable__using_event_extension: false}' --target "$db" --full-refresh
 dbt run --vars '{iterable__using_campaign_label_history: false, iterable__using_user_unsubscribed_message_type_history: false, iterable__using_campaign_suppression_list_history: false, iterable__using_event_extension: false}' --target "$db"
