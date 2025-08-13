@@ -22,7 +22,6 @@ vars:
     campaign_history: "{{ source('iterable', 'campaign_history') }}"
     campaign_label_history: "{{ source('iterable', 'campaign_label_history') }}"
     campaign_list_history: "{{ source('iterable', 'campaign_list_history') }}"
-    campaign_metrics: "{{ source('iterable', 'campaign_metrics') }}"
     campaign_suppression_list_history: "{{ source('iterable', 'campaign_suppression_list_history') }}"
     channel: "{{ source('iterable', 'channel') }}"
     event: "{{ source('iterable', 'event') }}"
@@ -31,8 +30,11 @@ vars:
     message_type: "{{ source('iterable', 'message_type') }}"
     template_history: "{{ source('iterable', 'template_history') }}"
     user_history: "{{ source('iterable', 'user_history') }}"
+    user_device: "{{ source('iterable', 'user_device') }}"
     user_unsubscribed_channel: "{{ source('iterable', 'user_unsubscribed_channel') }}"
-    user_unsubscribed_message_type: "{{ source('iterable', 'user_unsub_message_type') }}"
+    user_unsubscribed_message_type: "{{ source('iterable', 'user_unsubscribed_message_type') }}"
+    user_unsubscribed_channel_history: "{{ source('iterable', 'user_unsubscribed_channel_history') }}"
+    user_unsubscribed_message_type_history: "{{ source('iterable', 'user_unsubscribed_message_type_history') }}"
 
     iterable_event_extension_pass_through_columns: []
     iterable_user_history_pass_through_columns: []
