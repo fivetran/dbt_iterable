@@ -7,7 +7,7 @@ with message_type_channel as (
 
     select
         *
-    from {{ var('user_unsubscribed_channel') }}
+    from {{ ref('stg_iterable__user_unsubscribed_channel') }}
     where latest_batch_index = 1
 
 {% if var('iterable__using_user_unsubscribed_message_type', True) %}
@@ -15,7 +15,7 @@ with message_type_channel as (
 
     select
         *
-    from {{ var('user_unsubscribed_message_type') }}
+    from {{ ref('stg_iterable__user_unsub_message_type') }}
     where latest_batch_index = 1
 
 {% endif %}

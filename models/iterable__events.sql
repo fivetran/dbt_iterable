@@ -11,7 +11,7 @@
 with events as (
 
     select *
-    from {{ var('event') }}
+    from {{ ref('stg_iterable__event') }}
 
     {% if is_incremental() %}
     where created_on >= {{ iterable.iterable_lookback(
@@ -30,7 +30,7 @@ with events as (
 ), event_extension as (
 
     select *
-    from {{ var('event_extension') }}
+    from {{ ref('stg_iterable__event_extension') }}
 {% endif %}
 
 ), users as (

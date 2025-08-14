@@ -12,7 +12,7 @@
 with events as (
 
     select *
-    from {{ var('event') }}
+    from {{ ref('stg_iterable__event') }}
 
     where lower(event_name) = 'customevent'
     {% if is_incremental() %}

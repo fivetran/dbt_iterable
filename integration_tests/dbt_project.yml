@@ -1,9 +1,9 @@
 config-version: 2
 name: 'iterable_integration_tests'
-version: '0.14.0'
+version: '1.0.0'
 profile: 'integration_tests'
 vars:
-  iterable_source:
+  iterable:
     iterable_schema: iterable_integration_tests_24
     iterable_campaign_history_identifier: "campaign_history_data"
     iterable_campaign_label_history_identifier: "campaign_label_history_data"
@@ -15,6 +15,7 @@ vars:
     iterable_list_identifier: "list_data"
     iterable_message_type_identifier: "message_type_data"
     iterable_template_history_identifier: "template_history_data"
+    iterable_user_device_identifier: "user_device_data"
     iterable_user_history_identifier: "user_history_data"
     iterable_user_unsubscribed_channel_identifier: "user_unsubscribed_channel_data"
     iterable_user_unsubscribed_message_type_identifier: "user_unsubscribed_message_type_data"
@@ -57,3 +58,6 @@ seeds:
 dispatch:
   - macro_namespace: dbt_utils
     search_order: ['spark_utils', 'dbt_utils']
+flags:
+  send_anonymous_usage_stats: False
+  use_colors: True

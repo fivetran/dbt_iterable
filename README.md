@@ -1,11 +1,11 @@
-# Iterable Transformation dbt Package ([docs](https://fivetran.github.io/dbt_iterable/))
+# Iterable dbt Package ([docs](https://fivetran.github.io/dbt_iterable/))
 
 <p align="left">
     <a alt="License"
         href="https://github.com/fivetran/dbt_iterable/blob/main/LICENSE">
         <img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg" /></a>
     <a alt="dbt-core">
-        <img src="https://img.shields.io/badge/dbt_Core™_version->=1.3.0_<2.0.0-orange.svg" /></a>
+        <img src="https://img.shields.io/badge/dbt_Core™_version->=1.3.0_,<2.0.0-orange.svg" /></a>
     <a alt="Maintained?">
         <img src="https://img.shields.io/badge/Maintained%3F-yes-green.svg" /></a>
     <a alt="PRs">
@@ -16,7 +16,7 @@
 </p>
 
 ## What does this dbt package do?
-- Produces modeled tables that leverage Iterable data from [Fivetran's connector](https://fivetran.com/docs/applications/iterable) in the format described by [this ERD](https://fivetran.com/docs/applications/iterable#schemainformation) and builds off the output of our [Iterable source package](https://github.com/fivetran/dbt_iterable_source).
+- Produces modeled tables that leverage Iterable data from [Fivetran's connector](https://fivetran.com/docs/applications/iterable) in the format described by [this ERD](https://fivetran.com/docs/applications/iterable#schemainformation).
 
 - This package enables you to understand the efficacy of your growth marketing and customer engagement campaigns across email, SMS, push notification, and in-app platforms. The package achieves this by:
 
@@ -58,12 +58,13 @@ To use this dbt package, you must have the following:
 - We also recommend using the `dbt-databricks` adapter over `dbt-spark` because each adapter handles incremental models differently. If you must use the `dbt-spark` adapter and run into issues, please refer to [this section](https://docs.getdbt.com/reference/resource-configs/spark-configs#the-insert_overwrite-strategy) found in dbt's documentation of Spark configurations.
 
 #### Database Incremental Strategies
-Some of the end models in this package are materialized incrementally. We have chosen `insert_overwrite` as the default strategy for **BigQuery** and **Databricks** databases, as it is only available for these dbt adapters. For **Snowflake**, **Redshift**, and **Postgres** databases, we have chosen `delete+insert` as the default strategy.
+Many of the models in this package are materialized incrementally, so we have configured our models to work with the different strategies available to each supported warehouse.
 
-`insert_overwrite` is our preferred incremental strategy because it will be able to properly handle updates to records that exist outside the immediate incremental window. That is, because it leverages partitions, `insert_overwrite` will appropriately update existing rows that have been changed upstream instead of inserting duplicates of them--all without requiring a full table scan.
+For **BigQuery** and **Databricks All Purpose Cluster runtime** destinations, we have chosen `insert_overwrite` as the default strategy, which benefits from the partitioning capability.
 
-`delete+insert` is our second-choice as it resembles `insert_overwrite` but lacks partitions. This strategy works most of the time and appropriately handles incremental loads that do not contain changes to past records. However, if a past record has been updated and is outside of the incremental window, `delete+insert` will insert a duplicate record.
-> Because of this, we highly recommend that **Snowflake**, **Redshift**, and **Postgres** users periodically run a `--full-refresh` to ensure a high level of data quality and remove any possible duplicates.
+For **Snowflake**, **Redshift**, and **Postgres** databases, we have chosen `delete+insert` as the default strategy.
+
+> Regardless of strategy, we recommend that users periodically run a `--full-refresh` to ensure a high level of data quality.
 
 #### Unsubscribe tables are no longer history tables
 
@@ -79,7 +80,7 @@ Include the following Iterable package version in your `packages.yml` file.
 ```yaml
 packages:
   - package: fivetran/iterable
-    version: [">=0.14.0", "<0.15.0"]
+    version: [">=1.0.0", "<1.1.0"]
 ```
 ### Step 3: Define database and schema variables
 By default, this package runs using your destination and the `iterable` schema of your [target database](https://docs.getdbt.com/docs/running-a-dbt-project/using-the-command-line-interface/configure-your-profile). If this is not where your Iterable data is located (for example, if your Iterable schema is named `iterable_fivetran`), add the following configuration to your root `dbt_project.yml` file:
@@ -94,7 +95,6 @@ Your Iterable connection might not sync every table that this package expects. I
 
 By default, all variables are assumed to be `true`.
 
-
 ```yml
 vars:
     iterable__using_campaign_label_history: false                    # default is true
@@ -102,8 +102,6 @@ vars:
     iterable__using_campaign_suppression_list_history: false         # default is true   
     iterable__using_event_extension: false         # default is true   
 ```
-
-
 
 ### (Optional) Step 5: Additional configurations
 
@@ -143,20 +141,18 @@ If this is not where you would like your modeled Iterable data to be written to,
 
 ```yml
 models:
-  iterable:
-    +schema: my_new_schema_name # leave blank for just the target_schema
-    intermediate:
-      +schema: my_new_schema_name # leave blank for just the target_schema
-  iterable_source:
-    +schema: my_new_schema_name # leave blank for just the target_schema
+    iterable:
+      +schema: my_new_schema_name # Leave +schema: blank to use the default target_schema.
+      staging:
+        +schema: my_new_schema_name # Leave +schema: blank to use the default target_schema.
 ```
 
 > Note: If your profile does not have permissions to create schemas in your destination, you can set each `+schema` to blank. The package will then write all tables to your pre-existing target schema.
 
 #### Change the source table references
 If an individual source table has a different name than what the package expects, add the table name as it appears in your destination to the respective variable:
-> IMPORTANT: See this project's [`dbt_project.yml`](https://github.com/fivetran/dbt_iterable_source/blob/main/dbt_project.yml) variable declarations to see the expected names.
-    
+> IMPORTANT: See this project's [`dbt_project.yml`](https://github.com/fivetran/dbt_iterable/blob/main/dbt_project.yml) variable declarations to see the expected names.
+
 ```yml
 vars:
     iterable_<default_source_table_name>_identifier: "your_table_name"
@@ -219,7 +215,7 @@ Fivetran offers the ability for you to orchestrate your dbt project through [Fiv
 ## Does this package have dependencies?
 This dbt package is dependent on the following dbt packages. These dependencies are installed by default within this package. For more information on the following packages, refer to the [dbt hub](https://hub.getdbt.com/) site.
 > IMPORTANT: If you have any of these dependent packages in your own `packages.yml` file, we highly recommend that you remove them from your root `packages.yml` to avoid package version conflicts.
-    
+
 ```yml
 packages:
     - package: fivetran/fivetran_utils
@@ -228,8 +224,6 @@ packages:
     - package: dbt-labs/dbt_utils
       version: [">=1.0.0", "<2.0.0"]
 
-    - package: fivetran/iterable_source
-      version: [">=0.10.0", "<0.11.0"]
 ```
 
 ## How is this package maintained and can I contribute?

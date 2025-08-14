@@ -1,12 +1,12 @@
 with message_type as (
 
     select *
-    from {{ var('message_type') }}
+    from {{ ref('stg_iterable__message_type') }}
 
 ), channel as (
 
     select *
-    from {{ var('channel') }}
+    from {{ ref('stg_iterable__channel') }}
 
 ), final as (
 
