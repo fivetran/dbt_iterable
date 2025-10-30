@@ -35,12 +35,12 @@ with campaign_event_metrics as (
 
 ), campaign_join as (
 
-    {% set exclude_fields = [ 'campaign_id', 'template_id'] %} -- these are both in campaigns
+    {% set exclude_fields = ['source_relation', 'campaign_id', 'template_id'] %} -- these are both in campaigns
 
     -- this query will be at the campaign and experiment(if available) variation grain
     select
         campaign.*,
-        {{ dbt_utils.star(from=ref('int_iterable__campaign_event_metrics'), except=exclude_fields) }}
+        {{ dbt_utils.star(from=ref('int_iterable__campaign_event_metrics'), except=exclude_fields, relation_alias="campaign_event_metrics") }}
         , 
         campaign_list_metrics.count_send_lists,
         campaign_list_metrics.count_suppress_lists,
