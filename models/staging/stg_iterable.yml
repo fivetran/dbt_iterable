@@ -118,7 +118,6 @@ models:
           - not_null
       - name: unique_event_id
         description: A surrogate key made up of event_id, _fivetran_user_id, and source_relation.
-        tests:
       - name: campaign_id
         description: Reference to the campaign from which the event originated
       - name: content_id
@@ -169,7 +168,6 @@ models:
           - not_null
       - name: unique_event_id
         description: A surrogate key made up of event_id, _fivetran_user_id, and source_relation.
-        tests:
       - name: is_app_already_running
         description: Boolean indicating if the app is currently running or not
       - name: badge
@@ -368,7 +366,6 @@ models:
           - not_null
       - name: unsub_channel_unique_key
         description: A surrogate key providing a unique key for each record. If using user_unsubscribed_channel_history, it uses '_fivetran_id', 'channel_id', 'email', 'updated_at', and 'source_relation'. If not using the history table, it uses '_fivetran_id', 'channel_id', and 'source_relation'.
-        tests:
       - name: _fivetran_user_id
         description: A Fivetran-created unique identifier for users, derived from hashing user_id and/or email, depending on project type. This exists for users of the new schema starting Aug 2023. In the old schema, the unique identifier is email.
       - name: unique_user_key
@@ -391,7 +388,6 @@ models:
           - not_null
       - name: unsub_message_type_unique_key
         description: A surrogate key providing a unique key for each record. If using user_unsubscribed_message_type_history, it uses '_fivetran_id', 'email', 'message_type_id', 'updated_at', and 'source_relation'. If not using the history table, it uses '_fivetran_id', 'message_type_id', and 'source_relation'.
-        tests:
       - name: _fivetran_user_id
         description: A Fivetran-created unique identifier for users, derived from hashing user_id and/or email, depending on project type. This exists for users of the new schema starting Aug 2023. In the old schema, the unique identifier is email.
       - name: unique_user_key
