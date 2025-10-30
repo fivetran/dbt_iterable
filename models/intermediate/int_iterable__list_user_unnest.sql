@@ -157,7 +157,7 @@ with user_history as (
         is_current,
         email_list_ids,
         list_id,
-        {{ dbt_utils.generate_surrogate_key(["unique_user_key", "list_id", "updated_at"]) }} as unique_key,
+        {{ dbt_utils.generate_surrogate_key(["source_relation", "unique_user_key", "list_id", "updated_at"]) }} as unique_key,
         cast( {{ dbt.date_trunc('day', 'updated_at') }} as date) as date_day
 
         --The below script allows for pass through columns.

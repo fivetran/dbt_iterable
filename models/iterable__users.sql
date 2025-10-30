@@ -17,6 +17,7 @@ with user_event_metrics as (
 ), user_with_list_metrics as (
 
     select
+        source_relation,
         user_id,
         _fivetran_user_id,
         unique_user_key,
@@ -36,17 +37,18 @@ with user_event_metrics as (
 
     from user_unnested
     -- roll up to the user
-    {{ dbt_utils.group_by(n= 11 + passthrough_column_count ) }}
+    group by source_relation, user_id, _fivetran_user_id, unique_user_key, email, first_name, last_name, signup_date, signup_source, updated_at, phone_number, email_list_ids{{ fivetran_utils.persist_pass_through_columns(pass_through_variable='iterable_user_history_pass_through_columns', transform_column=false) }}
 
 ), user_join as (
 
-    select 
+    select
         user_with_list_metrics.*,
-        {{ dbt_utils.star(from=ref('int_iterable__user_event_metrics'), except=['unique_user_key','_fivetran_user_id','user_id','user_email']) }}
+        {{ dbt_utils.star(from=ref('int_iterable__user_event_metrics'), except=['source_relation','unique_user_key','_fivetran_user_id','user_id','user_email']) }}
 
     from user_with_list_metrics
     left join user_event_metrics
-        on user_with_list_metrics.unique_user_key = user_event_metrics.unique_user_key
+        on user_with_list_metrics.source_relation = user_event_metrics.source_relation
+        and user_with_list_metrics.unique_user_key = user_event_metrics.unique_user_key
 )
 
 select *

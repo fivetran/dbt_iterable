@@ -5,7 +5,7 @@ with campaign_history as (
 ), latest_campaign as (
     select
       *,
-      row_number() over(partition by campaign_id order by updated_at desc) as latest_campaign_index
+      row_number() over(partition by campaign_id{{ iterable.partition_by_source_relation() }} order by updated_at desc) as latest_campaign_index
     from campaign_history
 )
 

@@ -5,7 +5,7 @@ with user_history as (
 ), latest_user as (
     select
       *,
-      row_number() over(partition by unique_user_key order by updated_at desc) as latest_user_index
+      row_number() over(partition by unique_user_key{{ iterable.partition_by_source_relation() }} order by updated_at desc) as latest_user_index
     from user_history
 )
 

@@ -7,11 +7,12 @@ with campaign_event_metrics as (
 
     select
         campaign_id,
+        source_relation,
         sum(case when list_activity = 'send' then 1 else 0 end) as count_send_lists,
         sum(case when list_activity = 'suppress' then 1 else 0 end) as count_suppress_lists
-    
+
     from {{ ref('int_iterable__campaign_lists') }}
-    group by campaign_id
+    group by campaign_id, source_relation
 
 ), campaign as (
 
@@ -55,23 +56,27 @@ with campaign_event_metrics as (
         template.channel_type
 
     from campaign
-    left join campaign_event_metrics 
+    left join campaign_event_metrics
         on campaign.campaign_id = campaign_event_metrics.campaign_id
         and campaign.template_id = campaign_event_metrics.template_id
-    left join campaign_list_metrics 
+        and campaign.source_relation = campaign_event_metrics.source_relation
+    left join campaign_list_metrics
         on campaign.campaign_id = campaign_list_metrics.campaign_id
+        and campaign.source_relation = campaign_list_metrics.source_relation
 
     {% if var('iterable__using_campaign_label_history', true) %}
-    left join campaign_labels 
+    left join campaign_labels
         on campaign.campaign_id = campaign_labels.campaign_id
+        and campaign.source_relation = campaign_labels.source_relation
     {% endif %}
-    
+
     left join template
         on campaign.template_id = template.template_id
+        and campaign.source_relation = template.source_relation
 
 ), add_surrogate_key as (
 
-    {% set surrogate_key_fields = ['campaign_id', 'template_id'] %}
+    {% set surrogate_key_fields = ['campaign_id', 'template_id', 'source_relation'] %}
     {% do surrogate_key_fields.append('experiment_id') if var('iterable__using_event_extension', True) %}
 
     select 

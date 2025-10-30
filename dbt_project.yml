@@ -1,6 +1,6 @@
 name: 'iterable'
 
-version: '1.0.0'
+version: '1.1.0'
 config-version: 2
 require-dbt-version: [">=1.3.0", "<2.0.0"]
 models:
@@ -38,6 +38,10 @@ vars:
 
     iterable_event_extension_pass_through_columns: []
     iterable_user_history_pass_through_columns: []
+
+    # Union data configuration
+    iterable_sources: []
+    has_defined_sources: false
 
     iterable__event_metrics:
     - "emailClick"

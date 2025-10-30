@@ -9,6 +9,7 @@ with events as (
 -- if experiment_id is null, the user-campaign interactions happened outside of an experiment
 -- if campaign_id is null, the user interactions are organic
     select
+        source_relation,
         _fivetran_user_id,
         unique_user_key,
         user_id,
@@ -36,21 +37,21 @@ with events as (
         -- `iterable__event_metrics` is set by default to all events brought in by fivetran+iterable
         -- https://fivetran.com/docs/applications/iterable#schemanotes
         {% for em in var('iterable__event_metrics') %}
-        , sum(case when lower(event_name) = '{{ em | lower }}' then 1 else 0 end) 
-            as {{ 'total_' ~ em | replace(' ', '_') | replace('(', '') | replace(')', '') | lower }} 
+        , sum(case when lower(event_name) = '{{ em | lower }}' then 1 else 0 end)
+            as {{ 'total_' ~ em | replace(' ', '_') | replace('(', '') | replace(')', '') | lower }}
         {% endfor %}
 
     from events
 
     {% if var('iterable__using_event_extension', True) %}
-    {{ dbt_utils.group_by(n=12) }}
+    group by source_relation, _fivetran_user_id, unique_user_key, user_id, campaign_id, experiment_id, email, user_full_name, campaign_name, template_id, template_name, recurring_campaign_id, recurring_campaign_name
     {% else %}
-    {{ dbt_utils.group_by(n=11) }}
+    group by source_relation, _fivetran_user_id, unique_user_key, user_id, campaign_id, email, user_full_name, campaign_name, template_id, template_name, recurring_campaign_id, recurring_campaign_name
     {% endif %}
 
 ), add_surrogate_key as (
 
-    {% set surrogate_key_fields = ['unique_user_key', 'campaign_id'] %}
+    {% set surrogate_key_fields = ['source_relation', 'unique_user_key', 'campaign_id'] %}
     {% do surrogate_key_fields.append('experiment_id') if var('iterable__using_event_extension', True) %}
 
     select 

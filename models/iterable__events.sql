@@ -82,16 +82,21 @@ with events as (
     {% if var('iterable__using_event_extension', True) %}
     left join event_extension
         on events.unique_event_id = event_extension.unique_event_id
+        and events.source_relation = event_extension.source_relation
     {% endif %}
 
     left join campaign
         on events.campaign_id = campaign.campaign_id
+        and events.source_relation = campaign.source_relation
     left join users
         on events.unique_user_key = users.unique_user_key -- unique_user_key = _fivetran_user_id if exists, otherwise email
+        and events.source_relation = users.source_relation
     left join message_type_channel
         on events.message_type_id = message_type_channel.message_type_id
+        and events.source_relation = message_type_channel.source_relation
     left join template
         on campaign.template_id = template.template_id
+        and events.source_relation = template.source_relation
 )
 
 select *

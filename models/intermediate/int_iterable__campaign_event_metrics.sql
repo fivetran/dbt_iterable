@@ -5,13 +5,14 @@ with user_campaign as (
 {%- set user_campaign_columns = adapter.get_columns_in_relation(ref('iterable__user_campaign')) %}
     
     select
+        source_relation,
         campaign_id,
         template_id
-        
+
         {%- if var('iterable__using_event_extension', True) %}
         , experiment_id
         {%- endif %}
-        
+
         , count(distinct unique_user_key) as count_unique_users
         
         {% for col in user_campaign_columns %}
@@ -24,9 +25,9 @@ with user_campaign as (
     from user_campaign
     
     {% if var('iterable__using_event_extension', True) %}
-    group by 1, 2, 3
+    group by 1, 2, 3, 4
     {% else %}
-    group by 1, 2
+    group by 1, 2, 3
     {% endif %}
 )
 
