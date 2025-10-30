@@ -24,7 +24,7 @@ with user_campaign as (
         {% endfor %}
 
     from user_campaign
-    group by source_relation, _fivetran_user_id, unique_user_key, user_id, user_email
+    {{ dbt_utils.group_by(n=5) }}
 
 )
 

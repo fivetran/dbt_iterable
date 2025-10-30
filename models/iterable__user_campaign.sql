@@ -44,9 +44,9 @@ with events as (
     from events
 
     {% if var('iterable__using_event_extension', True) %}
-    group by source_relation, _fivetran_user_id, unique_user_key, user_id, campaign_id, experiment_id, email, user_full_name, campaign_name, template_id, template_name, recurring_campaign_id, recurring_campaign_name
+    {{ dbt_utils.group_by(n=13) }}
     {% else %}
-    group by source_relation, _fivetran_user_id, unique_user_key, user_id, campaign_id, email, user_full_name, campaign_name, template_id, template_name, recurring_campaign_id, recurring_campaign_name
+    {{ dbt_utils.group_by(n=12) }}
     {% endif %}
 
 ), add_surrogate_key as (

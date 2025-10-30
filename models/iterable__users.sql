@@ -37,7 +37,7 @@ with user_event_metrics as (
 
     from user_unnested
     -- roll up to the user
-    group by source_relation, user_id, _fivetran_user_id, unique_user_key, email, first_name, last_name, signup_date, signup_source, updated_at, phone_number, email_list_ids{{ fivetran_utils.persist_pass_through_columns(pass_through_variable='iterable_user_history_pass_through_columns', transform_column=false) }}
+    {{ dbt_utils.group_by(n= 12 + passthrough_column_count ) }}
 
 ), user_join as (
 
