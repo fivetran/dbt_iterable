@@ -12,7 +12,7 @@ models:
         tests:
           - not_null
       - name: unique_campaign_version_id
-        description: Unique identifier combining campaign_id, template_id, and if available, experiment_id.
+        description: Unique identifier combining campaign_id, template_id, source_relation, and if available, experiment_id.
       - name: campaign_name
         description: User defined name of the campaign.
       - name: updated_at
@@ -160,7 +160,7 @@ models:
         tests:
           - not_null
       - name: unique_event_id
-        description: A unique surrogate key of event_id and _fivetran_user_id.
+        description: A unique surrogate key of event_id, _fivetran_user_id, and source_relation.
       - name: unique_user_key
         description: The unique identifier of the user. With the new schema (Aug 2023), it is the _fivetran_user_id. This is a hash of user_id and/or email, depending on project type. If using the old schema, it is email.
       - name: _fivetran_user_id
@@ -346,7 +346,7 @@ models:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
       - name: unique_user_campaign_id
-        description: Unique ID combining unique_user_key, campaign_id, and if available, experiment_id.
+        description: Unique ID combining source_relation, unique_user_key, campaign_id, and if available, experiment_id.
       - name: _fivetran_user_id
         description: A Fivetran-created unique identifier for the new Iterable schema in Aug 2023, for users, derived from hashing user_id and/or email, depending on project type.
       - name: unique_user_key
