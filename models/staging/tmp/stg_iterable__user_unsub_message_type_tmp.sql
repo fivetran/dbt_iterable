@@ -7,4 +7,3 @@
         single_table_name='user_unsubscribed_message_type' if does_table_exist('user_unsubscribed_message_type') else 'user_unsubscribed_message_type_history'
     )
 }}
--- had to rename this to be compatible with postgres....

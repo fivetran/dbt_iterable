@@ -1,3 +1,5 @@
+{% set using_event_extension = var('iterable__using_event_extension', True) %}
+
 with events as (
 
     select *
@@ -15,9 +17,7 @@ with events as (
         user_id,
         campaign_id,
 
-        {% if var('iterable__using_event_extension', True) %}
-        experiment_id,
-        {% endif %}
+        {{ "experiment_id," if using_event_extension }}
 
         email as user_email,
         user_full_name,
@@ -43,11 +43,7 @@ with events as (
 
     from events
 
-    {% if var('iterable__using_event_extension', True) %}
-    {{ dbt_utils.group_by(n=13) }}
-    {% else %}
-    {{ dbt_utils.group_by(n=12) }}
-    {% endif %}
+    {{ dbt_utils.group_by(n=13 if using_event_extension else 12 ) }}
 
 ), add_surrogate_key as (
 

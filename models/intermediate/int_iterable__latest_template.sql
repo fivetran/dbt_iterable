@@ -1,11 +1,11 @@
 with template_history as (
-  select *
-  from {{ ref('stg_iterable__template_history') }}
+    select *
+    from {{ ref('stg_iterable__template_history') }}
 
 ), order_template as (
     select
-      *,
-      row_number() over(partition by template_id{{ iterable.partition_by_source_relation() }} order by updated_at desc) as latest_template_index
+        *,
+        row_number() over(partition by template_id{{ iterable.partition_by_source_relation() }} order by updated_at desc) as latest_template_index
     from template_history
 
 ), latest_template as (

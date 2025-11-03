@@ -37,7 +37,7 @@ with user_event_metrics as (
 
     from user_unnested
     -- roll up to the user
-    {{ dbt_utils.group_by(n= 12 + passthrough_column_count ) }}
+    {{ dbt_utils.group_by(n = 12 + passthrough_column_count) }}
 
 ), user_join as (
 
@@ -47,8 +47,8 @@ with user_event_metrics as (
 
     from user_with_list_metrics
     left join user_event_metrics
-        on user_with_list_metrics.source_relation = user_event_metrics.source_relation
-        and user_with_list_metrics.unique_user_key = user_event_metrics.unique_user_key
+        on user_with_list_metrics.unique_user_key = user_event_metrics.unique_user_key
+        and user_with_list_metrics.source_relation = user_event_metrics.source_relation
 )
 
 select *

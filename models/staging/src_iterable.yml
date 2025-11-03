@@ -270,7 +270,7 @@ sources:
         description: Table containing unique message types.
         columns:
           - name: id
-            description: Unique identifer of the message type
+            description: Unique identifier of the message type
           - name: name
             description: User defined name of the message type
           - name: channel_id
@@ -291,7 +291,7 @@ sources:
         description: Table containing unique templates used across campaigns.
         columns:
           - name: id
-            description: Unique identifer of the template
+            description: Unique identifier of the template
           - name: name
             description: User defined name of the template
           - name: template_type

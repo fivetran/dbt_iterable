@@ -14,7 +14,7 @@
 
 ## Tests Update
 - Removes uniqueness tests. The new unioning feature requires combination-of-column tests to consider the new `source_relation` column in addition to the existing primary key, but this is not supported across dbt versions.
-- These tests will be reintroduced once a version-agnostic solution is available.
+  - These tests will be reintroduced once a version-agnostic solution is available.
 
 # dbt_iterable v1.0.0
 

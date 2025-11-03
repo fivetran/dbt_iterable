@@ -8,6 +8,8 @@
     ) 
 }}
 
+{% set using_event_extension = var('iterable__using_event_extension', True) %}
+
 with events as (
 
     select *
@@ -26,7 +28,7 @@ with events as (
     from {{ ref('int_iterable__recurring_campaigns') }}
 
 
-{% if var('iterable__using_event_extension', True) %}
+{% if using_event_extension %}
 ), event_extension as (
 
     select *
@@ -67,7 +69,7 @@ with events as (
         message_type_channel.channel_name,
         message_type_channel.channel_type
 
-        {% if var('iterable__using_event_extension', True) %}
+        {% if using_event_extension %}
         {% set exclude_fields = ["source_relation", "unique_user_key","_fivetran_user_id","event_id", "content_id", "_fivetran_synced", "unique_event_id"] %}
         , {{ dbt_utils.star(from=ref('stg_iterable__event_extension'), except=exclude_fields, relation_alias="event_extension") }}
         {% endif %}
@@ -79,7 +81,7 @@ with events as (
         
     from events
 
-    {% if var('iterable__using_event_extension', True) %}
+    {% if using_event_extension %}
     left join event_extension
         on events.unique_event_id = event_extension.unique_event_id
         and events.source_relation = event_extension.source_relation

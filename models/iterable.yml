@@ -270,7 +270,7 @@ models:
       - name: catalog_lookup_count 
         description: The count of times a catalog was looked up or queried during the event.
       - name: template_id
-        description: Unique identifer of the template
+        description: Unique identifier of the template
       - name: template_name
         description: User defined name of the template
       - name: template_creator_user_id
@@ -432,7 +432,7 @@ models:
       - name: channel_id
         description: Unique identifier of the channel which the user is unsubscribed
       - name: message_type_id
-        description: Unique identifer of the message type which the user is unsubscribed
+        description: Unique identifier of the message type which the user is unsubscribed
       - name: channel_name
         description: The name of the channel which the user is unsubscribed
       - name: message_type_name

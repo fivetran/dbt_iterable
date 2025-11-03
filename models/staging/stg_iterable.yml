@@ -275,7 +275,7 @@ models:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
       - name: message_type_id
-        description: Unique identifer of the message type
+        description: Unique identifier of the message type
         tests:
           - not_null
       - name: message_type_name
@@ -301,7 +301,7 @@ models:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
       - name: template_id
-        description: Unique identifer of the template
+        description: Unique identifier of the template
         tests:
           - not_null
       - name: template_name

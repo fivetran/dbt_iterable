@@ -6,13 +6,13 @@ with campaign_event_metrics as (
 ), campaign_list_metrics as (
 
     select
-        campaign_id,
         source_relation,
+        campaign_id,
         sum(case when list_activity = 'send' then 1 else 0 end) as count_send_lists,
         sum(case when list_activity = 'suppress' then 1 else 0 end) as count_suppress_lists
 
     from {{ ref('int_iterable__campaign_lists') }}
-    group by campaign_id, source_relation
+    {{ dbt_utils.group_by(n=2) }}
 
 ), campaign as (
 
