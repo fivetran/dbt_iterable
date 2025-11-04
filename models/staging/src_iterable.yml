@@ -47,7 +47,6 @@ sources:
         identifier: "{{ var('iterable_campaign_label_history_identifier', 'campaign_label_history')}}"
         description: Table containing a history of labels.
         config:
-          loaded_at_field: _fivetran_synced
           enabled: "{{ var('iterable__using_campaign_label_history', true) }}"
         columns:
           - name: campaign_id
