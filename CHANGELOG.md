@@ -1,13 +1,13 @@
 # dbt_iterable v1.1.0
-
-[PR #TBD](https://github.com/fivetran/dbt_iterable/pull/TBD) includes the following updates:
+[PR #67](https://github.com/fivetran/dbt_iterable/pull/67) includes the following updates:
 
 ## Schema/Data Change
-**1 total change • 0 possible breaking changes**
+**2 total changes • 0 possible breaking changes**
 
 | Data Model(s) | Change type | Old | New | Notes |
 | ------------- | ----------- | ----| --- | ----- |
 | All models | New column | | `source_relation` | Identifies the source connection when using multiple Iterable connections |
+| iterable__campaigns<ul><li>`unique_campaign_version_id`</li></ul>iterable__user_campaign<ul><li>`unique_user_campaign_id`</li></ul>int_iterable__list_user_unnest<ul><li>`unique_key`</li></ul>stg_iterable__event<ul><li>`unique_event_id`</li></ul>stg_iterable__event_extension<ul><li>`unique_event_id`</li></ul>stg_iterable__user_unsubscribed_channel<ul><li>`unsub_channel_unique_key`</li></ul>stg_iterable__user_unsub_message_type<ul><li>`unsub_message_type_unique_key`</li></ul> | Surrogate key update | | `source_relation` added to surrogate key fields | |
 
 ## Feature Update
 - **Union Data Functionality**: This release supports running the package on multiple Iterable source connections. See the [README](https://github.com/fivetran/dbt_iterable/tree/main?tab=readme-ov-file#step-3-define-database-and-schema-variables) for details on how to leverage this feature.
