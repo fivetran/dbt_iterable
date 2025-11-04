@@ -39,10 +39,6 @@ vars:
     iterable_event_extension_pass_through_columns: []
     iterable_user_history_pass_through_columns: []
 
-    # Union data configuration
-    iterable_sources: []
-    has_defined_sources: false
-
     iterable__event_metrics:
     - "emailClick"
     - "emailUnSubscribe"
