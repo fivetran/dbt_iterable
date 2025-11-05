@@ -35,7 +35,7 @@ with campaign_event_metrics as (
 
 ), campaign_join as (
 
-    {% set exclude_fields = ['source_relation', 'campaign_id', 'template_id'] %} -- these are both in campaigns
+    {% set exclude_fields = ['source_relation', 'campaign_id', 'template_id'] %} -- these are in campaigns
 
     -- this query will be at the campaign and experiment(if available) variation grain
     select
