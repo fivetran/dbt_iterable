@@ -1,3 +1,27 @@
+# dbt_iterable v1.1.0
+[PR #67](https://github.com/fivetran/dbt_iterable/pull/67) includes the following updates:
+
+## Schema/Data Change
+**8 total changes • 0 possible breaking changes**
+
+| Data Model(s) | Change type | Old | New | Notes |
+| ------------- | ----------- | ----| --- | ----- |
+| All models | New column | | `source_relation` | Identifies the source connection when using multiple Iterable connections |
+| `iterable__campaigns` | Updated surrogate key | `unique_campaign_version_id` = `campaign_id` + `template_id` + `experiment_id` (if enabled) | `unique_campaign_version_id` = `campaign_id` + `template_id` + `source_relation` + `experiment_id` (if enabled) | Updated to include `source_relation` |
+| `iterable__user_campaign` | Updated surrogate key | `unique_user_campaign_id` = `unique_user_key` + `campaign_id` + `experiment_id` (if enabled) | `unique_user_campaign_id` = `source_relation` + `unique_user_key` + `campaign_id` + `experiment_id` (if enabled) | Updated to include `source_relation` |
+| `int_iterable__list_user_unnest` | Updated surrogate key | `unique_key` = `unique_user_key` + `list_id` + `updated_at` | `unique_key` = `source_relation` + `unique_user_key` + `list_id` + `updated_at` | Updated to include `source_relation` |
+| `stg_iterable__event` | Updated surrogate key | `unique_event_id` = `_fivetran_id` + `_fivetran_user_id` | `unique_event_id` = `_fivetran_id` + `_fivetran_user_id` + `source_relation` | Updated to include `source_relation` |
+| `stg_iterable__event_extension` | Updated surrogate key | `unique_event_id` = `_fivetran_id` + `_fivetran_user_id` | `unique_event_id` = `_fivetran_id` + `_fivetran_user_id` + `source_relation` | Updated to include `source_relation` |
+| `stg_iterable__user_unsubscribed_channel` | Updated surrogate key | `unsub_channel_unique_key` = `_fivetran_id` + `channel_id` + `email` + `updated_at` | `unsub_channel_unique_key` = `_fivetran_id` + `channel_id` + `email` + `updated_at` + `source_relation` | Updated to include `source_relation` |
+| `stg_iterable__user_unsub_message_type` | Updated surrogate key | `unsub_message_type_unique_key` = `_fivetran_id` + `email` + `message_type_id` + `updated_at` | `unsub_message_type_unique_key` = `_fivetran_id` + `email` + `message_type_id` + `updated_at` + `source_relation` | Updated to include `source_relation` |
+
+## Feature Update
+- **Union Data Functionality**: This release supports running the package on multiple Iterable source connections. See the [README](https://github.com/fivetran/dbt_iterable/tree/main?tab=readme-ov-file#step-3-define-database-and-schema-variables) for details on how to leverage this feature.
+
+## Tests Update
+- Removes uniqueness tests. The new unioning feature requires combination-of-column tests to consider the new `source_relation` column in addition to the existing primary key, but this is not supported across dbt versions.
+  - These tests will be reintroduced once a version-agnostic solution is available.
+
 # dbt_iterable v1.0.0
 
 [PR #63](https://github.com/fivetran/dbt_iterable/pull/63) includes the following updates:

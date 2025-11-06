@@ -15,13 +15,15 @@ fields as (
                 staging_columns=get_template_history_columns()
             )
         }}
-        
+        {{ iterable.apply_source_relation() }}
+
     from base
 ),
 
 final as (
-    
-    select 
+
+    select
+        source_relation,
         cast(id as {{ dbt.type_string() }} ) as template_id,
         name as template_name,
         template_type,

@@ -2,15 +2,19 @@
     tags="fivetran_validations",
     enabled=var('fivetran_validation_tests_enabled', false)
 ) }}
+
+{% set exclude_cols = var('consistency_test_exclude_metrics', []) %}
+{% set fields = dbt_utils.star(from=ref('iterable__user_campaign'), except=exclude_cols) %}
+
 -- this test ensures the iterable__user_campaign end model matches the prior version
 with prod as (
-    select *
+    select {{ fields }}
     from {{ target.schema }}_iterable_prod.iterable__user_campaign
     where date(first_event_at) < date({{ dbt.current_timestamp() }})
 ),
 
 dev as (
-    select *
+    select {{ fields }}
     from {{ target.schema }}_iterable_dev.iterable__user_campaign
     where date(first_event_at) < date({{ dbt.current_timestamp() }})
 ),

@@ -22,6 +22,7 @@ fields as (
                 staging_columns=get_channel_columns()
             )
         }}
+        {{ iterable.apply_source_relation() }}
         
     from base
 ),
@@ -29,6 +30,7 @@ fields as (
 final as (
 
     select
+        source_relation,
         cast(id as {{ dbt.type_string() }} ) as channel_id,
         name as channel_name,
         channel_type,

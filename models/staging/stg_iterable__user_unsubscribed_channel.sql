@@ -19,21 +19,22 @@ fields as (
                 staging_columns=get_user_unsubscribed_channel_columns()
             )
         }}
-        
+        {{ iterable.apply_source_relation() }}
+
     from base
 ),
 
 final as (
 
     select
-
+        source_relation,
         cast(_fivetran_id as {{ dbt.type_string() }} ) as _fivetran_user_id,
         coalesce(cast(_fivetran_id as {{ dbt.type_string() }} ), email) as unique_user_key,
         cast(channel_id as {{ dbt.type_string() }} ) as channel_id,
-        {{ dbt_utils.generate_surrogate_key(['_fivetran_id', 'channel_id', 'email', 'updated_at']) }} as unsub_channel_unique_key,
-        
+        {{ dbt_utils.generate_surrogate_key(['_fivetran_id', 'channel_id', 'email', 'updated_at', 'source_relation']) }} as unsub_channel_unique_key,
+
         {% if does_table_exist('user_unsubscribed_channel') == false %}
-        rank() over(partition by email, channel_id order by updated_at desc) as latest_batch_index,
+        rank() over(partition by email, channel_id{{ iterable.partition_by_source_relation() }} order by updated_at desc) as latest_batch_index,
         {% else %}
         1 as latest_batch_index,
         {% endif %}

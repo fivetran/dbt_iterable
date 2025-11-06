@@ -5,6 +5,7 @@ with latest_campaign as (
 
 ), recurring_campaign_join as (
     select
+        latest_campaign.source_relation,
         latest_campaign.campaign_id,
         latest_campaign.campaign_name,
         latest_campaign.updated_at,
@@ -27,6 +28,7 @@ with latest_campaign as (
 
     left join latest_campaign as recurring_campaign
         on latest_campaign.recurring_campaign_id = recurring_campaign.campaign_id
+        and latest_campaign.source_relation = recurring_campaign.source_relation
 
 ), final as (
 
@@ -38,6 +40,7 @@ with latest_campaign as (
     from recurring_campaign_join
     left join latest_campaign on recurring_campaign_join.campaign_id = latest_campaign.recurring_campaign_id
         and recurring_campaign_join.template_id = latest_campaign.template_id
+        and recurring_campaign_join.source_relation = latest_campaign.source_relation
 )
 
 select *

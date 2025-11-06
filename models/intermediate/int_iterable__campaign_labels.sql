@@ -9,7 +9,7 @@ with campaign_label_history as (
 
     select 
         *,
-        rank() over(partition by campaign_id order by updated_at desc) as latest_label_batch_index
+        rank() over(partition by campaign_id{{ iterable.partition_by_source_relation() }} order by updated_at desc) as latest_label_batch_index
 
     from campaign_label_history
 
@@ -21,12 +21,13 @@ with campaign_label_history as (
 
 ), aggregate_labels as (
 
-    select 
+    select
+        source_relation,
         campaign_id,
-        {{ fivetran_utils.string_agg('distinct label', "', '") }} as labels 
+        {{ fivetran_utils.string_agg('distinct label', "', '") }} as labels
 
     from latest_labels
-    group by campaign_id
+    {{ dbt_utils.group_by(n=2) }}
 )
 
 select * from aggregate_labels

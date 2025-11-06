@@ -8,13 +8,14 @@ with user_history as (
 
     select
         *,
-        lag(email_list_ids) over(partition by unique_user_key order by updated_at asc) as previous_ids -- partition by email instead of unique_user_key here since this model is only for email-list users
+        lag(email_list_ids) over(partition by unique_user_key{{ iterable.partition_by_source_relation() }} order by updated_at asc) as previous_ids -- partition by email instead of unique_user_key here since this model is only for email-list users
 
     from user_history 
 
 ), only_new_email_list_ids as (
 
     select
+        source_relation,
         _fivetran_user_id,
         unique_user_key,
         user_id,
@@ -35,15 +36,16 @@ with user_history as (
 
 ), most_recent_list_ids as (
 
-    select 
+    select
         *,
-        row_number() over(partition by email order by updated_at desc) as latest_user_index
-    
+        row_number() over(partition by email{{ iterable.partition_by_source_relation() }} order by updated_at desc) as latest_user_index
+
     from only_new_email_list_ids
 
 ), final as (
 
     select
+        source_relation,
         _fivetran_user_id,
         unique_user_key,
         email,
@@ -55,7 +57,7 @@ with user_history as (
         signup_date,
         signup_source,
         updated_at,
-        latest_user_index = 1 as is_current        
+        latest_user_index = 1 as is_current
 
         --The below script allows for pass through columns.
         {{ fivetran_utils.persist_pass_through_columns(pass_through_variable='iterable_user_history_pass_through_columns', identifier='most_recent_list_ids') }}

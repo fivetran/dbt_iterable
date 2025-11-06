@@ -25,14 +25,16 @@ fields as (
                 staging_columns=get_event_extension_columns()
             )
         }}
+        {{ iterable.apply_source_relation() }}
 
     from base
 ),
 
 final as (
     select
+        source_relation,
         cast(_fivetran_id as {{ dbt.type_string() }} ) as event_id,
-        {{ dbt_utils.generate_surrogate_key(['_fivetran_id','_fivetran_user_id']) }} as unique_event_id,
+        {{ dbt_utils.generate_surrogate_key(['_fivetran_id','_fivetran_user_id','source_relation']) }} as unique_event_id,
         app_already_running as is_app_already_running,
         badge,
         catalog_collection_count,

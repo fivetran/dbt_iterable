@@ -22,13 +22,15 @@ fields as (
                 staging_columns=get_message_type_columns()
             )
         }}
-        
+        {{ iterable.apply_source_relation() }}
+
     from base
 ),
 
 final as (
-    
+
     select
+        source_relation,
         cast(id as {{ dbt.type_string() }} ) as message_type_id,
         name as message_type_name,
         cast(channel_id as {{ dbt.type_string() }} ) as channel_id,

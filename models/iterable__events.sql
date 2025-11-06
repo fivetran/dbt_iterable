@@ -8,6 +8,8 @@
     ) 
 }}
 
+{% set using_event_extension = var('iterable__using_event_extension', True) %}
+
 with events as (
 
     select *
@@ -26,7 +28,7 @@ with events as (
     from {{ ref('int_iterable__recurring_campaigns') }}
 
 
-{% if var('iterable__using_event_extension', True) %}
+{% if using_event_extension %}
 ), event_extension as (
 
     select *
@@ -67,9 +69,9 @@ with events as (
         message_type_channel.channel_name,
         message_type_channel.channel_type
 
-        {% if var('iterable__using_event_extension', True) %}
-        {% set exclude_fields = ["unique_user_key","_fivetran_user_id","event_id", "content_id", "_fivetran_synced", "unique_event_id"] %}
-        , {{ dbt_utils.star(from=ref('stg_iterable__event_extension'), except=exclude_fields) }}
+        {% if using_event_extension %}
+        {% set exclude_fields = ["source_relation", "unique_user_key","_fivetran_user_id","event_id", "content_id", "_fivetran_synced", "unique_event_id"] %}
+        , {{ dbt_utils.star(from=ref('stg_iterable__event_extension'), except=exclude_fields, relation_alias="event_extension") }}
         {% endif %}
 
         ,
@@ -79,19 +81,24 @@ with events as (
         
     from events
 
-    {% if var('iterable__using_event_extension', True) %}
+    {% if using_event_extension %}
     left join event_extension
         on events.unique_event_id = event_extension.unique_event_id
+        and events.source_relation = event_extension.source_relation
     {% endif %}
 
     left join campaign
         on events.campaign_id = campaign.campaign_id
+        and events.source_relation = campaign.source_relation
     left join users
         on events.unique_user_key = users.unique_user_key -- unique_user_key = _fivetran_user_id if exists, otherwise email
+        and events.source_relation = users.source_relation
     left join message_type_channel
         on events.message_type_id = message_type_channel.message_type_id
+        and events.source_relation = message_type_channel.source_relation
     left join template
         on campaign.template_id = template.template_id
+        and events.source_relation = template.source_relation
 )
 
 select *

@@ -3,8 +3,8 @@
     enabled=var('fivetran_validation_tests_enabled', false)
 ) }}
 
-{% set exclude_fields = ["labels"] %}
-{% set fields = dbt_utils.star(from=ref('iterable__campaigns'), except=exclude_fields) %}
+{% set exclude_cols = ['labels'] + var('consistency_test_exclude_metrics', []) %}
+{% set fields = dbt_utils.star(from=ref('iterable__campaigns'), except=exclude_cols) %}
 
 -- this test ensures the iterable__campaigns end model matches the prior version
 with prod as (

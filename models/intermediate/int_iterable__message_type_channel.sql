@@ -15,7 +15,9 @@ with message_type as (
         message_type.message_type_name,
         message_type.message_type_id
     from channel
-    left join message_type on channel.channel_id = message_type.channel_id
+    left join message_type
+        on channel.channel_id = message_type.channel_id
+        and channel.source_relation = message_type.source_relation
 )
 
 select *

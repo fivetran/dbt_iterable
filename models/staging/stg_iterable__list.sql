@@ -16,13 +16,15 @@ fields as (
                 staging_columns=get_list_columns()
             )
         }}
+        {{ iterable.apply_source_relation() }}
         
     from base
 ),
 
 final as (
-    
-    select 
+
+    select
+        source_relation,
         id as list_id,
         name as list_name,
         list_type,

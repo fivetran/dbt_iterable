@@ -22,13 +22,15 @@ fields as (
                 staging_columns=get_campaign_label_history_columns()
             )
         }}
+        {{ iterable.apply_source_relation() }}
         
     from base
 ),
 
 final as (
-    
-    select 
+
+    select
+        source_relation,
         cast(campaign_id as {{ dbt.type_string() }}) as campaign_id,
         label,
         updated_at,

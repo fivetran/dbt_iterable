@@ -24,13 +24,15 @@ fields as (
                 staging_columns=get_user_history_columns()
             )
         }}
+        {{ iterable.apply_source_relation() }}
 
     from base
 ),
 
 final as (
-    
-    select 
+
+    select
+        source_relation,
         cast(_fivetran_id as {{ dbt.type_string() }} ) as _fivetran_user_id,
         lower(email) as email,
         updated_at,

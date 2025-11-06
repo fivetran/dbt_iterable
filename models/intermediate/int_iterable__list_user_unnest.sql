@@ -23,6 +23,7 @@ with user_history as (
 ), redshift_parse_email_lists as (
 
     select
+        source_relation,
         _fivetran_user_id,
         unique_user_key,
         email,
@@ -46,6 +47,7 @@ with user_history as (
 ), unnest_email_array as (
 
     select
+        source_relation,
         _fivetran_user_id,
         unique_user_key,
         email,
@@ -58,7 +60,7 @@ with user_history as (
         updated_at,
         is_current,
         {# go back to strings #}
-        cast(email_list_ids as {{ dbt.type_string() }}) as email_list_ids, 
+        cast(email_list_ids as {{ dbt.type_string() }}) as email_list_ids,
         cast(email_list_id as {{ dbt.type_string() }}) as email_list_id
 
         --The below script allows for pass through columns.
@@ -70,6 +72,7 @@ with user_history as (
 ), unnest_email_array as (
 
     select
+        source_relation,
         _fivetran_user_id,
         unique_user_key,
         email,
@@ -87,8 +90,8 @@ with user_history as (
             email_list_id.value
             {% elif target.type in ('spark','databricks') %}
             email_list_id.col
-            {% else %} email_list_id {% endif %} 
-            else null 
+            {% else %} email_list_id {% endif %}
+            else null
             end as email_list_id
 
         --The below script allows for pass through columns.
@@ -122,6 +125,7 @@ with user_history as (
 ), adjust_nulls as (
 
     select
+        source_relation,
         _fivetran_user_id,
         unique_user_key,
         email,
@@ -144,6 +148,7 @@ with user_history as (
 ), final as (
 
     select
+        source_relation,
         _fivetran_user_id,
         unique_user_key,
         user_id,
@@ -157,7 +162,7 @@ with user_history as (
         is_current,
         email_list_ids,
         list_id,
-        {{ dbt_utils.generate_surrogate_key(["unique_user_key", "list_id", "updated_at"]) }} as unique_key,
+        {{ dbt_utils.generate_surrogate_key(["source_relation", "unique_user_key", "list_id", "updated_at"]) }} as unique_key,
         cast( {{ dbt.date_trunc('day', 'updated_at') }} as date) as date_day
 
         --The below script allows for pass through columns.

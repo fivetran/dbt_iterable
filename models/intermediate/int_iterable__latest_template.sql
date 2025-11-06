@@ -1,11 +1,11 @@
 with template_history as (
-  select *
-  from {{ ref('stg_iterable__template_history') }}
+    select *
+    from {{ ref('stg_iterable__template_history') }}
 
 ), order_template as (
     select
-      *,
-      row_number() over(partition by template_id order by updated_at desc) as latest_template_index
+        *,
+        row_number() over(partition by template_id{{ iterable.partition_by_source_relation() }} order by updated_at desc) as latest_template_index
     from template_history
 
 ), latest_template as (
@@ -30,8 +30,9 @@ with template_history as (
         message_type_channel.message_medium
 
     from latest_template 
-    left join message_type_channel 
+    left join message_type_channel
         on latest_template.message_type_id = message_type_channel.message_type_id
+        and latest_template.source_relation = message_type_channel.source_relation
 )
 
 select *

@@ -4,6 +4,8 @@ models:
   - name: stg_iterable__campaign_history
     description: Table containing a history of campaigns.
     columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: campaign_id
         description: Unique identifier of the campaign record
         tests:
@@ -42,6 +44,8 @@ models:
   - name: stg_iterable__campaign_label_history
     description: Table containing a history of labels.
     columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: campaign_id
         description: Reference to the campaign associated with the label
         tests:
@@ -56,6 +60,8 @@ models:
   - name: stg_iterable__campaign_list_history
     description: Table containing a history of lists.
     columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: campaign_id
         description: Reference to the campaign associated with the label
         tests:
@@ -70,6 +76,8 @@ models:
   - name: stg_iterable__campaign_suppression_list_history
     description: Table containing a history of suppression lists.
     columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: campaign_id
         description: Reference to the campaign associated with the label
         tests:
@@ -82,12 +90,13 @@ models:
         description: "{{ doc('_fivetran_synced') }}"
 
   - name: stg_iterable__channel
-    description: Table containing unique channels.     
+    description: Table containing unique channels.
     columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: channel_id
         description: Unique identifier of the channel
         tests:
-          - unique
           - not_null
       - name: channel_name
         description: User defined name of the channel
@@ -101,14 +110,14 @@ models:
   - name: stg_iterable__event
     description: Table containing individual events within campaigns.
     columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: event_id
-        description: A Fivetran-created unique identifier derived from hashing campaign_id, created_at, and event_name. 
+        description: A Fivetran-created unique identifier derived from hashing campaign_id, created_at, and event_name.
         tests:
           - not_null
       - name: unique_event_id
-        description: A surrogate key made up of event_id and _fivetran_user_id.
-        tests:
-          - unique
+        description: A surrogate key made up of event_id, _fivetran_user_id, and source_relation.
       - name: campaign_id
         description: Reference to the campaign from which the event originated
       - name: content_id
@@ -151,14 +160,14 @@ models:
   - name: stg_iterable__event_extension
     description: Table containing addition properties from the event table.
     columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: event_id
-        description: A Fivetran-created unique identifier derived from hashing campaign_id, created_at, and event_name. 
+        description: A Fivetran-created unique identifier derived from hashing campaign_id, created_at, and event_name.
         tests:
           - not_null
       - name: unique_event_id
-        description: A surrogate key made up of event_id and _fivetran_user_id.
-        tests:
-          - unique
+        description: A surrogate key made up of event_id, _fivetran_user_id, and source_relation.
       - name: is_app_already_running
         description: Boolean indicating if the app is currently running or not
       - name: badge
@@ -243,10 +252,11 @@ models:
   - name: stg_iterable__list
     description: Table containing users and the lists the users are associated with.
     columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: list_id
         description: Unique identifier of the list
         tests:
-          - unique
           - not_null
       - name: list_name
         description: User defined name of the list
@@ -262,10 +272,11 @@ models:
   - name: stg_iterable__message_type
     description: Table containing unique message types.
     columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: message_type_id
-        description: Unique identifer of the message type
+        description: Unique identifier of the message type
         tests:
-          - unique
           - not_null
       - name: message_type_name
         description: User defined name of the message type
@@ -287,8 +298,10 @@ models:
   - name: stg_iterable__template_history
     description: Table containing unique templates used across campaigns.
     columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: template_id
-        description: Unique identifer of the template
+        description: Unique identifier of the template
         tests:
           - not_null
       - name: template_name
@@ -311,6 +324,8 @@ models:
   - name: stg_iterable__user_history
     description: Table containing individual user history information.
     columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: unique_user_key
         description: The unique identifier of the user. With the new schema (Aug 2023), it is the _fivetran_user_id. This is a hash of user_id and/or email, depending on project type. If using the old schema, it is email. 
         tests:
@@ -343,14 +358,14 @@ models:
   - name: stg_iterable__user_unsubscribed_channel
     description: Table containing the history of channels from which a user has unsubscribed.
     columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: channel_id
         description: Reference to the channel from which the user unsubscribed
         tests:
           - not_null
       - name: unsub_channel_unique_key
-        description: A surrogate key providing a unique key for each record. If using user_unsubscribed_channel_history, it uses 'email', 'channel_id', and 'updated_at'. If not using the history table, it uses '_fivetran_user_id' and 'channel_id'.
-        tests:
-          - unique
+        description: A surrogate key providing a unique key for each record. If using user_unsubscribed_channel_history, it uses '_fivetran_id', 'channel_id', 'email', 'updated_at', and 'source_relation'. If not using the history table, it uses '_fivetran_id', 'channel_id', and 'source_relation'.
       - name: _fivetran_user_id
         description: A Fivetran-created unique identifier for users, derived from hashing user_id and/or email, depending on project type. This exists for users of the new schema starting Aug 2023. In the old schema, the unique identifier is email.
       - name: unique_user_key
@@ -365,14 +380,14 @@ models:
   - name: stg_iterable__user_unsub_message_type
     description: Table containing the message types from which a user has unsubscribed. "Unsubscribed" is shortened to "unsub" for postgres compatibility.
     columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
       - name: message_type_id
         description: Reference to the message type from which the user unsubscribed
         tests:
           - not_null
       - name: unsub_message_type_unique_key
-        description: A surrogate key providing a unique key for each record. If using user_unsubscribed_message_type_history, it uses 'email', 'message_type_id', and 'updated_at'. If not using the history table, it uses '_fivetran_user_id' and 'message_type_id'.
-        tests:
-          - unique
+        description: A surrogate key providing a unique key for each record. If using user_unsubscribed_message_type_history, it uses '_fivetran_id', 'email', 'message_type_id', 'updated_at', and 'source_relation'. If not using the history table, it uses '_fivetran_id', 'message_type_id', and 'source_relation'.
       - name: _fivetran_user_id
         description: A Fivetran-created unique identifier for users, derived from hashing user_id and/or email, depending on project type. This exists for users of the new schema starting Aug 2023. In the old schema, the unique identifier is email.
       - name: unique_user_key

@@ -22,13 +22,15 @@ fields as (
                 staging_columns=get_campaign_suppression_list_history_columns()
             )
         }}
-        
+        {{ iterable.apply_source_relation() }}
+
     from base
 ),
 
 final as (
-    
+
     select
+        source_relation,
         cast(campaign_id as {{ dbt.type_string() }}) as campaign_id,
         cast(suppressed_list_id as {{ dbt.type_string() }}) as suppressed_list_id,
         updated_at,

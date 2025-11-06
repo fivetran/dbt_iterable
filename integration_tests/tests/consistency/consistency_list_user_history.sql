@@ -4,19 +4,17 @@
 ) }}
 
 {% set exclude_cols = var('consistency_test_exclude_metrics', []) %}
-{% set fields = dbt_utils.star(from=ref('iterable__users'), except=exclude_cols) %}
+{% set fields = dbt_utils.star(from=ref('iterable__list_user_history'), except=exclude_cols) %}
 
--- this test ensures the iterable__users end model matches the prior version
+-- this test ensures the iterable__list_user_history end model matches the prior version
 with prod as (
     select {{ fields }}
-    from {{ target.schema }}_iterable_prod.iterable__users
-    where date(updated_at) < date({{ dbt.current_timestamp() }})
+    from {{ target.schema }}_iterable_prod.iterable__list_user_history
 ),
 
 dev as (
     select {{ fields }}
-    from {{ target.schema }}_iterable_dev.iterable__users
-    where date(updated_at) < date({{ dbt.current_timestamp() }})
+    from {{ target.schema }}_iterable_dev.iterable__list_user_history
 ),
 
 prod_not_in_dev as (

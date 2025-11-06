@@ -1,3 +1,5 @@
+{% set using_user_unsubscribed_message_type = var('iterable__using_user_unsubscribed_message_type', True) %}
+
 with message_type_channel as (
 
     select *
@@ -10,7 +12,7 @@ with message_type_channel as (
     from {{ ref('stg_iterable__user_unsubscribed_channel') }}
     where latest_batch_index = 1
 
-{% if var('iterable__using_user_unsubscribed_message_type', True) %}
+{% if using_user_unsubscribed_message_type %}
 ), user_unsubscribed_message_type as (
 
     select
@@ -22,7 +24,8 @@ with message_type_channel as (
 
 ), combine as (
 
-    select 
+    select
+        source_relation,
         _fivetran_user_id,
         unique_user_key,
         channel_id,
@@ -30,11 +33,12 @@ with message_type_channel as (
         updated_at
     from user_unsubscribed_channel
 
-{% if var('iterable__using_user_unsubscribed_message_type', True) %}
+{% if using_user_unsubscribed_message_type %}
 
     union all
 
-    select 
+    select
+        source_relation,
         _fivetran_user_id,
         unique_user_key,
         cast(null as {{ dbt.type_string() }}) as channel_id,
@@ -45,7 +49,8 @@ with message_type_channel as (
 
 ), final as (
 
-    select 
+    select
+        combine.source_relation,
         combine._fivetran_user_id,
         combine.unique_user_key,
         -- coalescing since message_type -> channel goes up a grain
@@ -61,9 +66,10 @@ with message_type_channel as (
     from combine
 
     -- unsubscribing from an entire channel unsubscribes a user from all message types in that channel
-    join message_type_channel 
-        on combine.channel_id = message_type_channel.channel_id
-        or combine.message_type_id = message_type_channel.message_type_id
+    join message_type_channel
+        on combine.source_relation = message_type_channel.source_relation
+        and (combine.channel_id = message_type_channel.channel_id
+            or combine.message_type_id = message_type_channel.message_type_id)
 )
 
 select *
