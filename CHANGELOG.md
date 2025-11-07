@@ -1,5 +1,5 @@
 # dbt_iterable v1.1.1
-[PR #68](https://github.com/fivetran/dbt_iterable/pull/68) includes the following updates:
+[PR #70](https://github.com/fivetran/dbt_iterable/pull/70) includes the following updates:
 
 ## Bug fix
 - **Union Data Compatibility Fix**: Moves the `_fivetran_deleted` filter from the `base` CTE to the `final` CTE in staging models `stg_iterable__channel` and `stg_iterable__message_type`. 
