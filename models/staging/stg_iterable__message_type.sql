@@ -3,7 +3,6 @@ with base as (
 
     select * 
     from {{ ref('stg_iterable__message_type_tmp') }}
-    where not coalesce(_fivetran_deleted, false)
 
 ),
 
@@ -41,6 +40,7 @@ final as (
         updated_at as message_type_updated_at,
         _fivetran_synced
     from fields
+    where not coalesce(_fivetran_deleted, true)
 )
 
 select * 

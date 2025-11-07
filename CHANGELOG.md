@@ -1,3 +1,10 @@
+# dbt_iterable v1.1.1
+[PR #68](https://github.com/fivetran/dbt_iterable/pull/68) includes the following updates:
+
+## Under the Hood
+- **Union Data Compatibility Fix**: Moves the `_fivetran_deleted` filter from the `base` CTE to the `final` CTE in staging models `stg_iterable__channel` and `stg_iterable__message_type`. 
+  - This change ensures compatibility with the union data feature introduced in v1.1.0. When using multiple source connections, the union macros can create empty result sets with no columns for missing tables. The filter must be applied after the `fivetran_utils.fill_staging_columns()` macro in the `fields` CTE, which guarantees all expected columns exist regardless of source table availability. This change maintains the same data output while enabling proper functionality across all union data scenarios.
+
 # dbt_iterable v1.1.0
 [PR #67](https://github.com/fivetran/dbt_iterable/pull/67) includes the following updates:
 
