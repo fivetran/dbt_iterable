@@ -3,7 +3,6 @@ with base as (
 
     select * 
     from {{ ref('stg_iterable__channel_tmp') }}
-    where not coalesce(_fivetran_deleted, false)
 
 ),
 
@@ -38,6 +37,7 @@ final as (
         _fivetran_synced
 
     from fields
+    where not coalesce(_fivetran_deleted, false)
 )
 
 select * 
