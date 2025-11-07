@@ -39,7 +39,6 @@ final as (
         cast(user_id as {{ dbt.type_string() }} ) as user_id,
         first_name,
         last_name,
-        {{ iterable.json_to_string("email_list_ids", source_columns_in_relation) }} as email_list_ids,
         phone_number,
         signup_date,
         signup_source,

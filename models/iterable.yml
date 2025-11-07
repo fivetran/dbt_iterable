@@ -476,7 +476,7 @@ models:
       - name: phone_number
         description: Phone number associated with the user
       - name: email_list_ids
-        description: Array of all email lists associated with the user
+        description: Array of all email lists associated with the user, derived from the list_user table relationships
       - name: count_lists
         description: Total count of lists associated with the user
       - name: count_total_campaigns

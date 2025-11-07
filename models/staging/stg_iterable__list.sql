@@ -3,7 +3,6 @@ with base as (
 
     select * 
     from {{ ref('stg_iterable__list_tmp') }}
-    where not coalesce(_fivetran_deleted, true)
 
 ),
 
@@ -32,6 +31,7 @@ final as (
         description as list_description,
         _fivetran_synced
     from fields
+    where not coalesce(_fivetran_deleted, true)
 )
 
 select * 

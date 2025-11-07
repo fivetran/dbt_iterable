@@ -27,6 +27,7 @@ vars:
     event: "{{ source('iterable', 'event') }}"
     event_extension: "{{ source('iterable', 'event_extension') }}"
     list: "{{ source('iterable', 'list') }}"
+    list_user: "{{ source('iterable', 'list_user') }}"
     message_type: "{{ source('iterable', 'message_type') }}"
     template_history: "{{ source('iterable', 'template_history') }}"
     user_history: "{{ source('iterable', 'user_history') }}"
