@@ -1,22 +1,9 @@
-{{ config(
-        materialized='incremental',
-        unique_key='unique_key',
-        incremental_strategy='insert_overwrite' if target.type in ('bigquery', 'spark', 'databricks') else 'delete+insert',
-        partition_by={"field": "date_day", "data_type": "date"} if target.type not in ('spark','databricks') else ['date_day'],
-        file_format='delta',
-        on_schema_change='fail'
-    )
-}}
+{{ config(materialized='table') }}
 
 with current_users as (
 
     select *
-    from {{ ref('int_iterable__current_users') }} as current_users
-
-    {% if is_incremental() %}
-    {# the only rows we potentially want to overwrite are active ones  #}
-    where current_users.updated_at >= coalesce((select min(updated_at) from {{ this }} where is_current), '2010-01-01')
-    {% endif %}
+    from {{ ref('int_iterable__current_users') }}
 
 ), list_user as (
 

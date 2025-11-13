@@ -5,15 +5,31 @@ with user_event_metrics as (
     select *
     from {{ ref('int_iterable__user_event_metrics') }}
 
-), current_users as (
+), old_method_user_lists as (
+    -- Old method: from email_list_ids in user_history (unnested)
+    select *
+    from {{ ref('int_iterable__list_user_unnest') }}
+    where is_current
 
+), new_method_user_lists as (
+    -- New method: from list_user table
+    select *
+    from {{ ref('int_iterable__user_list_relationships') }}
+    where is_current
+
+), current_users as (
+    -- Get all current users from user_history
     select *
     from {{ ref('int_iterable__current_users') }}
 
-), list_user as (
+), combined_user_lists as (
+    -- Union both methods, prioritizing new method when both exist for the same user
+    select * from new_method_user_lists
 
-    select *
-    from {{ ref('stg_iterable__list_user') }}
+    union all
+
+    select * from old_method_user_lists
+    where unique_user_key not in (select unique_user_key from new_method_user_lists)
 
 ), user_with_list_metrics as (
 
@@ -33,19 +49,15 @@ with user_event_metrics as (
         --The below script allows for pass through columns.
         {{ fivetran_utils.persist_pass_through_columns(pass_through_variable='iterable_user_history_pass_through_columns', identifier='current_users') }}
 
-        , count(distinct list_user.list_id) as count_lists
-        -- Backwards compatibility: coalesce old method (email_list_ids from user_history) with new method (list_user table)
-        , coalesce(
-            -- Use existing email_list_ids if available and not empty
-            case when current_users.email_list_ids is not null and current_users.email_list_ids != '[]' then current_users.email_list_ids end,
-            -- Otherwise use aggregated list_ids from list_user table
-            case when count(list_user.list_id) > 0 then '[' || {{ fivetran_utils.string_agg(field_to_agg="cast(list_user.list_id as " ~ dbt.type_string() ~ ")", delimiter="', '") }} || ']' else '[]' end
-        ) as email_list_ids
+        , count(distinct combined_user_lists.list_id) as count_lists
+        -- Create email_list_ids by aggregating the list_ids
+        , case when count(combined_user_lists.list_id) > 0 then '[' || {{ fivetran_utils.string_agg(field_to_agg="cast(combined_user_lists.list_id as " ~ dbt.type_string() ~ ")", delimiter="', '") }} || ']' else '[]' end as email_list_ids
 
     from current_users
-    left join list_user
-        on current_users.source_relation = list_user.source_relation
-        and current_users._fivetran_user_id = list_user._fivetran_list_user_id
+    left join combined_user_lists
+        on current_users.source_relation = combined_user_lists.source_relation
+        and current_users.unique_user_key = combined_user_lists.unique_user_key
+        and combined_user_lists.is_current
     -- roll up to the user
     {{ dbt_utils.group_by(n = 11 + passthrough_column_count) }}
 
