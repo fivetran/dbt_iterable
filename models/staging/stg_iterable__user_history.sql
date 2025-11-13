@@ -35,6 +35,7 @@ final as (
         source_relation,
         cast(_fivetran_id as {{ dbt.type_string() }} ) as _fivetran_user_id,
         lower(email) as email,
+        email_list_ids,
         updated_at,
         cast(user_id as {{ dbt.type_string() }} ) as user_id,
         first_name,

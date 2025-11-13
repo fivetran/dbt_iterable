@@ -38,6 +38,7 @@ with current_users as (
         current_users.phone_number,
         current_users.updated_at,
         current_users.is_current,
+        current_users.email_list_ids,
         list_user.list_id
 
         --The below script allows for pass through columns.
@@ -63,6 +64,7 @@ with current_users as (
         updated_at,
         phone_number,
         is_current,
+        email_list_ids,
         list_id,
         {{ dbt_utils.generate_surrogate_key(["source_relation", "unique_user_key", "list_id", "updated_at"]) }} as unique_key,
         cast( {{ dbt.date_trunc('day', 'updated_at') }} as date) as date_day

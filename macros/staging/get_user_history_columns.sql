@@ -4,6 +4,7 @@
     {"name": "_fivetran_id", "datatype": dbt.type_string()},
     {"name": "_fivetran_synced", "datatype": dbt.type_timestamp()},
     {"name": "email", "datatype": dbt.type_string()},
+    {"name": "email_list_ids", "datatype": dbt.type_string()},
     {"name": "first_name", "datatype": dbt.type_string()},
     {"name": "last_name", "datatype": dbt.type_string()},
     {"name": "phone_number", "datatype": dbt.type_string()},

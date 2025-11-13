@@ -26,6 +26,7 @@ with user_history as (
         signup_date,
         signup_source,
         updated_at,
+        email_list_ids,
         latest_user_index = 1 as is_current
 
         --The below script allows for pass through columns.

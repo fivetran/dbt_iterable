@@ -34,8 +34,13 @@ with user_event_metrics as (
         {{ fivetran_utils.persist_pass_through_columns(pass_through_variable='iterable_user_history_pass_through_columns', identifier='current_users') }}
 
         , count(distinct list_user.list_id) as count_lists
-        -- Aggregate list_ids into email_list_ids array format
-        , case when count(list_user.list_id) > 0 then '[' || {{ fivetran_utils.string_agg(field_to_agg="cast(list_user.list_id as " ~ dbt.type_string() ~ ")", delimiter="', '") }} || ']' else '[]' end as email_list_ids
+        -- Backwards compatibility: coalesce old method (email_list_ids from user_history) with new method (list_user table)
+        , coalesce(
+            -- Use existing email_list_ids if available and not empty
+            case when current_users.email_list_ids is not null and current_users.email_list_ids != '[]' then current_users.email_list_ids end,
+            -- Otherwise use aggregated list_ids from list_user table
+            case when count(list_user.list_id) > 0 then '[' || {{ fivetran_utils.string_agg(field_to_agg="cast(list_user.list_id as " ~ dbt.type_string() ~ ")", delimiter="', '") }} || ']' else '[]' end
+        ) as email_list_ids
 
     from current_users
     left join list_user
