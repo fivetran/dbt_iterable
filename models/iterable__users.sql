@@ -31,6 +31,20 @@ with user_event_metrics as (
     select * from old_method_user_lists
     where unique_user_key not in (select unique_user_key from new_method_user_lists)
 
+), user_lists_aggregated as (
+    -- Pre-aggregate list data per user to avoid DISTINCT + LISTAGG conflict
+    select
+        source_relation,
+        unique_user_key,
+        count(*) as count_lists,
+        case when count(*) > 0
+             then '[' || {{ fivetran_utils.string_agg(field_to_agg="cast(list_id as " ~ dbt.type_string() ~ ")", delimiter="', '") }} || ']'
+             else '[]'
+        end as email_list_ids
+    from combined_user_lists
+    where is_current and list_id is not null
+    group by 1, 2
+
 ), user_with_list_metrics as (
 
     select
@@ -49,17 +63,13 @@ with user_event_metrics as (
         --The below script allows for pass through columns.
         {{ fivetran_utils.persist_pass_through_columns(pass_through_variable='iterable_user_history_pass_through_columns', identifier='current_users') }}
 
-        , count(distinct combined_user_lists.list_id) as count_lists
-        -- Create email_list_ids by aggregating the list_ids
-        , case when count(combined_user_lists.list_id) > 0 then '[' || {{ fivetran_utils.string_agg(field_to_agg="cast(combined_user_lists.list_id as " ~ dbt.type_string() ~ ")", delimiter="', '") }} || ']' else '[]' end as email_list_ids
+        , coalesce(user_lists_aggregated.count_lists, 0) as count_lists
+        , coalesce(user_lists_aggregated.email_list_ids, '[]') as email_list_ids
 
     from current_users
-    left join combined_user_lists
-        on current_users.source_relation = combined_user_lists.source_relation
-        and current_users.unique_user_key = combined_user_lists.unique_user_key
-        and combined_user_lists.is_current
-    -- roll up to the user
-    {{ dbt_utils.group_by(n = 11 + passthrough_column_count) }}
+    left join user_lists_aggregated
+        on current_users.source_relation = user_lists_aggregated.source_relation
+        and current_users.unique_user_key = user_lists_aggregated.unique_user_key
 
 ), user_join as (
 
