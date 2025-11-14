@@ -1,8 +1,11 @@
+{{ config(materialized='view') }}
+{% set source_columns_in_relation = adapter.get_columns_in_relation(ref('stg_iterable__list_user_tmp')) %}
+
 
 with base as (
 
     select *
-    from {{ ref('stg_iterable__message_type_tmp') }}
+    from {{ ref('stg_iterable__list_user_tmp') }}
 
 ),
 
@@ -17,8 +20,8 @@ fields as (
         */
         {{
             fivetran_utils.fill_staging_columns(
-                source_columns=adapter.get_columns_in_relation(ref('stg_iterable__message_type_tmp')),
-                staging_columns=get_message_type_columns()
+                source_columns=source_columns_in_relation,
+                staging_columns=get_list_user_columns()
             )
         }}
         {{ iterable.apply_source_relation() }}
@@ -30,18 +33,13 @@ final as (
 
     select
         source_relation,
-        cast(id as {{ dbt.type_string() }} ) as message_type_id,
-        name as message_type_name,
-        cast(channel_id as {{ dbt.type_string() }} ) as channel_id,
-        created_at as message_type_created_at,
-        frequency_cap,
-        rate_limit_per_minute,
-        subscription_policy,
-        updated_at as message_type_updated_at,
+        cast(_fivetran_id as {{ dbt.type_string() }} ) as _fivetran_list_user_id,
+        cast(index as {{ dbt.type_int() }} ) as index,
+        cast(list_id as {{ dbt.type_int() }} ) as list_id,
         _fivetran_synced
+
     from fields
-    where not coalesce(_fivetran_deleted, false)
 )
 
-select * 
+select *
 from final

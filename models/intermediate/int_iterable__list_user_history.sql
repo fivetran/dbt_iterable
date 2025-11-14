@@ -10,7 +10,7 @@ with user_history as (
         *,
         lag(email_list_ids) over(partition by unique_user_key{{ iterable.partition_by_source_relation() }} order by updated_at asc) as previous_ids -- partition by email instead of unique_user_key here since this model is only for email-list users
 
-    from user_history 
+    from user_history
 
 ), only_new_email_list_ids as (
 

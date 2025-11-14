@@ -31,7 +31,7 @@ final as (
         description as list_description,
         _fivetran_synced
     from fields
-    where not coalesce(_fivetran_deleted, true)
+    where not coalesce(_fivetran_deleted, false)
 )
 
 select * 
