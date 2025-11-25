@@ -1,3 +1,10 @@
+# dbt_iterable v1.2.0
+
+[PR #72](https://github.com/fivetran/dbt_iterable/pull/72) includes the following updates:
+
+## Features
+  - Increases the required dbt version upper limit to v3.0.0
+
 # dbt_iterable v1.1.1
 [PR #70](https://github.com/fivetran/dbt_iterable/pull/70) includes the following updates:
 
