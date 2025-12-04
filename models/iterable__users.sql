@@ -11,10 +11,8 @@ with user_event_metrics as (
         source_relation,
         _fivetran_user_id,
         count(*) as count_lists,
-        case when count(*) > 0
-            then {{ dbt.concat(["'['", fivetran_utils.string_agg(field_to_agg="cast(list_id as " ~ dbt.type_string() ~ ")", delimiter="','"), "']'"]) }}
-            else '[]'
-        end as email_list_ids
+        {{ dbt.concat(["'['", fivetran_utils.string_agg(field_to_agg="cast(list_id as " ~ dbt.type_string() ~ ")", delimiter="','"), "']'"]) }}
+            as email_list_ids
 
     from {{ ref('stg_iterable__list_user') }}
     group by 1, 2
