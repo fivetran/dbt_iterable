@@ -32,7 +32,7 @@ with user_history_unnest as (
         lists.created_at as list_created_at
 
         --The below script allows for pass through columns.
-        {{ fivetran_utils.persist_pass_through_columns(pass_through_variable='iterable_user_history_unnest_pass_through_columns', identifier='user_history_unnest') }}
+        {{ fivetran_utils.persist_pass_through_columns(pass_through_variable='iterable_user_history_pass_through_columns', identifier='user_list_unnest') }}
 
     from user_history_unnest
     left join list_users
@@ -40,7 +40,7 @@ with user_history_unnest as (
         and list_users._fivetran_user_id = user_history_unnest._fivetran_user_id
     left join lists
         on lists.source_relation = user_history_unnest.source_relation
-        and lists.list_id = coalesce(user_history_unnest.list_id, list_users.list_id)
+        and lists.list_id = coalesce(list_users.list_id, user_history_unnest.list_id)
 )
 
 select *
