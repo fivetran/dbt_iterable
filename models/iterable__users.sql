@@ -19,7 +19,7 @@ with user_event_metrics as (
     from {{ ref('stg_iterable__list_user') }}
     group by 1, 2
 
-), user_history_unnested as (
+), user_history_unnest as (
     -- this has all the user fields we're looking to pass through
 
     select *
@@ -49,7 +49,7 @@ with user_event_metrics as (
 
         , count(distinct list_id) as count_lists
 
-    from user_history_unnested
+    from user_history_unnest
     -- roll up to the user
     {{ dbt_utils.group_by(n = 12 + passthrough_column_count) }}
 
@@ -77,8 +77,8 @@ with user_event_metrics as (
         and user_with_list_metrics.source_relation = user_event_metrics.source_relation
     left join list_user_aggregated
         -- use _fivetran_user_id since in list_user it is a primary key
-        on user_history_unnested._fivetran_user_id = list_user_aggregated._fivetran_user_id
-        and user_history_unnested.source_relation = list_user_aggregated.source_relation
+        on user_history_unnest._fivetran_user_id = list_user_aggregated._fivetran_user_id
+        and user_history_unnest.source_relation = list_user_aggregated.source_relation
 )
 
 select *
