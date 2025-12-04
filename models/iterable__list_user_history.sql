@@ -1,24 +1,12 @@
--- Union both old method (email_list_ids unnesting) and new method (list_user table)
-with old_method as (
-    -- Old method: from email_list_ids in user_history
+with user_history_unnested as (
+
     select *
     from {{ ref('int_iterable__list_user_unnest') }}
-    where is_current and list_id is not null
 
-), new_method as (
-    -- New method: from list_user table
+), list_users as (
+
     select *
-    from {{ ref('int_iterable__user_list_relationships') }}
-    where is_current and list_id is not null
-
-), combined_user_lists as (
-    -- Combine both methods, prioritizing new method when both exist for the same user
-    select * from new_method
-
-    union all
-
-    select * from old_method
-    where unique_user_key not in (select unique_user_key from new_method)
+    from {{ ref('stg_iterable__list_user') }}
 
 ), lists as (
 
@@ -27,29 +15,32 @@ with old_method as (
 
 ), final as (
     select
-        combined_user_lists.source_relation,
-        combined_user_lists.unique_user_key,
-        combined_user_lists._fivetran_user_id,
-        combined_user_lists.user_id,
-        combined_user_lists.email as user_email,
-        combined_user_lists.first_name as user_first_name,
-        combined_user_lists.last_name as user_last_name,
-        combined_user_lists.signup_date as user_signup_date,
-        combined_user_lists.signup_source as user_signup_source,
-        combined_user_lists.updated_at as user_updated_at,
-        combined_user_lists.list_id,
-        combined_user_lists.is_current,
+        user_history_unnested.source_relation,
+        user_history_unnested.unique_user_key,
+        user_history_unnested._fivetran_user_id,
+        user_history_unnested.user_id,
+        user_history_unnested.email as user_email,
+        user_history_unnested.first_name as user_first_name,
+        user_history_unnested.last_name as user_last_name,
+        user_history_unnested.signup_date as user_signup_date,
+        user_history_unnested.signup_source as user_signup_source,
+        user_history_unnested.updated_at as user_updated_at,
+        coalesce(list_users.list_id, user_history_unnested.list_id) as list_id,
+        user_history_unnested.is_current,
         lists.list_name,
         lists.list_type,
         lists.created_at as list_created_at
 
         --The below script allows for pass through columns.
-        {{ fivetran_utils.persist_pass_through_columns(pass_through_variable='iterable_user_history_pass_through_columns', identifier='combined_user_lists') }}
+        {{ fivetran_utils.persist_pass_through_columns(pass_through_variable='iterable_user_history_unnested_pass_through_columns', identifier='user_history_unnested') }}
 
-    from combined_user_lists
+    from user_history_unnested
+    left join list_users
+        on list_users.source_relation = user_history_unnested.source_relation
+        and list_users._fivetran_user_id = user_history_unnested._fivetran_user_id
     left join lists
-        on lists.source_relation = combined_user_lists.source_relation
-        and lists.list_id = combined_user_lists.list_id
+        on lists.source_relation = user_history_unnested.source_relation
+        and lists.list_id = coalesce(user_history_unnested.list_id, list_users.list_id)
 )
 
 select *
