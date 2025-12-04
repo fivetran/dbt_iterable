@@ -5,6 +5,12 @@ with user_event_metrics as (
     select *
     from {{ ref('int_iterable__user_event_metrics') }}
 
+), list_users as (
+
+    select *
+    from {{ ref('stg_iterable__list_user') }}
+    order by list_id -- so the list ids will aggregate in the right order
+
 ), list_user_aggregated as (
 
     select
@@ -12,9 +18,8 @@ with user_event_metrics as (
         _fivetran_user_id,
         count(*) as count_lists,
         {{ dbt.concat(["'['", fivetran_utils.string_agg(field_to_agg="cast(list_id as " ~ dbt.type_string() ~ ")", delimiter="','"), "']'"]) }} as email_list_ids
-
-    from {{ ref('stg_iterable__list_user') }}
-    group by 1, 2
+    from list_users
+    group by 1, 2 
 
 ), user_history_unnest as (
     -- this has all the user fields we're looking to pass through
@@ -74,8 +79,8 @@ with user_event_metrics as (
         and user_with_list_metrics.source_relation = user_event_metrics.source_relation
     left join list_user_aggregated
         -- use _fivetran_user_id since in list_user it is a primary key
-        on user_history_unnest._fivetran_user_id = list_user_aggregated._fivetran_user_id
-        and user_history_unnest.source_relation = list_user_aggregated.source_relation
+        on user_with_list_metrics._fivetran_user_id = list_user_aggregated._fivetran_user_id
+        and user_with_list_metrics.source_relation = list_user_aggregated.source_relation
 )
 
 select *

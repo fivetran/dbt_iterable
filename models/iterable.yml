@@ -307,7 +307,9 @@ models:
   - name: iterable__list_user_history
     description: >
       Table that recreates the `list_user_history` source table. Additionally, this table provides an `is_current` field to
-      identify the current lists associated with the user. Additionally, the grain of this table is at the user/list/updated_at grain.
+      identify the current lists associated with the user. The table coalesces list_id values from both the direct list_user
+      relationships and the unnested email_list_ids from user history to ensure comprehensive list coverage.
+      The grain of this table is at the user/list/updated_at level.
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
@@ -330,7 +332,7 @@ models:
       - name: user_updated_at
         description: Last update timestamp
       - name: list_id
-        description: The list associated with the user
+        description: The list associated with the user. Uses coalesced values prioritizing list_id from stg_iterable__list_user over the unnested email_list_ids from user_history for comprehensive list coverage.
       - name: is_current
         description: Boolean indicating if the current list is active
       - name: list_name
