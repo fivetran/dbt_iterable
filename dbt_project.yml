@@ -12,10 +12,6 @@ models:
       +schema: int_iterable
       int_iterable__list_user_history:
         +materialized: table
-      int_iterable__current_users:
-        +materialized: ephemeral
-      int_iterable__user_list_relationships:
-        +materialized: ephemeral
     staging:
       +materialized: table
       +schema: stg_iterable
