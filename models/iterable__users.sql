@@ -68,7 +68,7 @@ with user_event_metrics as (
         user_with_list_metrics.updated_at,
         user_with_list_metrics.phone_number,
         coalesce(list_user_aggregated.email_list_ids, user_with_list_metrics.email_list_ids, '[]') as email_list_ids,
-        coalesce(list_user_aggregated.count_lists, user_with_list_metrics.count_lists, '[]') as count_lists,
+        coalesce(list_user_aggregated.count_lists, user_with_list_metrics.count_lists, 0) as count_lists,
         {{ dbt_utils.star(from=ref('int_iterable__user_event_metrics'), except=['source_relation','unique_user_key','_fivetran_user_id','user_id','user_email']) }}
 
     from user_with_list_metrics
