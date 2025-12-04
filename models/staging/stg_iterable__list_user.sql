@@ -33,8 +33,8 @@ final as (
 
     select
         source_relation,
-        cast(_fivetran_id as {{ dbt.type_string() }} ) as _fivetran_list_user_id,
-        cast(index as {{ dbt.type_int() }} ) as index,
+        cast(_fivetran_id as {{ dbt.type_string() }} ) as _fivetran_user_id,
+        cast(index as {{ dbt.type_int() }} ) as list_user_index,
         cast(list_id as {{ dbt.type_int() }} ) as list_id,
         _fivetran_synced
 
