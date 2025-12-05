@@ -332,7 +332,7 @@ models:
         description: Unique identifier of the list-user relationship record
         tests:
           - not_null
-      - name: index
+      - name: list_user_index
         description: Index of the record
       - name: list_id
         description: Reference to the list that the user belongs to
