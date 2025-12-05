@@ -80,7 +80,7 @@ Include the following Iterable package version in your `packages.yml` file.
 ```yaml
 packages:
   - package: fivetran/iterable
-    version: [">=1.2.0", "<1.3.0"]
+    version: [">=1.3.0", "<1.4.0"]
 ```
 ### Step 3: Define database and schema variables
 
