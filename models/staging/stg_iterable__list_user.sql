@@ -1,6 +1,4 @@
-{{ config(materialized='view') }}
 {% set source_columns_in_relation = adapter.get_columns_in_relation(ref('stg_iterable__list_user_tmp')) %}
-
 
 with base as (
 

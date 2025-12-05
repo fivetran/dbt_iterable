@@ -14,7 +14,7 @@ with user_history_unnest as (
     from {{ ref('stg_iterable__list') }}
 
 ), final as (
-    select
+    select distinct
         user_history_unnest.source_relation,
         user_history_unnest.unique_user_key,
         user_history_unnest._fivetran_user_id,
