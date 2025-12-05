@@ -332,7 +332,7 @@ models:
       - name: user_updated_at
         description: Last update timestamp
       - name: list_id
-        description: The list associated with the user. Uses coalesced values prioritizing list_id from stg_iterable__list_user over the unnested email_list_ids from user_history for comprehensive list coverage.
+        description: The list associated with the user. Uses coalesced values prioritizing `list_id` from `LIST_USER` over the unnested `email_list_ids` from `USER_HISTORY` for comprehensive list coverage.
       - name: is_current
         description: Boolean indicating if the current list is active
       - name: list_name
