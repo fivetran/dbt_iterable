@@ -11,7 +11,7 @@
 | ------------- | ----------- | ---- | ---- | ----- |
 | `LIST_USER` | New source | | | |
 | `stg_iterable__list_user`<br>`stg_iterable__list_user_tmp` | New models | | | Staging of `LIST_USER` |
-| `iterable__list_user_history`<br> | Data change | `list_id`s only from unnested `user_history.email_list_ids` | `list_id`s now from `list_id.list_user` with fallback to unnested `user_history.email_list_ids` | Prioritizes `list_user` mappings over `user_history` data |
+| `iterable__list_user_history`<br>`iterable__users`| Data change | `list_id`s only from unnested `user_history.email_list_ids` | `list_id`s now from `list_id.list_user` with fallback to unnested `user_history.email_list_ids` | Prioritizes `list_user` mappings over `user_history` data |
 
 ## Tests Update
 - Adds a `not_null` test to the `unique_event_id` column in `stg_iterable__event`.
