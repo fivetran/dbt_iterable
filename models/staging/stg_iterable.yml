@@ -357,7 +357,8 @@ models:
       - name: last_name
         description: Last name of the user
       - name: email_list_ids
-        description: [DEPRECATED October 13, 2025. Use LIST_USER source instead.] Array of references to the lists associated with the user.
+        description: |
+          [DEPRECATED October 13, 2025. Use LIST_USER source instead.] Array of references to the lists associated with the user.
       - name: signup_date
         description: Timestamp of when the user signed up
       - name: signup_source
