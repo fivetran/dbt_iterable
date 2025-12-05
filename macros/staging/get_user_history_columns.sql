@@ -13,7 +13,7 @@
     {"name": "updated_at", "datatype": dbt.type_timestamp()},
     {"name": "user_id", "datatype": dbt.type_string()},
     {"name": "iterable_user_id", "datatype": dbt.type_string()}
-    
+
 ] %}
 
 {{ fivetran_utils.add_pass_through_columns(columns, var('iterable_user_history_pass_through_columns')) }}

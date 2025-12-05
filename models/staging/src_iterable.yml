@@ -321,7 +321,8 @@ sources:
           - name: last_name
             description: Last name of the user
           - name: email_list_ids
-            description: Array of references to the lists associated with the user
+            description: |
+              [DEPRECATED October 13, 2025 Use LIST_USER source instead.] Array of references to the lists associated with the user
           - name: signup_date
             description: Timestamp of when the user signed up
           - name: signup_source
@@ -373,3 +374,16 @@ sources:
             description: Unique identifier of the user
           - name: updated_at
             description: Last update timestamp
+
+      - name: list_user
+        identifier: "{{ var('iterable_list_user_identifier', 'list_user')}}"
+        description: Table containing the relationship between users and lists they belong to.
+        columns:
+          - name: _fivetran_id
+            description: Unique identifier of the list-user relationship record, serving as a foreign key to `user_history._fivetran_id`.
+          - name: index
+            description: Index of the record
+          - name: list_id
+            description: Reference to the list that the user belongs to
+          - name: _fivetran_synced
+            description: Timestamp when the record was last synced by Fivetran

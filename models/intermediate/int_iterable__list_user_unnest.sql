@@ -5,12 +5,12 @@
         partition_by={"field": "date_day", "data_type": "date"} if target.type not in ('spark','databricks') else ['date_day'],
         file_format='delta',
         on_schema_change='fail'
-    ) 
+    )
 }}
 
 with user_history as (
 
-    select * 
+    select *
     from {{ ref('int_iterable__list_user_history') }} as user_history
 
     {% if is_incremental() %}
@@ -100,22 +100,22 @@ with user_history as (
     from user_history
 
     {% if target.type == 'snowflake' %}
-    cross join 
+    cross join
         table(flatten(input => parse_json(
             case when email_list_ids = '[]' then '["is_null"]' {# to not remove empty array-rows #}
             else email_list_ids end))) as email_list_id
     {% elif target.type == 'bigquery' %}
-    cross join 
+    cross join
         unnest(JSON_EXTRACT_STRING_ARRAY(
             case when email_list_ids = '[]' then '["is_null"]' {# to not remove empty array-rows #}
             else email_list_ids end)) as email_list_id
     {% elif target.type in ('spark','databricks') %}
-    cross join 
+    cross join
         lateral explode_outer(from_json(
             case when email_list_ids = '[]' then '["is_null"]' {# to not remove empty array-rows #}
             else email_list_ids end, 'array<int>')) as email_list_id
     {% else %} {# target is postgres #}
-    cross join 
+    cross join
         json_array_elements_text(cast((
             case when email_list_ids = '[]' then '["is_null"]' {# to not remove empty array-rows #}
             else email_list_ids end) as json)) as email_list_id

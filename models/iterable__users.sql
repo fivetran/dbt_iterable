@@ -5,7 +5,23 @@ with user_event_metrics as (
     select *
     from {{ ref('int_iterable__user_event_metrics') }}
 
-), user_unnested as (
+), list_users as (
+
+    select *
+    from {{ ref('stg_iterable__list_user') }}
+    order by list_id -- so the list ids will aggregate in the right order
+
+), list_user_aggregated as (
+
+    select
+        source_relation,
+        _fivetran_user_id,
+        count(*) as count_lists,
+        {{ dbt.concat(["'['", fivetran_utils.string_agg(field_to_agg="cast(list_id as " ~ dbt.type_string() ~ ")", delimiter="','"), "']'"]) }} as email_list_ids
+    from list_users
+    group by 1, 2 
+
+), user_history_unnest as (
     -- this has all the user fields we're looking to pass through
 
     select *
@@ -35,20 +51,36 @@ with user_event_metrics as (
 
         , count(distinct list_id) as count_lists
 
-    from user_unnested
+    from user_history_unnest
     -- roll up to the user
     {{ dbt_utils.group_by(n = 12 + passthrough_column_count) }}
 
 ), user_join as (
 
     select
-        user_with_list_metrics.*,
+        user_with_list_metrics.source_relation,
+        user_with_list_metrics.user_id,
+        user_with_list_metrics._fivetran_user_id,
+        user_with_list_metrics.unique_user_key,
+        user_with_list_metrics.email,
+        user_with_list_metrics.first_name,
+        user_with_list_metrics.last_name,
+        user_with_list_metrics.signup_date,
+        user_with_list_metrics.signup_source,
+        user_with_list_metrics.updated_at,
+        user_with_list_metrics.phone_number,
+        coalesce(list_user_aggregated.email_list_ids, user_with_list_metrics.email_list_ids, '[]') as email_list_ids,
+        coalesce(list_user_aggregated.count_lists, user_with_list_metrics.count_lists, 0) as count_lists,
         {{ dbt_utils.star(from=ref('int_iterable__user_event_metrics'), except=['source_relation','unique_user_key','_fivetran_user_id','user_id','user_email']) }}
 
     from user_with_list_metrics
     left join user_event_metrics
         on user_with_list_metrics.unique_user_key = user_event_metrics.unique_user_key
         and user_with_list_metrics.source_relation = user_event_metrics.source_relation
+    left join list_user_aggregated
+        -- use _fivetran_user_id since in list_user it is a primary key
+        on user_with_list_metrics._fivetran_user_id = list_user_aggregated._fivetran_user_id
+        and user_with_list_metrics.source_relation = list_user_aggregated.source_relation
 )
 
 select *

@@ -1,3 +1,25 @@
+# dbt_iterable v1.3.0
+
+[PR #71](https://github.com/fivetran/dbt_iterable/pull/71) includes the following updates:
+
+> Per the [October 13, 2025 Fivetran Iterable connector updates](https://fivetran.com/docs/connectors/applications/iterable/changelog#august2025), `email_list_ids` is deprecated in favor of mappings from the `LIST_USER` source.
+
+## Schema/Data Change
+**4 total changes • 0 possible breaking changes**
+
+| Data Model(s) | Change Type | Old | New | Notes |
+| ------------- | ----------- | ---- | ---- | ----- |
+| `stg_iterable__list_user`<br>`stg_iterable__list_user_tmp` | New models | | | Staging of new source table `LIST_USER` |
+| `iterable__list_user_history`<br>`iterable__users`| Data change | `list_id`s only from unnested `user_history.email_list_ids` | `list_id`s now from `list_id.list_user` with fallback to unnested `user_history.email_list_ids` | Prioritizes `list_user` mappings over `user_history` data |
+
+## Tests Update
+- Adds a `not_null` test to the `unique_event_id` column in `stg_iterable__event`.
+
+## Under the Hood
+- Adds the `list_user_data` seed file and `get_list_user_columns` macro to support the new `LIST_USER` source.
+- Updates the `consistency_events` test to exclude JSON fields when comparing model versions.
+
+
 # dbt_iterable v1.2.0
 
 [PR #72](https://github.com/fivetran/dbt_iterable/pull/72) includes the following updates:

@@ -3,7 +3,8 @@
     enabled=var('fivetran_validation_tests_enabled', false)
 ) }}
 
-{% set exclude_cols = var('consistency_test_exclude_metrics', []) %}
+-- exclude JSON fields
+{% set exclude_cols = ['additional_properties', 'transactional_data'] + var('consistency_test_exclude_metrics', []) %}
 {% set fields = dbt_utils.star(from=ref('iterable__events'), except=exclude_cols) %}
 
 -- this test ensures the iterable__events end model matches the prior version

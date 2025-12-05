@@ -118,6 +118,8 @@ models:
           - not_null
       - name: unique_event_id
         description: A surrogate key made up of event_id, _fivetran_user_id, and source_relation.
+        tests:
+          - not_null
       - name: campaign_id
         description: Reference to the campaign from which the event originated
       - name: content_id
@@ -321,6 +323,22 @@ models:
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
 
+  - name: stg_iterable__list_user
+    description: Table containing the relationship between users and lists they belong to.
+    columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
+      - name: _fivetran_user_id
+        description: Unique identifier of the list-user relationship record, serving as a foreign key to `stg_iterable__user_history._fivetran_id`.
+        tests:
+          - not_null
+      - name: list_user_index
+        description: Index of the record
+      - name: list_id
+        description: Reference to the list that the user belongs to
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
+
   - name: stg_iterable__user_history
     description: Table containing individual user history information.
     columns:
@@ -339,7 +357,8 @@ models:
       - name: last_name
         description: Last name of the user
       - name: email_list_ids
-        description: Array of references to the lists associated with the user
+        description: |
+          [DEPRECATED October 13, 2025. Use LIST_USER source instead.] Array of references to the lists associated with the user.
       - name: signup_date
         description: Timestamp of when the user signed up
       - name: signup_source
