@@ -9,8 +9,7 @@
 
 | Data Model(s) | Change Type | Old | New | Notes |
 | ------------- | ----------- | ---- | ---- | ----- |
-| `LIST_USER` | New source | | | |
-| `stg_iterable__list_user`<br>`stg_iterable__list_user_tmp` | New models | | | Staging of `LIST_USER` |
+| `stg_iterable__list_user`<br>`stg_iterable__list_user_tmp` | New models | | | Staging of new source table `LIST_USER` |
 | `iterable__list_user_history`<br>`iterable__users`| Data change | `list_id`s only from unnested `user_history.email_list_ids` | `list_id`s now from `list_id.list_user` with fallback to unnested `user_history.email_list_ids` | Prioritizes `list_user` mappings over `user_history` data |
 
 ## Tests Update

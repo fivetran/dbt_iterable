@@ -329,7 +329,7 @@ models:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
       - name: _fivetran_user_id
-        description: Unique identifier of the list-user relationship record
+        description: Unique identifier of the list-user relationship record, serving as a foreign key to `stg_iterable__user_history._fivetran_id`.
         tests:
           - not_null
       - name: list_user_index

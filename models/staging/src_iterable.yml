@@ -379,7 +379,7 @@ sources:
         description: Table containing the relationship between users and lists they belong to.
         columns:
           - name: _fivetran_id
-            description: Unique identifier of the list-user relationship record
+            description: Unique identifier of the list-user relationship record, serving as a foreign key to `user_history._fivetran_id`.
           - name: index
             description: Index of the record
           - name: list_id
