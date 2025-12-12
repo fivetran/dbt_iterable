@@ -1,3 +1,9 @@
+# dbt_iterable v1.3.1
+[PR #74](https://github.com/fivetran/dbt_iterable/pull/74) includes the following updates:
+
+## Bug Fix
+- Restores pass-through column functionality in the `iterable__users` model.
+
 # dbt_iterable v1.3.0
 
 [PR #71](https://github.com/fivetran/dbt_iterable/pull/71) includes the following updates:

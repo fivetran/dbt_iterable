@@ -72,6 +72,7 @@ with user_event_metrics as (
         coalesce(list_user_aggregated.email_list_ids, user_with_list_metrics.email_list_ids, '[]') as email_list_ids,
         coalesce(list_user_aggregated.count_lists, user_with_list_metrics.count_lists, 0) as count_lists,
         {{ dbt_utils.star(from=ref('int_iterable__user_event_metrics'), except=['source_relation','unique_user_key','_fivetran_user_id','user_id','user_email']) }}
+        {{ fivetran_utils.persist_pass_through_columns(pass_through_variable='iterable_user_history_pass_through_columns', identifier='user_with_list_metrics') }}
 
     from user_with_list_metrics
     left join user_event_metrics
