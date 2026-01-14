@@ -1,3 +1,15 @@
+# dbt_iterable v1.4.0
+
+[PR #75](https://github.com/fivetran/dbt_iterable/pull/75) includes the following updates:
+
+## Documentation
+- Updates README with standardized Fivetran formatting
+
+## Under the Hood
+- In the `.quickstart.yml` file:
+  - Adds `table_variables` for relevant sources to prevent missing sources from blocking downstream Quickstart models.
+  - Adds `supported_vars` for Quickstart UI customization,
+
 # dbt_iterable v1.3.1
 [PR #74](https://github.com/fivetran/dbt_iterable/pull/74) includes the following updates:
 

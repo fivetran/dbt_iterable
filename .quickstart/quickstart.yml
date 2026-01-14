@@ -12,6 +12,15 @@ table_variables:
     - user_unsubscribed_message_type
   iterable__using_event_extension:
     - event_extension
+
+  _fivetran_quickstart_list_user:
+    - list_user
+  _fivetran_quickstart_user_device:
+    - user_device
+  _fivetran_quickstart_user_unsubscribed_channel_history:
+    - user_unsubscribed_channel_history
+  _fivetran_quickstart_user_unsubscribed_message_type_history:
+    - user_unsubscribed_message_type_history
     
 destination_configurations:
   databricks:
@@ -27,3 +36,47 @@ public_models: [
   "iterable__user_campaign",
   "iterable__list_user_history"
 ]
+
+supported_vars:
+  iterable_event_extension_pass_through_columns:
+    type: dictionary
+    description: "Addtional `EVENT_EXTENSION` fields to include in `iterable__events`"
+    display_name: "Additional Event Extension Columns"
+
+  iterable_user_history_pass_through_columns:
+    type: dictionary
+    description: "Addtional `USER_HISTORY` fields to include in `iterable__users` and `iterable__list_user_history`"
+    display_name: "Additional User Columns"
+
+  iterable__event_metrics:
+    type: list
+    value:
+      - "emailClick"
+      - "emailUnSubscribe"
+      - "emailComplaint"
+      - "customEvent"
+      - "emailSubscribe"
+      - "emailOpen"
+      - "pushSend"
+      - "smsBounce"
+      - "pushBounce"
+      - "inAppSendSkip"
+      - "smsSend"
+      - "inAppSend"
+      - "pushOpen"
+      - "emailSend"
+      - "pushSendSkip"
+      - "inAppOpen"
+      - "emailSendSkip"
+      - "emailBounce"
+      - "inAppClick"
+      - "pushUninstall"
+    description: "Event types aggregated as metrics in `iterable__user_campaign`"
+    display_name: "Event Type Metrics"
+
+  iterable_lookback_window:
+    type: integer
+    value: 7
+    description: "Number of days into the past that the models will look back to capture late-arriving records on incremental runs"
+    display_name: "Incremental Run Lookback Window (Days)"
+
