@@ -40,12 +40,12 @@ public_models: [
 supported_vars:
   iterable_event_extension_pass_through_columns:
     type: dictionary
-    description: "Addtional `EVENT_EXTENSION` fields to include in `iterable__events`"
+    description: "Additional `EVENT_EXTENSION` fields to include in `iterable__events`"
     display_name: "Additional Event Extension Columns"
 
   iterable_user_history_pass_through_columns:
     type: dictionary
-    description: "Addtional `USER_HISTORY` fields to include in `iterable__users` and `iterable__list_user_history`"
+    description: "Additional `USER_HISTORY` fields to include in `iterable__users` and `iterable__list_user_history`"
     display_name: "Additional User Columns"
 
   iterable__event_metrics:
