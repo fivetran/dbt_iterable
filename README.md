@@ -46,12 +46,12 @@ By default, this package materializes the following final tables:
 
 | Table | Description |
 | :---- | :---- |
-| [iterable__events](https://fivetran.github.io/dbt_iterable/#!/model/model.iterable.iterable__events) | Tracks all user events with campaign attribution, user details, and channel information to analyze user behavior, conversion paths, and campaign effectiveness at the event level. See [tracked events details](https://fivetran.com/docs/applications/iterable#schemanotes). <br></br>**Example Analytics Questions:**<ul><li>Which events are most frequently triggered and lead to conversions?</li><li>How do events attributed to campaigns compare to organic events in terms of value?</li><li>What event sequences typically lead to high-value user actions?</li></ul>|
-| [iterable__user_campaign](https://fivetran.github.io/dbt_iterable/#!/model/model.iterable.iterable__user_campaign) | Aggregates user-level engagement with specific campaigns and experiment variations including event counts by type to measure individual user responses to campaign messaging. <br></br>**Example Analytics Questions:**<ul><li>Which user-campaign combinations generate the most email opens, clicks, and conversions?</li><li>How do different users respond to experiment variations within campaigns?</li><li>What is the average event count per user by campaign and variation?</li></ul>|
-| [iterable__campaigns](https://fivetran.github.io/dbt_iterable/#!/model/model.iterable.iterable__campaigns) | Tracks campaign performance with user interaction metrics, event counts, experiment variations, and template details to measure campaign effectiveness and optimize email strategy. <br></br>**Example Analytics Questions:**<ul><li>Which campaigns and experiment variations generate the highest user engagement and conversions?</li><li>How do campaign metrics vary by template, label, or suppression list?</li><li>What is the total reach and event count for each campaign variation?</li></ul>|
-| [iterable__users](https://fivetran.github.io/dbt_iterable/#!/model/model.iterable.iterable__users) | Provides a comprehensive view of each user with campaign engagement history, list memberships, unsubscription status, and interaction metrics to understand user preferences and lifetime engagement. <br></br>**Example Analytics Questions:**<ul><li>Which users are most engaged based on campaign interactions and list memberships?</li><li>What percentage of users have unsubscribed from channels and what were their engagement patterns?</li><li>How do user engagement levels vary by signup source or cohort?</li></ul>|
-| [iterable__list_user_history](https://fivetran.github.io/dbt_iterable/#!/model/model.iterable.iterable__list_user_history) | Chronicles user-list membership history to track when users join or leave lists, manage audience segmentation, and analyze list growth without excessive Monthly Active Rows (MAR) usage. <br></br>**Example Analytics Questions:**<ul><li>How has list membership grown or declined over time for each list?</li><li>Which users have been added or removed from key segmentation lists?</li><li>What is the average duration users remain on specific lists before unsubscribing?</li></ul>|
-| [iterable__user_unsubscriptions](https://fivetran.github.io/dbt_iterable/#!/model/model.iterable.iterable__user_unsubscriptions) | Tracks all user unsubscriptions by message type and channel to manage communication preferences, protect sender reputation, and identify unsubscribe patterns. <br></br>**Example Analytics Questions:**<ul><li>Which message types and channels have the highest unsubscribe rates?</li><li>How many users are unsubscribed from all channels versus specific message types?</li><li>What user characteristics correlate with higher unsubscribe rates?</li></ul>|
+| [iterable__events](https://fivetran.github.io/dbt_iterable/#!/model/model.iterable.iterable__events) | Tracks all user events with campaign attribution, user details, and channel information to analyze user behavior, conversion paths, and campaign effectiveness at the event level. See [tracked events details](https://fivetran.com/docs/applications/iterable#schemanotes). <br></br>**Example Analytics Questions:**<ul><li>What customer actions drive the most revenue and conversions?</li><li>Are our marketing campaigns more effective than organic customer discovery?</li><li>What customer journey paths lead to purchase or upgrade?</li></ul>|
+| [iterable__user_campaign](https://fivetran.github.io/dbt_iterable/#!/model/model.iterable.iterable__user_campaign) | Aggregates user-level engagement with specific campaigns and experiment variations including event counts by type to measure individual user responses to campaign messaging. <br></br>**Example Analytics Questions:**<ul><li>Which customers are most responsive to our campaigns, and what messages resonate with them?</li><li>Which email variations are winning with our audience?</li><li>How frequently do customers engage with each campaign?</li></ul>|
+| [iterable__campaigns](https://fivetran.github.io/dbt_iterable/#!/model/model.iterable.iterable__campaigns) | Tracks campaign performance with user interaction metrics, event counts, experiment variations, and template details to measure campaign effectiveness and optimize email strategy. <br></br>**Example Analytics Questions:**<ul><li>Which campaigns are driving the most engagement and sales?</li><li>How do different email designs and messaging strategies perform?</li><li>What's the reach and impact of our marketing initiatives?</li></ul>|
+| [iterable__users](https://fivetran.github.io/dbt_iterable/#!/model/model.iterable.iterable__users) | Provides a comprehensive view of each user with campaign engagement history, list memberships, unsubscription status, and interaction metrics to understand user preferences and lifetime engagement. <br></br>**Example Analytics Questions:**<ul><li>Who are our most engaged customers and what do they have in common?</li><li>Why are customers unsubscribing, and what did we lose when they left?</li><li>Which acquisition channels bring us the most engaged customers?</li></ul>|
+| [iterable__list_user_history](https://fivetran.github.io/dbt_iterable/#!/model/model.iterable.iterable__list_user_history) | Chronicles user-list membership history to track when users join or leave lists, manage audience segmentation, and analyze list growth without excessive Monthly Active Rows (MAR) usage. <br></br>**Example Analytics Questions:**<ul><li>Are we growing or losing our subscriber base in key segments?</li><li>Which customers are moving between audience segments, and why?</li><li>How long do customers stay engaged before opting out?</li></ul>|
+| [iterable__user_unsubscriptions](https://fivetran.github.io/dbt_iterable/#!/model/model.iterable.iterable__user_unsubscriptions) | Tracks all user unsubscriptions by message type and channel to manage communication preferences, protect sender reputation, and identify unsubscribe patterns. <br></br>**Example Analytics Questions:**<ul><li>Which types of messages are causing customers to opt out?</li><li>Are we losing customers completely, or just from certain communication types?</li><li>What patterns indicate a customer is likely to unsubscribe?</li></ul>|
 
 ¹ Each Quickstart transformation job run materializes these models if all components of this data model are enabled. This count includes all staging, intermediate, and final models materialized as `view`, `table`, or `incremental`.
 
@@ -62,15 +62,6 @@ To use this dbt package, you must have the following:
 
 - At least one Fivetran Iterable connection syncing data into your destination.
 - A **BigQuery**, **Snowflake**, **Redshift**, **PostgreSQL**, or **Databricks** destination.
-
-#### Database Incremental Strategies
-Many of the models in this package are materialized incrementally, so we have configured our models to work with the different strategies available to each supported warehouse.
-
-For **BigQuery** and **Databricks All Purpose Cluster runtime** destinations, we have chosen `insert_overwrite` as the default strategy, which benefits from the partitioning capability.
-
-For **Snowflake**, **Redshift**, and **Postgres** databases, we have chosen `delete+insert` as the default strategy.
-
-> Regardless of strategy, we recommend that users periodically run a `--full-refresh` to ensure a high level of data quality.
 
 #### Unsubscribe tables are no longer history tables
 
@@ -96,6 +87,15 @@ packages:
   - package: fivetran/iterable
     version: [">=1.4.0", "<1.5.0"]
 ```
+
+#### Database Incremental Strategies
+Many of the models in this package are materialized incrementally, so we have configured our models to work with the different strategies available to each supported warehouse.
+
+For **BigQuery** and **Databricks All Purpose Cluster runtime** destinations, we have chosen `insert_overwrite` as the default strategy, which benefits from the partitioning capability.
+
+For **Snowflake**, **Redshift**, and **Postgres** databases, we have chosen `delete+insert` as the default strategy.
+
+> Regardless of strategy, we recommend that users periodically run a `--full-refresh` to ensure a high level of data quality.
 
 #### Databricks Configuration
 - **Databricks Runtime 12.2** or later is required to run all models in this package.
@@ -160,7 +160,7 @@ sources:
     tables: # copy and paste from iterable/models/staging/src_iterable.yml - see https://support.atlassian.com/bitbucket-cloud/docs/yaml-anchors/ for how to use anchors to only do so once
 ```
 
-> **Note**: If there are source tables you do not have (see [Enabling/Disabling Models](https://github.com/fivetran/dbt_iterable?tab=readme-ov-file#step-4-disable-models-for-non-existent-sources)), you may still include them, as long as you have set the right variables to `False`.
+> **Note**: If there are source tables you do not have (see [Enabling/Disabling Models](https://github.com/fivetran/dbt_iterable?tab=readme-ov-file#enablingdisabling-models)), you may still include them, as long as you have set the right variables to `False`.
 
 2. Set the `has_defined_sources` variable (scoped to the `iterable` package) to `True`, like such:
 ```yml
