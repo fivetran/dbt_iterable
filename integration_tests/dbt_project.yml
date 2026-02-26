@@ -25,8 +25,8 @@ vars:
 
 models:
   +persist_docs:
-    relation: "{{ false if target.type in ('databricks') else true }}"
-    columns: "{{ false if target.type in ('databricks') else true }}"
+    relation: true
+    columns: true
   +schema: "iterable_{{ var('directed_schema','dev') }}"
 
 seeds:
