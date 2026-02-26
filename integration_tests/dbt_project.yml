@@ -24,6 +24,9 @@ vars:
     iterable_user_unsubscribed_message_type_history_identifier: "user_unsubscribed_message_type_history_data"
 
 models:
+  +persist_docs:
+    relation: true
+    columns: true
   +schema: "iterable_{{ var('directed_schema','dev') }}"
 
 seeds:
