@@ -1,3 +1,10 @@
+# dbt_iterable v1.4.1
+
+[PR #78](https://github.com/fivetran/dbt_iterable/pull/78) includes the following updates:
+
+## Bug Fix
+- Fixes a datatype casting issue in `int_iterable__list_user_unnest` model that was causing errors in some Databricks warehouses.
+
 # dbt_iterable v1.4.0
 
 [PR #75](https://github.com/fivetran/dbt_iterable/pull/75) includes the following updates:
