@@ -113,7 +113,7 @@ with user_history as (
     cross join
         lateral explode_outer(from_json(
             case when email_list_ids = '[]' then '["is_null"]' {# to not remove empty array-rows #}
-            else email_list_ids end, 'array<int>')) as email_list_id
+            else email_list_ids end, 'array<string>')) as email_list_id
     {% else %} {# target is postgres #}
     cross join
         json_array_elements_text(cast((
