@@ -3,7 +3,7 @@
 [PR #78](https://github.com/fivetran/dbt_iterable/pull/78) includes the following updates:
 
 ## Bug Fix
-- Fixes a datatype casting issue in `int_iterable__list_user_unnest` model that was causing errors in some Databricks warehouses.
+- Fixes a datatype casting issue for `email_list_id` in `int_iterable__list_user_unnest` model that was causing Databricks warehouse errors.
 
 # dbt_iterable v1.4.0
 
