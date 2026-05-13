@@ -15,7 +15,7 @@ include_dbt_compile: true
 test_scenarios:
   - name: "Default"
     vars: {}
-    include_incremental: false
+    include_incremental: true
 
   - name: "bigquery json data"
     vars:
@@ -36,9 +36,3 @@ test_scenarios:
       iterable__using_campaign_suppression_list_history: false
       iterable__using_event_extension: false
     include_incremental: true
-
-  - name: "tables missing"
-    vars:
-      "does_table_exist('user_unsubscribed_message_type')": false
-      "does_table_exist('user_unsubscribed_channel')": false
-    include_incremental: false
