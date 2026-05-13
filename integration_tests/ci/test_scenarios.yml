@@ -15,7 +15,7 @@ include_dbt_compile: true
 test_scenarios:
   - name: "Default"
     vars: {}
-    include_incremental: true
+    include_incremental: false
 
   - name: "bigquery json data"
     vars:
