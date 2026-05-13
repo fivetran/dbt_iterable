@@ -25,8 +25,8 @@ test_scenarios:
 
   - name: "passthrough columns"
     vars:
-      iterable_user_history_pass_through_columns: [{"name": "phone_number_updated_at"}]
-      iterable_event_extension_pass_through_columns: [{"name": "web_push_message"}]
+      iterable_user_history_pass_through_columns: '[{"name": "phone_number_updated_at"}]'
+      iterable_event_extension_pass_through_columns: '[{"name": "web_push_message"}]'
     include_incremental: false
 
   - name: "features disabled"
