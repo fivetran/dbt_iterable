@@ -19,7 +19,7 @@ fields as (
                 staging_columns=get_user_unsubscribed_channel_columns()
             )
         }}
-        {{ iterable.apply_source_relation() }}
+        {{ fivetran_utils.apply_source_relation(package_name='iterable') }}
 
     from base
 ),
@@ -34,7 +34,7 @@ final as (
         {{ dbt_utils.generate_surrogate_key(['_fivetran_id', 'channel_id', 'email', 'updated_at', 'source_relation']) }} as unsub_channel_unique_key,
 
         {% if does_table_exist('user_unsubscribed_channel') == false %}
-        rank() over(partition by email, channel_id{{ iterable.partition_by_source_relation() }} order by updated_at desc) as latest_batch_index,
+        rank() over(partition by email, channel_id{{ fivetran_utils.partition_by_source_relation(package_name='iterable') }} order by updated_at desc) as latest_batch_index,
         {% else %}
         1 as latest_batch_index,
         {% endif %}
@@ -48,4 +48,3 @@ final as (
 
 select *
 from final
-

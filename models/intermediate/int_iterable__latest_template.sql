@@ -5,7 +5,7 @@ with template_history as (
 ), order_template as (
     select
         *,
-        row_number() over(partition by template_id{{ iterable.partition_by_source_relation() }} order by updated_at desc) as latest_template_index
+        row_number() over(partition by template_id{{ fivetran_utils.partition_by_source_relation(package_name='iterable') }} order by updated_at desc) as latest_template_index
     from template_history
 
 ), latest_template as (
