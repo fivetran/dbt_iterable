@@ -15,7 +15,7 @@ fields as (
                 staging_columns=get_template_history_columns()
             )
         }}
-        {{ iterable.apply_source_relation() }}
+        {{ fivetran_utils.apply_source_relation(package_name='iterable') }}
 
     from base
 ),

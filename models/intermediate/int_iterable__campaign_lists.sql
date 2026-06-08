@@ -44,7 +44,7 @@ campaign_send_list_history as (
 
     select
         *,
-        row_number() over(partition by list_id, campaign_id{{ iterable.partition_by_source_relation() }} order by updated_at desc) as latest_list_index
+        row_number() over(partition by list_id, campaign_id{{ fivetran_utils.partition_by_source_relation(package_name='iterable') }} order by updated_at desc) as latest_list_index
     from combine_list_histories
 
 ), latest_campaign_list_history as (

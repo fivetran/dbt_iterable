@@ -72,7 +72,7 @@ Include the following Iterable package version in your `packages.yml` file.
 ```yaml
 packages:
   - package: fivetran/iterable
-    version: [">=1.4.0", "<1.5.0"]
+    version: [">=1.5.0", "<1.6.0"]
 ```
 
 #### Database Incremental Strategies
@@ -89,14 +89,12 @@ For **Snowflake**, **Redshift**, and **Postgres** databases, we have chosen `del
 - We also recommend using the `dbt-databricks` adapter over `dbt-spark` because each adapter handles incremental models differently. If you must use the `dbt-spark` adapter and run into issues, please refer to [this section](https://docs.getdbt.com/reference/resource-configs/spark-configs#the-insert_overwrite-strategy) found in dbt's documentation of Spark configurations.
 
 ### Define database and schema variables
-
 #### Option A: Single connection
-By default, this package runs using your [destination](https://docs.getdbt.com/docs/running-a-dbt-project/using-the-command-line-interface/configure-your-profile) and the `iterable` schema. If this is not where your Iterable data is (for example, if your Iterable schema is named `iterable_fivetran`), add the following configuration to your root `dbt_project.yml` file:
+By default, this package runs using your destination and the `iterable` schema. If this is not where your Iterable data is (for example, if your Iterable schema is named `iterable_fivetran`), add the following configuration to your root `dbt_project.yml` file:
 
 ```yml
 vars:
-  iterable:
-    iterable_database: your_database_name
+    iterable_database: your_destination_name
     iterable_schema: your_schema_name
 ```
 
@@ -120,42 +118,10 @@ vars:
         name: connection_2_source_name
 ```
 
-##### Recommended: Incorporate unioned sources into DAG
-> *If you are running the package through [Fivetran Transformations for dbt Core™](https://fivetran.com/docs/transformations/dbt#transformationsfordbtcore), the below step is necessary in order to synchronize model runs with your Iterable connections. Alternatively, you may choose to run the package through Fivetran [Quickstart](https://fivetran.com/docs/transformations/quickstart), which would create separate sets of models for each Iterable source rather than one set of unioned models.*
+#### Optional: Incorporate unioned sources into DAG
 
-By default, this package defines one single-connection source, called `iterable`, which will be disabled if you are unioning multiple connections. This means that your DAG will not include your Iterable sources, though the package will run successfully.
+If you use [Fivetran Transformations for dbt Core™](https://fivetran.com/docs/transformations/dbt#transformationsfordbtcore) and are unioning multiple Iterable connections, you can define your sources in a property `.yml` file, [using this as a template](https://github.com/fivetran/dbt_iterable/blob/main/models/staging/src_iterable.yml). Set the variable `has_defined_sources: true` under the Iterable namespace in your `dbt_project.yml`. Otherwise, your Iterable connections won't appear in your DAG. See the `union_connections` macro [documentation](https://github.com/fivetran/dbt_fivetran_utils/tree/releases/v0.4.latest#optional-union-connections-defined-sources-configuration) for full configuration details.
 
-To properly incorporate all of your Iterable connections into your project's DAG:
-1. Define each of your sources in a `.yml` file in your project. Utilize the following template for the `source`-level configurations, and, **most importantly**, copy and paste the table and column-level definitions from the package's `src_iterable.yml` [file](https://github.com/fivetran/dbt_iterable/blob/main/models/staging/src_iterable.yml).
-
-```yml
-# a .yml file in your root project
-
-version: 2
-
-sources:
-  - name: <name> # ex: Should match name in iterable_sources
-    schema: <schema_name>
-    database: <database_name>
-    loader: fivetran
-    config:
-      loaded_at_field: _fivetran_synced
-      freshness: # feel free to adjust to your liking
-        warn_after: {count: 72, period: hour}
-        error_after: {count: 168, period: hour}
-
-    tables: # copy and paste from iterable/models/staging/src_iterable.yml - see https://support.atlassian.com/bitbucket-cloud/docs/yaml-anchors/ for how to use anchors to only do so once
-```
-
-> **Note**: If there are source tables you do not have (see [Enabling/Disabling Models](https://github.com/fivetran/dbt_iterable?tab=readme-ov-file#enablingdisabling-models)), you may still include them, as long as you have set the right variables to `False`.
-
-2. Set the `has_defined_sources` variable (scoped to the `iterable` package) to `True`, like such:
-```yml
-# dbt_project.yml
-vars:
-  iterable:
-    has_defined_sources: true
-```
 ### Enabling/Disabling Models
 Your Iterable connection might not sync every table that this package expects. If your syncs exclude certain tables, it is either because you do not use that functionality in Iterable or have actively excluded some tables from your syncs. In order to enable or disable the relevant tables in the package, you will need to add the following variable(s) to your `dbt_project.yml` file.
 
@@ -222,6 +188,14 @@ If an individual source table has a different name than what the package expects
 ```yml
 vars:
     iterable_<default_source_table_name>_identifier: "your_table_name"
+```
+
+#### Source casing for case-sensitive destinations
+By default, the package applies case-insensitive comparisons when resolving `source_relation` values. If your destination is case-sensitive and you want downstream transformations to respect the exact casing of your source database and schema names, set the following variable:
+
+```yml
+vars:
+    fivetran_using_source_casing: true
 ```
 
 #### Pivoting out event metrics 
