@@ -8,7 +8,7 @@ with user_history as (
 
     select
         *,
-        lag(email_list_ids) over(partition by unique_user_key{{ iterable.partition_by_source_relation() }} order by updated_at asc) as previous_ids -- partition by email instead of unique_user_key here since this model is only for email-list users
+        lag(email_list_ids) over(partition by unique_user_key{{ fivetran_utils.partition_by_source_relation(package_name='iterable') }} order by updated_at asc) as previous_ids -- partition by email instead of unique_user_key here since this model is only for email-list users
 
     from user_history
 
@@ -38,7 +38,7 @@ with user_history as (
 
     select
         *,
-        row_number() over(partition by email{{ iterable.partition_by_source_relation() }} order by updated_at desc) as latest_user_index
+        row_number() over(partition by email{{ fivetran_utils.partition_by_source_relation(package_name='iterable') }} order by updated_at desc) as latest_user_index
 
     from only_new_email_list_ids
 

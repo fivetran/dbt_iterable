@@ -36,3 +36,9 @@ test_scenarios:
       iterable__using_campaign_suppression_list_history: false
       iterable__using_event_extension: false
     include_incremental: true
+
+  - name: "MDLS"
+    vars:
+      fivetran_using_source_casing: true
+    include_incremental: false
+    include_dbt_seed: true

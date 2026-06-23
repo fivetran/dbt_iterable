@@ -9,7 +9,7 @@ with campaign_label_history as (
 
     select 
         *,
-        rank() over(partition by campaign_id{{ iterable.partition_by_source_relation() }} order by updated_at desc) as latest_label_batch_index
+        rank() over(partition by campaign_id{{ fivetran_utils.partition_by_source_relation(package_name='iterable') }} order by updated_at desc) as latest_label_batch_index
 
     from campaign_label_history
 
