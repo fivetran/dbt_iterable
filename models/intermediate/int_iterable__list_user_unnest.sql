@@ -114,6 +114,11 @@ with user_history as (
         lateral explode_outer(from_json(
             case when email_list_ids = '[]' then '["is_null"]' {# to not remove empty array-rows #}
             else email_list_ids end, 'array<string>')) as email_list_id
+    {% elif target.type == 'duckdb' %}
+    cross join
+        unnest(from_json(cast((
+            case when email_list_ids = '[]' then '["is_null"]' {# to not remove empty array-rows #}
+            else email_list_ids end) as varchar), '["VARCHAR"]')) as t(email_list_id)
     {% else %} {# target is postgres #}
     cross join
         json_array_elements_text(cast((
