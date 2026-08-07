@@ -48,7 +48,7 @@ By default, this package materializes the following final tables:
 To use this dbt package, you must have the following:
 
 - At least one Fivetran Iterable connection syncing data into your destination.
-- A **BigQuery**, **Snowflake**, **Redshift**, **PostgreSQL**, or **Databricks** destination.
+- A **BigQuery**, **Snowflake**, **Redshift**, **PostgreSQL**, **Databricks**, or **DuckDB** destination.
 
 #### Unsubscribe tables are no longer history tables
 
