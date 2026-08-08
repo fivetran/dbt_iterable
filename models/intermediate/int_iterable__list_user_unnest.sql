@@ -2,7 +2,7 @@
         materialized='incremental',
         unique_key='unique_key',
         incremental_strategy='insert_overwrite' if target.type in ('bigquery', 'spark', 'databricks') else 'delete+insert',
-        partition_by={"field": "date_day", "data_type": "date"} target.type not in ['spark','databricks','duckdb'] else ['date_day'],
+        partition_by={"field": "date_day", "data_type": "date"} if target.type not in ['spark','databricks','duckdb'] else ['date_day'],
         file_format='delta',
         on_schema_change='fail'
     )
