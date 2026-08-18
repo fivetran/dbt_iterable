@@ -2,7 +2,7 @@
         materialized='incremental',
         unique_key='unique_key',
         incremental_strategy='insert_overwrite' if target.type in ('bigquery', 'spark', 'databricks') else 'delete+insert',
-        partition_by={"field": "date_day", "data_type": "date"} if target.type not in ('spark','databricks') else ['date_day'],
+        partition_by={"field": "date_day", "data_type": "date"} if target.type not in ('spark', 'databricks', 'duckdb') else ['date_day'],
         file_format='delta',
         on_schema_change='fail'
     )
@@ -114,6 +114,11 @@ with user_history as (
         lateral explode_outer(from_json(
             case when email_list_ids = '[]' then '["is_null"]' {# to not remove empty array-rows #}
             else email_list_ids end, 'array<string>')) as email_list_id
+    {% elif target.type == 'duckdb' %}
+    cross join
+        unnest(from_json(cast((
+            case when email_list_ids = '[]' then '["is_null"]' {# to not remove empty array-rows #}
+            else email_list_ids end) as varchar), '["VARCHAR"]')) as t(email_list_id)
     {% else %} {# target is postgres #}
     cross join
         json_array_elements_text(cast((

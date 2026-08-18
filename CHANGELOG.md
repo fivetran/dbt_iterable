@@ -1,3 +1,11 @@
+# dbt_iterable v1.5.1
+
+[PR #83](https://github.com/fivetran/dbt_iterable/pull/83) includes the following updates:
+
+## Feature Updates
+- Adds DuckDB as a supported destination.
+
+
 # dbt_iterable v1.5.0
 
 [PR #81](https://github.com/fivetran/dbt_iterable/pull/81) includes the following updates:
