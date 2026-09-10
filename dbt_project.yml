@@ -1,6 +1,6 @@
 name: 'iterable'
 
-version: '1.5.1'
+version: '1.6.0'
 config-version: 2
 require-dbt-version: [">=1.3.0", "<3.0.0"]
 models:
@@ -26,6 +26,7 @@ vars:
     channel: "{{ source('iterable', 'channel') }}"
     event: "{{ source('iterable', 'event') }}"
     event_extension: "{{ source('iterable', 'event_extension') }}"
+    journey: "{{ source('iterable', 'journey') }}"
     list: "{{ source('iterable', 'list') }}"
     list_user: "{{ source('iterable', 'list_user') }}"
     message_type: "{{ source('iterable', 'message_type') }}"
@@ -38,6 +39,7 @@ vars:
     user_unsubscribed_message_type_history: "{{ source('iterable', 'user_unsubscribed_message_type_history') }}"
 
     iterable_event_extension_pass_through_columns: []
+    iterable_journey_pass_through_columns: []
     iterable_user_history_pass_through_columns: []
 
     iterable__event_metrics:

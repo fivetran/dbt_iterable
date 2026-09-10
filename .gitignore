@@ -74,3 +74,4 @@ venv.bak/
 
 # Claude instructions
 CLAUDE.md
+.claude/

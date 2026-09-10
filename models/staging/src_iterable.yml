@@ -249,6 +249,39 @@ sources:
           - name: web_push_message 
             description: The message or notification sent to web users as part of the event.
 
+      - name: journey
+        identifier: "{{ var('iterable_journey_identifier', 'journey')}}"
+        description: Table containing unique journeys, formerly known as workflows.
+        config:
+          enabled: "{{ var('iterable__using_journey', true) and var('iterable_sources', []) == [] }}"
+        columns:
+          - name: id
+            description: Unique identifier of the journey
+          - name: name
+            description: User defined name of the journey
+          - name: journey_type
+            description: The journey type
+          - name: description
+            description: Information about the journey
+          - name: creator_user_id
+            description: Reference to the user who created the journey
+          - name: enabled
+            description: Boolean indicating if the journey is currently enabled
+          - name: is_archived
+            description: Boolean indicating if the journey has been archived
+          - name: lifetime_limit
+            description: Maximum number of times a user may enter the journey over their lifetime
+          - name: simultaneous_limit
+            description: Maximum number of times a user may be in the journey at the same time
+          - name: start_tile_id
+            description: Reference to the tile which begins the journey
+          - name: trigger_event_names
+            description: The event names which trigger a user's entry into the journey
+          - name: created_at
+            description: Creation timestamp
+          - name: updated_at
+            description: Last update timestamp
+
       - name: list
         identifier: "{{ var('iterable_list_identifier', 'list')}}"
         description: Table containing users and the lists the users are associated with.

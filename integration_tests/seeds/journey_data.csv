@@ -1,0 +1,5 @@
+id,name,journey_type,description,creator_user_id,enabled,is_archived,lifetime_limit,simultaneous_limit,start_tile_id,trigger_event_names,created_at,updated_at,_fivetran_synced,draft_name
+157274,Welcome Series,Triggered,Onboarding sequence sent to new subscribers over their first week,jimmy.neutron@goddard.com,true,false,1,1,44001,"[""signUp""]",2021-06-01 09:14:22.000,2021-06-11 13:30:58.412,2021-06-11 13:32:03.771,Welcome Series draft
+28801,Automation,Triggered,Behavioral automation triggered by in-app activity,jimmy.neutron@goddard.com,true,false,5,2,44002,"[""customEvent"",""emailOpen""]",2021-05-18 11:02:47.000,2021-06-09 17:45:10.220,2021-06-11 13:32:03.771,Automation draft
+83250,Workflow - Survey,Blast,Post-purchase survey invitation,carl.wheezer@goddard.com,true,false,,1,44003,"[""purchase""]",2021-04-27 15:39:05.000,2021-06-02 08:21:36.905,2021-06-11 13:32:03.771,
+900001,Audience Split - Dormant Users,Triggered,Splits dormant users into re-engagement branches and updates their profile fields. Sends no messages.,carl.wheezer@goddard.com,false,true,,,44004,[],2021-03-15 10:00:00.000,2021-05-20 12:11:44.310,2021-06-11 13:32:03.771,

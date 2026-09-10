@@ -1,3 +1,18 @@
+# dbt_iterable v1.6.0
+
+[PR #84](https://github.com/fivetran/dbt_iterable/pull/84) includes the following updates:
+
+## Schema/Data Change
+**5 total changes • 0 possible breaking changes**
+
+| Data Model(s) | Change type | Old | New | Notes |
+| ------------- | ----------- | --- | --- | ----- |
+| `iterable__journeys` | New model | | | Journey-grain rollup of engagement metrics, unique users, and derived rates. |
+| `iterable__campaigns` | New fields | | `journey_id`, `journey_name`, `journey_type` | |
+| `int_iterable__journey_event_metrics` | New model | | | Aggregates campaign engagement metrics to the journey grain. |
+| `int_iterable__recurring_campaigns` | New field | | `journey_id` | |
+| `stg_iterable__journey` | New model | | | Staging model for the new `journey` source table. |
+
 # dbt_iterable v1.5.1
 
 [PR #83](https://github.com/fivetran/dbt_iterable/pull/83) includes the following updates:
