@@ -251,6 +251,42 @@ models:
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
 
+  - name: stg_iterable__journey
+    description: Table containing unique journeys, formerly known as workflows.
+    columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
+      - name: journey_id
+        description: Unique identifier of the journey
+        tests:
+          - not_null
+      - name: journey_name
+        description: User defined name of the journey
+      - name: journey_type
+        description: The journey type
+      - name: journey_description
+        description: Information about the journey
+      - name: creator_user_id
+        description: Reference to the user who created the journey
+      - name: is_enabled
+        description: Boolean indicating if the journey is currently enabled
+      - name: is_archived
+        description: Boolean indicating if the journey has been archived
+      - name: lifetime_limit
+        description: Maximum number of times a user may enter the journey over their lifetime
+      - name: simultaneous_limit
+        description: Maximum number of times a user may be in the journey at the same time
+      - name: start_tile_id
+        description: Reference to the tile which begins the journey
+      - name: trigger_event_names
+        description: The event names which trigger a user's entry into the journey
+      - name: created_at
+        description: Creation timestamp
+      - name: updated_at
+        description: Last update timestamp
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
+
   - name: stg_iterable__list
     description: Table containing users and the lists the users are associated with.
     columns:

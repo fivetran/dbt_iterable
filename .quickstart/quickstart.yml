@@ -12,6 +12,8 @@ table_variables:
     - user_unsubscribed_message_type
   iterable__using_event_extension:
     - event_extension
+  iterable__using_journey:
+    - journey
 
   _fivetran_quickstart_list_user:
     - list_user
@@ -31,6 +33,7 @@ destination_configurations:
 public_models: [
   "iterable__events",
   "iterable__campaigns",
+  "iterable__journeys",
   "iterable__user_unsubscriptions",
   "iterable__users",
   "iterable__user_campaign",
@@ -42,6 +45,11 @@ supported_vars:
     type: dictionary
     description: "Additional `EVENT_EXTENSION` fields to include in `iterable__events`"
     display_name: "Additional Event Extension Columns"
+
+  iterable_journey_pass_through_columns:
+    type: dictionary
+    description: "Additional `JOURNEY` fields to include in `iterable__journeys`"
+    display_name: "Additional Journey Columns"
 
   iterable_user_history_pass_through_columns:
     type: dictionary

@@ -28,6 +28,7 @@ test_scenarios:
     vars:
       iterable_user_history_pass_through_columns: '[{"name": "phone_number_updated_at"}]'
       iterable_event_extension_pass_through_columns: '[{"name": "web_push_message"}]'
+      iterable_journey_pass_through_columns: '[{"name": "draft_name"}]'
     include_incremental: false
 
   - name: "features disabled"
@@ -36,6 +37,7 @@ test_scenarios:
       iterable__using_user_unsubscribed_message_type_history: false
       iterable__using_campaign_suppression_list_history: false
       iterable__using_event_extension: false
+      iterable__using_journey: false
     include_incremental: true
 
   - name: "MDLS"
