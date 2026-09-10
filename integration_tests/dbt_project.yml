@@ -12,6 +12,7 @@ vars:
     iterable_channel_identifier: "channel_data"
     iterable_event_identifier: "event_data"
     iterable_event_extension_identifier: "event_extension_data"
+    iterable_journey_identifier: "journey_data"
     iterable_list_identifier: "list_data"
     iterable_list_user_identifier: "list_user_data"
     iterable_message_type_identifier: "message_type_data"
