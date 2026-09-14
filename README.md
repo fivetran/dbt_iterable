@@ -159,6 +159,10 @@ vars:
     - name: "event_extension_field"
       alias: "renamed_field"
       transform_sql: "cast(renamed_field as string)"
+  iterable_journey_pass_through_columns:
+    - name: "draft_created_at"
+      alias: "draft_created_timestamp"
+    - name: "draft_name"
   iterable_user_history_pass_through_columns:
     - name: "user_attribute"
       alias: "renamed_user_attribute"
