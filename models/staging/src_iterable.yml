@@ -260,7 +260,7 @@ sources:
           - name: name
             description: User defined name of the journey
           - name: journey_type
-            description: The journey type
+            description: Whether the journey is published or a draft.
           - name: description
             description: Information about the journey
           - name: creator_user_id
