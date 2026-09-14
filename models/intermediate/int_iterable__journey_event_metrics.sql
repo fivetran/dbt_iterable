@@ -31,7 +31,8 @@ with user_campaign as (
         max(user_campaign.last_event_at) as last_event_at
         {% for col in user_campaign_columns if col.name|lower not in non_agg_columns %}
             , sum(user_campaign.{{ col.name }}) as {{ col.name }}
-            , count(distinct case when user_campaign.{{ col.name }} > 0 then user_campaign.user_email else null end) as unique_{{ col.name }}
+            -- counts distinct users; campaign_event_metrics counts distinct emails
+            , count(distinct case when user_campaign.{{ col.name }} > 0 then user_campaign.unique_user_key else null end) as unique_{{ col.name }}
         {% endfor %}
 
     from user_campaign
