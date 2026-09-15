@@ -11,8 +11,7 @@
 | `iterable__campaigns` | New fields | | `journey_id`, `journey_name`, `journey_type` | |
 | `int_iterable__journey_event_metrics` | New model | | | Aggregates campaign engagement metrics to the journey grain. |
 | `int_iterable__recurring_campaigns` | New field | | `journey_id` | |
-| `stg_iterable__journey` | New model | | | Staging model for the new `journey` source table. |
-| `stg_iterable__journey_tmp` | New model | | | Temporary staging model for the new `journey` source table. |
+| `stg_iterable__journey`<br> `stg_iterable__journey_tmp`  | New models | | | Staging models for the new `journey` source table. | 
 
 # dbt_iterable v1.5.1
 
