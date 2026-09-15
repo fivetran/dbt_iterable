@@ -18,6 +18,11 @@ with latest_campaign as (
         latest_campaign.created_by_user_id,
         latest_campaign.template_id,
         latest_campaign.recurring_campaign_id,
+        {% if var('iterable__using_journey', true) %}
+        -- cast to string so this matches journey_id in stg_iterable__journey; workflow_id arrives
+        -- numeric from campaign_history but as a string from event_extension
+        cast(latest_campaign.workflow_id as {{ dbt.type_string() }}) as journey_id,
+        {% endif %}
 
         recurring_campaign.campaign_name as recurring_campaign_name,
         recurring_campaign.campaign_state as recurring_campaign_state,

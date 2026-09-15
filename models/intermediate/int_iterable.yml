@@ -11,6 +11,9 @@ models:
   - name: int_iterable__campaign_lists
     description: Table that identifies the suppressed and send lists associated with a campaign.
 
+  - name: int_iterable__journey_event_metrics
+    description: Table that generates relevant total and unique journey level aggregations, rolled up from the user/campaign grain via the campaign's journey reference.
+
   - name: int_iterable__latest_campaign
     description: Table that filters out historical versions of the campaign, and returns the most recent campaign version.
 

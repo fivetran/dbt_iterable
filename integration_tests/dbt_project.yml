@@ -1,6 +1,6 @@
 config-version: 2
 name: 'iterable_integration_tests'
-version: '1.5.1'
+version: '1.6.0'
 profile: 'integration_tests'
 vars:
   iterable:
@@ -12,6 +12,7 @@ vars:
     iterable_channel_identifier: "channel_data"
     iterable_event_identifier: "event_data"
     iterable_event_extension_identifier: "event_extension_data"
+    iterable_journey_identifier: "journey_data"
     iterable_list_identifier: "list_data"
     iterable_list_user_identifier: "list_user_data"
     iterable_message_type_identifier: "message_type_data"
@@ -58,6 +59,15 @@ seeds:
     event_extension_data:
       +column_types:
         payload: "{{ 'varchar(100)'  if target.type in ('redshift', 'postgres') else 'string'}}"
+        _fivetran_synced: timestamp
+    journey_data:
+      +column_types:
+        id: "{%- if target.type == 'bigquery' -%} INT64 {%- else -%} bigint {%- endif -%}"
+        lifetime_limit: "{%- if target.type == 'bigquery' -%} INT64 {%- else -%} bigint {%- endif -%}"
+        simultaneous_limit: "{%- if target.type == 'bigquery' -%} INT64 {%- else -%} bigint {%- endif -%}"
+        start_tile_id: "{%- if target.type == 'bigquery' -%} INT64 {%- else -%} bigint {%- endif -%}"
+        created_at: timestamp
+        updated_at: timestamp
         _fivetran_synced: timestamp
     list_data:
       +column_types:

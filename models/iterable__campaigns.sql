@@ -33,6 +33,14 @@ with campaign_event_metrics as (
     select *
     from {{ ref('int_iterable__latest_template') }}
 
+{% if var('iterable__using_journey', true) %}
+), journey as (
+
+    select *
+    from {{ ref('stg_iterable__journey') }}
+
+{% endif %}
+
 ), campaign_join as (
 
     {% set exclude_fields = ['source_relation', 'campaign_id', 'template_id'] %} -- these are in campaigns
@@ -46,6 +54,10 @@ with campaign_event_metrics as (
         campaign_list_metrics.count_suppress_lists,
         {% if var('iterable__using_campaign_label_history', true) %}
         campaign_labels.labels,
+        {% endif %}
+        {% if var('iterable__using_journey', true) %}
+        journey.journey_name,
+        journey.journey_type,
         {% endif %}
         template.template_name,
         template.creator_user_id as template_creator_user_id,
@@ -73,6 +85,12 @@ with campaign_event_metrics as (
     left join template
         on campaign.template_id = template.template_id
         and campaign.source_relation = template.source_relation
+
+    {% if var('iterable__using_journey', true) %}
+    left join journey
+        on campaign.journey_id = journey.journey_id
+        and campaign.source_relation = journey.source_relation
+    {% endif %}
 
 ), add_surrogate_key as (
 
