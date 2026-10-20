@@ -12,9 +12,11 @@ with user_event_metrics as (
         _fivetran_user_id,
         count(*) as count_lists,
         {% if target.type in ['spark', 'databricks'] %}
-        {{ dbt.concat(["'['", fivetran_utils.string_agg(field_to_agg="cast(list_id as " ~ dbt.type_string() ~ ")", delimiter="','"), "']'"]) }} as email_list_ids
+        {# spark__listagg ignores order_by_clause, so sort the ints before casting to keep numeric order #}
+        concat('[', array_join(cast(array_sort(collect_list(list_id)) as array<string>), ','), ']') as email_list_ids
         {% else %}
-        {{ dbt.concat(["'['", dbt.listagg(measure="cast(list_id as " ~ dbt.type_string() ~ ")", delimiter_text="','", order_by_clause='order by list_id'), "']'"]) }} as email_list_ids
+        {%- set list_id_as_string = 'cast(list_id as ' ~ dbt.type_string() ~ ')' %}
+        '[' || {{ dbt.listagg(measure=list_id_as_string, delimiter_text="','", order_by_clause='order by list_id') }} || ']' as email_list_ids
         {% endif %}
     from {{ ref('stg_iterable__list_user') }}
     group by 1, 2 
