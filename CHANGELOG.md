@@ -1,3 +1,14 @@
+# dbt_iterable v1.6.1
+
+[PR #87](https://github.com/fivetran/dbt_iterable/pull/87) includes the following update:
+
+## Under the Hood
+- Fixes `iterable__users` failing on BigQuery with large list data by removing a full-table sort that exceeded BigQuery's memory limit. ([#85](https://github.com/fivetran/dbt_iterable/issues/85))
+  - Now sorts `email_list_ids` by ascending `list_id`.
+
+## Contributors
+- [@marianmol](https://github.com/marianmol) ([PR #86](https://github.com/fivetran/dbt_iterable/pull/86))
+
 # dbt_iterable v1.6.0
 
 [PR #84](https://github.com/fivetran/dbt_iterable/pull/84) includes the following updates:

@@ -5,20 +5,20 @@ with user_event_metrics as (
     select *
     from {{ ref('int_iterable__user_event_metrics') }}
 
-), list_users as (
-
-    select *
-    from {{ ref('stg_iterable__list_user') }}
-    order by list_id -- so the list ids will aggregate in the right order
-
 ), list_user_aggregated as (
 
     select
         source_relation,
         _fivetran_user_id,
         count(*) as count_lists,
-        {{ dbt.concat(["'['", fivetran_utils.string_agg(field_to_agg="cast(list_id as " ~ dbt.type_string() ~ ")", delimiter="','"), "']'"]) }} as email_list_ids
-    from list_users
+        {% if target.type in ['spark', 'databricks'] %}
+        {# spark__listagg ignores order_by_clause, so sort the ints before casting to keep numeric order #}
+        concat('[', array_join(cast(array_sort(collect_list(list_id)) as array<string>), ','), ']') as email_list_ids
+        {% else %}
+        {%- set list_id_as_string = 'cast(list_id as ' ~ dbt.type_string() ~ ')' %}
+        '[' || {{ dbt.listagg(measure=list_id_as_string, delimiter_text="','", order_by_clause='order by list_id') }} || ']' as email_list_ids
+        {% endif %}
+    from {{ ref('stg_iterable__list_user') }}
     group by 1, 2 
 
 ), user_history_unnest as (

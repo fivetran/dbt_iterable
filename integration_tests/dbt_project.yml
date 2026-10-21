@@ -1,6 +1,6 @@
 config-version: 2
 name: 'iterable_integration_tests'
-version: '1.6.0'
+version: '1.6.1'
 profile: 'integration_tests'
 vars:
   iterable:
@@ -54,6 +54,7 @@ seeds:
     event_data:
       +column_types:
         transactional_data: "{{ 'varchar(100)'  if target.type in ('redshift', 'postgres') else 'string'}}"
+        additional_properties: "{{ 'varchar(500)'  if target.type in ('redshift', 'postgres') else 'string'}}"
         created_at: timestamp
         _fivetran_synced: timestamp
     event_extension_data:
