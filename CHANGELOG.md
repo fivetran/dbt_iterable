@@ -1,3 +1,10 @@
+# dbt_iterable v1.6.2
+
+[PR #90](https://github.com/fivetran/dbt_iterable/pull/90) includes the following updates:
+
+## Under the Hood
+- Moves the `view` materialization for `stg_iterable__event`, `stg_iterable__event_extension`, and `stg_iterable__user_history` from the model files to `dbt_project.yml`. The models still build as views, and you can override their materialization from your root `dbt_project.yml`, for example to tables on destinations that don't support views.
+
 # dbt_iterable v1.6.1
 
 [PR #87](https://github.com/fivetran/dbt_iterable/pull/87) includes the following update:
