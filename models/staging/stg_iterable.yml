@@ -3,6 +3,13 @@ version: 2
 models:
   - name: stg_iterable__campaign_history
     description: Table containing a history of campaigns.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - campaign_id
+              - updated_at
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
@@ -43,6 +50,14 @@ models:
 
   - name: stg_iterable__campaign_label_history
     description: Table containing a history of labels.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - campaign_id
+              - label
+              - updated_at
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
@@ -59,6 +74,14 @@ models:
 
   - name: stg_iterable__campaign_list_history
     description: Table containing a history of lists.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - campaign_id
+              - list_id
+              - updated_at
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
@@ -75,6 +98,14 @@ models:
 
   - name: stg_iterable__campaign_suppression_list_history
     description: Table containing a history of suppression lists.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - campaign_id
+              - suppressed_list_id
+              - updated_at
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
@@ -91,6 +122,12 @@ models:
 
   - name: stg_iterable__channel
     description: Table containing unique channels.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - channel_id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
@@ -109,6 +146,12 @@ models:
 
   - name: stg_iterable__event
     description: Table containing individual events within campaigns.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - unique_event_id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
@@ -161,6 +204,12 @@ models:
   
   - name: stg_iterable__event_extension
     description: Table containing addition properties from the event table.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - unique_event_id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
@@ -253,6 +302,12 @@ models:
 
   - name: stg_iterable__journey
     description: Table containing unique journeys, formerly known as workflows.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - journey_id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
@@ -289,6 +344,12 @@ models:
 
   - name: stg_iterable__list
     description: Table containing users and the lists the users are associated with.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - list_id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
@@ -309,6 +370,12 @@ models:
 
   - name: stg_iterable__message_type
     description: Table containing unique message types.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - message_type_id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
@@ -335,6 +402,13 @@ models:
 
   - name: stg_iterable__template_history
     description: Table containing unique templates used across campaigns.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - template_id
+              - updated_at
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
@@ -361,6 +435,13 @@ models:
 
   - name: stg_iterable__list_user
     description: Table containing the relationship between users and lists they belong to.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - _fivetran_user_id
+              - list_user_index
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
@@ -377,6 +458,13 @@ models:
 
   - name: stg_iterable__user_history
     description: Table containing individual user history information.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - unique_user_key
+              - updated_at
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
@@ -412,6 +500,12 @@ models:
   
   - name: stg_iterable__user_unsubscribed_channel
     description: Table containing the history of channels from which a user has unsubscribed.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - unsub_channel_unique_key
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
@@ -434,6 +528,12 @@ models:
 
   - name: stg_iterable__user_unsub_message_type
     description: Table containing the message types from which a user has unsubscribed. "Unsubscribed" is shortened to "unsub" for postgres compatibility.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - unsub_message_type_unique_key
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"

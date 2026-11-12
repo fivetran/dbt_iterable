@@ -4,6 +4,12 @@ models:
 
   - name: iterable__campaigns
     description: Table that provides aggregations for campaigns at the template and if available, the experiment grain.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - unique_campaign_version_id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
@@ -158,6 +164,12 @@ models:
 
   - name: iterable__events
     description: Table that provides a comprehensive view of all events with enriched information such as the campaign, user effected, and template used.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - unique_event_id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
@@ -448,6 +460,14 @@ models:
       identify the current lists associated with the user. The table coalesces list_id values from both the direct list_user
       relationships and the unnested email_list_ids from user history to ensure comprehensive list coverage.
       The grain of this table is at the user/list/updated_at level.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - unique_user_key
+              - list_id
+              - user_updated_at
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
@@ -482,6 +502,12 @@ models:
 
   - name: iterable__user_campaign
     description: Table that provides total and unique metrics for a user associated with particular campaigns and if available, experiments.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - unique_user_campaign_id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
@@ -560,6 +586,15 @@ models:
 
   - name: iterable__user_unsubscriptions
     description: Table that generates the total channel and message types a user has chosen to unsubscribe.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - unique_user_key
+              - message_type_id
+              - channel_id
+              - is_unsubscribed_channel_wide
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
@@ -590,6 +625,12 @@ models:
 
   - name: iterable__users
     description: Table that provides unique user enriched information.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - unique_user_key
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
