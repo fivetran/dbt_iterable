@@ -24,7 +24,7 @@ with campaign_label_history as (
     select
         source_relation,
         campaign_id,
-        {{ fivetran_utils.string_agg('distinct label', "', '") }} as labels
+        {{ dbt.listagg('distinct label', "', '") }} as labels
 
     from latest_labels
     {{ dbt_utils.group_by(n=2) }}
