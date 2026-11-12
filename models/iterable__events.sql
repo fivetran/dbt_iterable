@@ -16,10 +16,10 @@ with events as (
     from {{ ref('stg_iterable__event') }}
 
     {% if is_incremental() %}
-    where created_on >= {{ iterable.iterable_lookback(
+    where created_on >= {{ fivetran_utils.lookback(
         from_date="max(created_on)",
         datepart='day', 
-        interval=var('iterable_lookback_window', 7)) }}
+        interval=var('iterable_lookback_window', 7), safety_date='2020-01-01') }}
     {% endif %}
 
 ), campaign as (
