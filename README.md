@@ -15,7 +15,7 @@ This dbt package transforms data from Fivetran's Iterable connector into analyti
   - [DAG](https://fivetran.github.io/dbt_iterable/#!/overview?g_v=1)
   - [Changelog](https://github.com/fivetran/dbt_iterable/blob/main/CHANGELOG.md)
 - dbt Core™ supported versions
-  - `>=1.3.0, <3.0.0`
+  - `>=1.10.0, <3.0.0`
 
 ## What does this dbt package do?
 This package enables you to understand the efficacy of your growth marketing and customer engagement campaigns across email, SMS, push notification, and in-app platforms. It creates enriched models with metrics focused on event interactions, campaign performance, and user engagement.
@@ -73,7 +73,7 @@ Include the following Iterable package version in your `packages.yml` file.
 ```yaml
 packages:
   - package: fivetran/iterable
-    version: [">=1.6.0", "<1.7.0"]
+    version: [">=1.7.0", "<1.8.0"]
 ```
 
 #### Database Incremental Strategies
