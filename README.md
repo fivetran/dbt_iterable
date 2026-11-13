@@ -73,7 +73,7 @@ Include the following Iterable package version in your `packages.yml` file.
 ```yaml
 packages:
   - package: fivetran/iterable
-    version: [">=1.7.0", "<1.8.0"]
+    version: [">=1.8.0", "<1.9.0"]
 ```
 
 #### Database Incremental Strategies
