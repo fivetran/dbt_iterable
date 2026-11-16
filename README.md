@@ -133,15 +133,18 @@ vars:
     iterable__using_campaign_label_history: false                    # default is true
     iterable__using_user_unsubscribed_message_type_history: false    # default is true
     iterable__using_campaign_suppression_list_history: false         # default is true   
-    iterable__using_event_extension: false         # default is true   
+    iterable__using_event_webhook: false           # default is true
+    iterable__using_event_extension: false         # default is true
     iterable__using_journey: false                 # default is true
 ```
+
+> Fivetran replaces the `EVENT_EXTENSION` table with `EVENT_WEBHOOK` on November 30, 2026. Both tables have the same schema. By default, the package reads from `EVENT_WEBHOOK`. If your connection doesn't sync `EVENT_WEBHOOK` yet, set `iterable__using_event_webhook: false` to read from `EVENT_EXTENSION` instead. To disable this data entirely, set both `iterable__using_event_webhook` and `iterable__using_event_extension` to `false`.
 
 ### (Optional) Additional configurations
 
 #### Passing Through Additional Fields
 
-This package includes fields we judged were standard across Iterable users. However, the Fivetran connector allows for additional columns to be brought through in the `event_extension`, `journey`, and `user_history` objects. Therefore, if you wish to bring them through, leverage our passthrough column variables. For `event_extension` columns, ensure that `iterable__using_event_extension` is set to True, which is the default. The same applies to `iterable__using_journey` for `journey` columns.
+This package includes fields we judged were standard across Iterable users. However, the Fivetran connector allows for additional columns to be brought through in the `event_webhook` (or `event_extension`), `journey`, and `user_history` objects. Therefore, if you wish to bring them through, leverage our passthrough column variables. Use `iterable_event_extension_pass_through_columns` for these columns whether the package reads from `event_webhook` or `event_extension`. Ensure that `iterable__using_event_webhook` or `iterable__using_event_extension` is set to True, which is the default. The same applies to `iterable__using_journey` for `journey` columns.
 
 You will see these additional columns populate in the end `iterable__list_user_history`, `iterable__events`, `iterable__journeys`, and `iterable__users` models.
 

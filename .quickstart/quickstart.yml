@@ -12,6 +12,8 @@ table_variables:
     - user_unsubscribed_message_type
   iterable__using_event_extension:
     - event_extension
+  iterable__using_event_webhook:
+    - event_webhook
   iterable__using_journey:
     - journey
 
@@ -43,8 +45,8 @@ public_models: [
 supported_vars:
   iterable_event_extension_pass_through_columns:
     type: dictionary
-    description: "Additional `EVENT_EXTENSION` fields to include in `iterable__events`"
-    display_name: "Additional Event Extension Columns"
+    description: "Additional `EVENT_WEBHOOK` (or `EVENT_EXTENSION`) fields to include in `iterable__events`"
+    display_name: "Additional Event Webhook Columns"
 
   iterable_journey_pass_through_columns:
     type: dictionary

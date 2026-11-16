@@ -95,7 +95,7 @@ with campaign_event_metrics as (
 ), add_surrogate_key as (
 
     {% set surrogate_key_fields = ['campaign_id', 'template_id', 'source_relation'] %}
-    {% do surrogate_key_fields.append('experiment_id') if var('iterable__using_event_extension', True) %}
+    {% do surrogate_key_fields.append('experiment_id') if (var('iterable__using_event_extension', True) or var('iterable__using_event_webhook', True)) %}
 
     select 
         *,

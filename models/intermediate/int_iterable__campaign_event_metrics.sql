@@ -3,7 +3,7 @@ with user_campaign as (
     from {{ ref('iterable__user_campaign') }}
 
 ), campaign_user_event_metrics as (
-{%- set using_event_extension = var('iterable__using_event_extension', True) %}
+{%- set using_event_extension = (var('iterable__using_event_extension', True) or var('iterable__using_event_webhook', True)) %}
 {%- set user_campaign_columns = adapter.get_columns_in_relation(ref('iterable__user_campaign')) %}
 {%- set non_agg_columns = ['source_relation', 'unique_user_key', 'user_id', '_fivetran_user_id', 
     'user_email', 'user_full_name', 'campaign_id', 'campaign_name', 'recurring_campaign_id', 

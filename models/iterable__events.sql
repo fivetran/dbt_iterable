@@ -8,7 +8,7 @@
     ) 
 }}
 
-{% set using_event_extension = var('iterable__using_event_extension', True) %}
+{% set using_event_extension = (var('iterable__using_event_extension', True) or var('iterable__using_event_webhook', True)) %}
 
 with events as (
 

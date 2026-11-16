@@ -1,4 +1,4 @@
-{% set using_event_extension = var('iterable__using_event_extension', True) %}
+{% set using_event_extension = (var('iterable__using_event_extension', True) or var('iterable__using_event_webhook', True)) %}
 
 with events as (
 
@@ -48,7 +48,7 @@ with events as (
 ), add_surrogate_key as (
 
     {% set surrogate_key_fields = ['source_relation', 'unique_user_key', 'campaign_id'] %}
-    {% do surrogate_key_fields.append('experiment_id') if var('iterable__using_event_extension', True) %}
+    {% do surrogate_key_fields.append('experiment_id') if (var('iterable__using_event_extension', True) or var('iterable__using_event_webhook', True)) %}
 
     select 
         *,

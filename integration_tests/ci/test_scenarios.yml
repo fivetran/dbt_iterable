@@ -40,8 +40,14 @@ test_scenarios:
       iterable__using_user_unsubscribed_message_type_history: false
       iterable__using_campaign_suppression_list_history: false
       iterable__using_event_extension: false
+      iterable__using_event_webhook: false
       iterable__using_journey: false
     include_incremental: true
+
+  - name: "event_extension fallback"
+    vars:
+      iterable__using_event_webhook: false
+    include_incremental: false
 
   - name: "MDLS"
     vars:
