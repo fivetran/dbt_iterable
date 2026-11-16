@@ -6,7 +6,7 @@ schema_data_changes:
     - models:
         - "`stg_iterable__event_extension`"
         - "`stg_iterable__event_extension_tmp`"
-      change_type: Changed field/model
+      change_type: Changed source table
       old: Reads from the `EVENT_EXTENSION` source table
       new: Reads from the `EVENT_WEBHOOK` source table by default
       is_breaking: true
@@ -32,8 +32,4 @@ schema_data_changes:
 
 new_features:
   - title: Adds the `iterable__using_event_webhook` variable
-    description: Controls whether the package reads event properties from `EVENT_WEBHOOK` or `EVENT_EXTENSION`. The default is `true`, which reads from `EVENT_WEBHOOK`. Set it to `false` to read from `EVENT_EXTENSION` instead.
-    details:
-      - To disable event properties entirely, set both `iterable__using_event_webhook` and `iterable__using_event_extension` to `false`.
-      - Use `iterable_event_webhook_identifier` if your `EVENT_WEBHOOK` table has a different name. `iterable_event_extension_pass_through_columns` applies to whichever table the package reads.
-      - See the README for configuration details.
+    description: Controls whether the package reads event properties from `EVENT_WEBHOOK` or `EVENT_EXTENSION`. The default is `true`, which reads from `EVENT_WEBHOOK`. Set it to `false` to read from `EVENT_EXTENSION` instead. Dynamically enabled in Quickstart.
