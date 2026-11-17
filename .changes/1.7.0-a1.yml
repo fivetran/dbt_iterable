@@ -1,35 +1,48 @@
 version: 1.7.0-a1
 pr_number: 95
-
 schema_data_changes:
   entries:
-    - models:
-        - "`stg_iterable__event_extension`"
-        - "`stg_iterable__event_extension_tmp`"
-      change_type: Changed source table
-      old: Reads from the `EVENT_EXTENSION` source table
-      new: Reads from the `EVENT_WEBHOOK` source table by default
-      is_breaking: true
-      notes: Fivetran replaces the `EVENT_EXTENSION` source table with `EVENT_WEBHOOK` on November 30, 2026. The schema is the same; only the table name changes. `EVENT_EXTENSION` stops updating on that date, and its existing data stays in your destination. If your connection doesn't sync `EVENT_WEBHOOK` yet, set `iterable__using_event_webhook` to `false` to keep reading from `EVENT_EXTENSION`.
-    - models:
-        - "`iterable__events`"
-        - "`iterable__users`"
-        - "`iterable__user_campaign`"
-        - "`iterable__campaigns`"
-        - "`iterable__list_user_history`"
-        - "`iterable__user_unsubscriptions`"
-        - "`stg_iterable__event`"
-        - "`stg_iterable__event_extension`"
-        - "`stg_iterable__user_history`"
-        - "`stg_iterable__list_user`"
-        - "`stg_iterable__user_unsubscribed_channel`"
-        - "`stg_iterable__user_unsub_message_type`"
-      change_type: Changed field/model
-      old: Existing `_fivetran_id` values
-      new: New `_fivetran_id` values
-      is_breaking: true
-      notes: On November 30, 2026, Fivetran replaces the `EVENT`, `USER_HISTORY`, `USER_DEVICE`, `USER_UNSUBSCRIBED_CHANNEL`, `USER_UNSUBSCRIBED_MESSAGE_TYPE`, `LIST_USER`, and `LIST_USER_HISTORY` source tables with new versions that have different `_fivetran_id` values. This is a connector change, not a package change. Fields built from `_fivetran_id`, such as `event_id`, `unique_event_id`, `_fivetran_user_id`, `unique_user_key`, and the surrogate keys built from them, have new values after the connector change. If you store or join on these values outside the package, update those references.
-
+  - models:
+    - '`stg_iterable__event_extension`'
+    - '`stg_iterable__event_extension_tmp`'
+    change_type: Changed source table
+    old: Reads from the `EVENT_EXTENSION` source table
+    new: Reads from the `EVENT_WEBHOOK` source table by default
+    is_breaking: true
+    notes: Fivetran replaces the `EVENT_EXTENSION` source table with `EVENT_WEBHOOK`
+      on November 30, 2026. The schema is the same; only the table name changes. `EVENT_EXTENSION`
+      stops updating on that date, and its existing data stays in your destination.
+      If your connection doesn't sync `EVENT_WEBHOOK` yet, set `iterable__using_event_webhook`
+      to `false` to keep reading from `EVENT_EXTENSION`.
+  - models:
+    - '`iterable__events`'
+    - '`iterable__users`'
+    - '`iterable__user_campaign`'
+    - '`iterable__campaigns`'
+    - '`iterable__list_user_history`'
+    - '`iterable__user_unsubscriptions`'
+    - '`stg_iterable__event`'
+    - '`stg_iterable__event_extension`'
+    - '`stg_iterable__user_history`'
+    - '`stg_iterable__list_user`'
+    - '`stg_iterable__user_unsubscribed_channel`'
+    - '`stg_iterable__user_unsub_message_type`'
+    change_type: Changed field/model
+    old: Existing `_fivetran_id` values
+    new: New `_fivetran_id` values
+    is_breaking: true
+    notes: On November 30, 2026, Fivetran replaces the `EVENT`, `USER_HISTORY`, `USER_DEVICE`,
+      `USER_UNSUBSCRIBED_CHANNEL`, `USER_UNSUBSCRIBED_MESSAGE_TYPE`, `LIST_USER`,
+      and `LIST_USER_HISTORY` source tables with new versions that have different
+      `_fivetran_id` values. This is a connector change, not a package change. Fields
+      built from `_fivetran_id`, such as `event_id`, `unique_event_id`, `_fivetran_user_id`,
+      `unique_user_key`, and the surrogate keys built from them, have new values after
+      the connector change. If you store or join on these values outside the package,
+      update those references.
 new_features:
-  - title: Adds the `iterable__using_event_webhook` variable
-    description: Controls whether the package reads event properties from `EVENT_WEBHOOK` or `EVENT_EXTENSION`. The default is `true`, which reads from `EVENT_WEBHOOK`. Set it to `false` to read from `EVENT_EXTENSION` instead. Dynamically enabled in Quickstart.
+- title: Adds the `iterable__using_event_webhook` variable
+  description: Controls whether the package reads event properties from `EVENT_WEBHOOK`
+    or `EVENT_EXTENSION`. The default is `true`, which reads from `EVENT_WEBHOOK`.
+    Set it to `false` to read from `EVENT_EXTENSION` instead. Dynamically enabled
+    in Quickstart.
+date: '2026-11-17'
