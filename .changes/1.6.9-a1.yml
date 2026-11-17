@@ -1,4 +1,4 @@
-version: 1.7.0-a1
+version: 1.6.9-a1
 pr_number: 95
 schema_data_changes:
   entries:
@@ -27,7 +27,7 @@ schema_data_changes:
     - '`stg_iterable__list_user`'
     - '`stg_iterable__user_unsubscribed_channel`'
     - '`stg_iterable__user_unsub_message_type`'
-    change_type: Changed field/model
+    change_type: Changed field
     old: Existing `_fivetran_id` values
     new: New `_fivetran_id` values
     is_breaking: true
