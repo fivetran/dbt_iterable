@@ -1,4 +1,4 @@
-# dbt_iterable v1.6.9-a1
+# dbt_iterable v1.6.3-a1
 
 [PR #95](https://github.com/fivetran/dbt_iterable/pull/95) includes the following updates:
 
@@ -12,6 +12,7 @@
 
 ## Feature Update
 - **Adds the `iterable__using_event_webhook` variable**: Controls whether the package reads event properties from `EVENT_WEBHOOK` or `EVENT_EXTENSION`. The default is `true`, which reads from `EVENT_WEBHOOK`. Set it to `false` to read from `EVENT_EXTENSION` instead. Dynamically enabled in Quickstart.
+  - `iterable_event_extension_pass_through_columns` applies to whichever table the package reads. We plan to replace it with `iterable_event_webhook_pass_through_columns` in a future release.
 
 # dbt_iterable v1.6.2
 

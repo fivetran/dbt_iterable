@@ -46,5 +46,7 @@ new_features:
     Set it to `false` to read from `EVENT_EXTENSION` instead. Dynamically enabled
     in Quickstart.
   details:
-  - '`iterable_event_extension_pass_through_columns` applies to whichever table the package reads. We plan to replace it with `iterable_event_webhook_pass_through_columns` in a future release.'
+  - '`iterable_event_extension_pass_through_columns` applies to whichever table the
+    package reads. We plan to replace it with `iterable_event_webhook_pass_through_columns`
+    in a future release.'
 date: '2026-11-17'
