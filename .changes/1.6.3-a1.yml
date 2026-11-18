@@ -1,4 +1,4 @@
-version: 1.6.9-a1
+version: 1.6.3-a1
 pr_number: 95
 schema_data_changes:
   entries:
@@ -45,4 +45,6 @@ new_features:
     or `EVENT_EXTENSION`. The default is `true`, which reads from `EVENT_WEBHOOK`.
     Set it to `false` to read from `EVENT_EXTENSION` instead. Dynamically enabled
     in Quickstart.
+  details:
+  - '`iterable_event_extension_pass_through_columns` applies to whichever table the package reads. We plan to replace it with `iterable_event_webhook_pass_through_columns` in a future release.'
 date: '2026-11-17'

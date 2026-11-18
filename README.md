@@ -144,7 +144,7 @@ vars:
 
 #### Passing Through Additional Fields
 
-This package includes fields we judged were standard across Iterable users. However, the Fivetran connector allows for additional columns to be brought through in the `event_webhook` (or `event_extension`), `journey`, and `user_history` objects. Therefore, if you wish to bring them through, leverage our passthrough column variables. Use `iterable_event_extension_pass_through_columns` for these columns whether the package reads from `event_webhook` or `event_extension`. Ensure that `iterable__using_event_webhook` or `iterable__using_event_extension` is set to True, which is the default. The same applies to `iterable__using_journey` for `journey` columns.
+This package includes fields we judged were standard across Iterable users. However, the Fivetran connector allows for additional columns to be brought through in the `event_webhook` (or `event_extension`), `journey`, and `user_history` objects. Therefore, if you wish to bring them through, leverage our passthrough column variables. Use `iterable_event_extension_pass_through_columns` for these columns whether the package reads from `event_webhook` or `event_extension`. We plan to replace this variable with `iterable_event_webhook_pass_through_columns` in a future release. Ensure that `iterable__using_event_webhook` or `iterable__using_event_extension` is set to True, which is the default. The same applies to `iterable__using_journey` for `journey` columns.
 
 You will see these additional columns populate in the end `iterable__list_user_history`, `iterable__events`, `iterable__journeys`, and `iterable__users` models.
 
