@@ -134,10 +134,10 @@ sources:
       
       - name: event_extension
         identifier: "{{ var('iterable_event_extension_identifier', 'event_extension')}}"
-        description: Table containing additional properties from the event table.
+        description: Table containing additional properties from the event table. Replaced by `event_webhook` on November 30, 2026. The package reads this table only when `iterable__using_event_webhook` is false.
         config:
-          enabled: "{{ var('iterable__using_event_extension', true) and var('iterable_sources', []) == [] }}"
-        columns:
+          enabled: "{{ var('iterable__using_event_extension', true) and not var('iterable__using_event_webhook', true) and var('iterable_sources', []) == [] }}"
+        columns: &event_extension_columns
           - name: _fivetran_id
             description: A Fivetran-created unique identifier derived from hashing campaign_id, created_at, and event_name. 
           - name: app_already_running
@@ -248,6 +248,13 @@ sources:
             description: The icon or image associated with the web push notification.
           - name: web_push_message 
             description: The message or notification sent to web users as part of the event.
+
+      - name: event_webhook
+        identifier: "{{ var('iterable_event_webhook_identifier', 'event_webhook')}}"
+        description: Table containing additional properties from the event table. Replaces `event_extension` on November 30, 2026, with the same schema.
+        config:
+          enabled: "{{ var('iterable__using_event_webhook', true) and var('iterable_sources', []) == [] }}"
+        columns: *event_extension_columns
 
       - name: journey
         identifier: "{{ var('iterable_journey_identifier', 'journey')}}"

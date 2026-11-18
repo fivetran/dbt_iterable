@@ -1,4 +1,4 @@
-{{ config(enabled=var('iterable__using_event_extension', True)) }}
+{{ config(enabled=(var('iterable__using_event_extension', True) or var('iterable__using_event_webhook', True))) }}
 
 with base as (
 

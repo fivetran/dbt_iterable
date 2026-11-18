@@ -1,6 +1,6 @@
 config-version: 2
 name: 'iterable_integration_tests'
-version: '1.6.2'
+version: '1.6.3'
 profile: 'integration_tests'
 vars:
   iterable:
@@ -12,6 +12,7 @@ vars:
     iterable_channel_identifier: "channel_data"
     iterable_event_identifier: "event_data"
     iterable_event_extension_identifier: "event_extension_data"
+    iterable_event_webhook_identifier: "event_webhook_data"
     iterable_journey_identifier: "journey_data"
     iterable_list_identifier: "list_data"
     iterable_list_user_identifier: "list_user_data"
@@ -58,6 +59,10 @@ seeds:
         created_at: timestamp
         _fivetran_synced: timestamp
     event_extension_data:
+      +column_types:
+        payload: "{{ 'varchar(100)'  if target.type in ('redshift', 'postgres') else 'string'}}"
+        _fivetran_synced: timestamp
+    event_webhook_data:
       +column_types:
         payload: "{{ 'varchar(100)'  if target.type in ('redshift', 'postgres') else 'string'}}"
         _fivetran_synced: timestamp
