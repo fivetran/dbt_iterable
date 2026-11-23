@@ -22,7 +22,7 @@ with user_history as (
         email,
         first_name,
         last_name,
-        email_list_ids,
+        coalesce(email_list_ids, '[]') as email_list_ids,
         phone_number,
         signup_date,
         signup_source,
@@ -32,7 +32,8 @@ with user_history as (
         {{ fivetran_utils.persist_pass_through_columns(pass_through_variable='iterable_user_history_pass_through_columns', identifier='previous_email_list_ids') }}
 
     from previous_email_list_ids
-    where email_list_ids != coalesce(previous_ids, 'this is new') -- list ids are always stored in their arrays in numerical order
+    where email_list_ids is null
+        or email_list_ids != coalesce(previous_ids, 'this is new') -- list ids are always stored in their arrays in numerical order
 
 ), most_recent_list_ids as (
 
