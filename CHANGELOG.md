@@ -1,3 +1,11 @@
+# dbt_iterable v1.7.0
+
+[PR #94](https://github.com/fivetran/dbt_iterable/pull/94) includes the following updates:
+
+## Feature Update
+- **Breaking change**: Raises the minimum dbt version to 1.10.0.
+- Adds `dbt_utils.unique_combination_of_columns` tests to staging and end models. If a test fails, please [open an issue](https://github.com/fivetran/dbt_iterable/issues/new/choose).
+
 # dbt_iterable v1.6.2
 
 [PR #90](https://github.com/fivetran/dbt_iterable/pull/90) includes the following updates:

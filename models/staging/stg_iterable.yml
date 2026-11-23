@@ -3,12 +3,19 @@ version: 2
 models:
   - name: stg_iterable__campaign_history
     description: Table containing a history of campaigns.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - campaign_id
+              - updated_at
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
       - name: campaign_id
         description: Unique identifier of the campaign record
-        tests:
+        data_tests:
           - not_null
       - name: updated_at
         description: Last update timestamp
@@ -43,12 +50,20 @@ models:
 
   - name: stg_iterable__campaign_label_history
     description: Table containing a history of labels.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - campaign_id
+              - label
+              - updated_at
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
       - name: campaign_id
         description: Reference to the campaign associated with the label
-        tests:
+        data_tests:
           - not_null
       - name: label
         description: Name of the label
@@ -59,12 +74,20 @@ models:
 
   - name: stg_iterable__campaign_list_history
     description: Table containing a history of lists.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - campaign_id
+              - list_id
+              - updated_at
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
       - name: campaign_id
         description: Reference to the campaign associated with the label
-        tests:
+        data_tests:
           - not_null
       - name: list_id
         description: Reference to the list used
@@ -75,12 +98,20 @@ models:
 
   - name: stg_iterable__campaign_suppression_list_history
     description: Table containing a history of suppression lists.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - campaign_id
+              - suppressed_list_id
+              - updated_at
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
       - name: campaign_id
         description: Reference to the campaign associated with the label
-        tests:
+        data_tests:
           - not_null
       - name: suppressed_list_id
         description: Reference to the list used
@@ -91,12 +122,18 @@ models:
 
   - name: stg_iterable__channel
     description: Table containing unique channels.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - channel_id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
       - name: channel_id
         description: Unique identifier of the channel
-        tests:
+        data_tests:
           - not_null
       - name: channel_name
         description: User defined name of the channel
@@ -109,16 +146,22 @@ models:
 
   - name: stg_iterable__event
     description: Table containing individual events within campaigns.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - unique_event_id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
       - name: event_id
         description: A Fivetran-created unique identifier derived from hashing campaign_id, created_at, and event_name.
-        tests:
+        data_tests:
           - not_null
       - name: unique_event_id
         description: A surrogate key made up of event_id, _fivetran_user_id, and source_relation.
-        tests:
+        data_tests:
           - not_null
       - name: campaign_id
         description: Reference to the campaign from which the event originated
@@ -161,12 +204,18 @@ models:
   
   - name: stg_iterable__event_extension
     description: Table containing addition properties from the event table.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - unique_event_id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
       - name: event_id
         description: A Fivetran-created unique identifier derived from hashing campaign_id, created_at, and event_name.
-        tests:
+        data_tests:
           - not_null
       - name: unique_event_id
         description: A surrogate key made up of event_id, _fivetran_user_id, and source_relation.
@@ -253,12 +302,18 @@ models:
 
   - name: stg_iterable__journey
     description: Table containing unique journeys, formerly known as workflows.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - journey_id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
       - name: journey_id
         description: Unique identifier of the journey
-        tests:
+        data_tests:
           - not_null
       - name: journey_name
         description: User defined name of the journey
@@ -289,12 +344,18 @@ models:
 
   - name: stg_iterable__list
     description: Table containing users and the lists the users are associated with.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - list_id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
       - name: list_id
         description: Unique identifier of the list
-        tests:
+        data_tests:
           - not_null
       - name: list_name
         description: User defined name of the list
@@ -309,12 +370,18 @@ models:
 
   - name: stg_iterable__message_type
     description: Table containing unique message types.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - message_type_id
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
       - name: message_type_id
         description: Unique identifier of the message type
-        tests:
+        data_tests:
           - not_null
       - name: message_type_name
         description: User defined name of the message type
@@ -335,12 +402,19 @@ models:
 
   - name: stg_iterable__template_history
     description: Table containing unique templates used across campaigns.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - template_id
+              - updated_at
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
       - name: template_id
         description: Unique identifier of the template
-        tests:
+        data_tests:
           - not_null
       - name: template_name
         description: User defined name of the template
@@ -361,12 +435,19 @@ models:
 
   - name: stg_iterable__list_user
     description: Table containing the relationship between users and lists they belong to.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - _fivetran_user_id
+              - list_user_index
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
       - name: _fivetran_user_id
         description: Unique identifier of the list-user relationship record, serving as a foreign key to `stg_iterable__user_history._fivetran_id`.
-        tests:
+        data_tests:
           - not_null
       - name: list_user_index
         description: Index of the record
@@ -377,12 +458,19 @@ models:
 
   - name: stg_iterable__user_history
     description: Table containing individual user history information.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - unique_user_key
+              - updated_at
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
       - name: unique_user_key
         description: The unique identifier of the user. With the new schema (Aug 2023), it is the _fivetran_user_id. This is a hash of user_id and/or email, depending on project type. If using the old schema, it is email. 
-        tests:
+        data_tests:
           - not_null
       - name: email
         description: The user's email. User identifier, for email-based projects. Previously was the unique identifier for user records, for the old Iterable schema before the August 2023 updates. 
@@ -412,12 +500,18 @@ models:
   
   - name: stg_iterable__user_unsubscribed_channel
     description: Table containing the history of channels from which a user has unsubscribed.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - unsub_channel_unique_key
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
       - name: channel_id
         description: Reference to the channel from which the user unsubscribed
-        tests:
+        data_tests:
           - not_null
       - name: unsub_channel_unique_key
         description: A surrogate key providing a unique key for each record. If using user_unsubscribed_channel_history, it uses '_fivetran_id', 'channel_id', 'email', 'updated_at', and 'source_relation'. If not using the history table, it uses '_fivetran_id', 'channel_id', and 'source_relation'.
@@ -434,12 +528,18 @@ models:
 
   - name: stg_iterable__user_unsub_message_type
     description: Table containing the message types from which a user has unsubscribed. "Unsubscribed" is shortened to "unsub" for postgres compatibility.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - unsub_message_type_unique_key
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
       - name: message_type_id
         description: Reference to the message type from which the user unsubscribed
-        tests:
+        data_tests:
           - not_null
       - name: unsub_message_type_unique_key
         description: A surrogate key providing a unique key for each record. If using user_unsubscribed_message_type_history, it uses '_fivetran_id', 'email', 'message_type_id', 'updated_at', and 'source_relation'. If not using the history table, it uses '_fivetran_id', 'message_type_id', and 'source_relation'.
